@@ -47,20 +47,19 @@ public class ThreeTriosCard implements Card {
     return name;
   }
 
-  public int getNorthAttack() {
-    return north;
-  }
-
-  public int getSouthAttack() {
-    return south;
-  }
-
-  public int getEastAttack() {
-    return east;
-  }
-
-  public int getWestAttack() {
-    return west;
+  public int getAttack(Direction dir) {
+    switch (dir) {
+      case NORTH:
+        return north;
+      case SOUTH:
+        return south;
+      case EAST:
+        return east;
+      case WEST:
+        return west;
+      default:
+        throw new IllegalArgumentException("Invalid direction: " + dir);
+    }
   }
 
   public CardColor getColor() {

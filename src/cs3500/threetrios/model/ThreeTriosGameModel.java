@@ -6,6 +6,7 @@ import java.util.List;
 
 import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
+import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.cell.CardCell;
@@ -21,7 +22,8 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   private boolean playedToGrid;
   private boolean gameStarted;
   private boolean gameOver;
-  private List<ThreeTriosCard> attackingCards;
+  private List<Integer> attackingCardRows;
+  private List<Integer> attackingCardCols;
   private int handSize;
 
   @Override
@@ -56,7 +58,8 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     this.colorTurn = CardColor.RED;
     this.gameStarted = true;
     this.gameOver = false;
-    this.attackingCards = new ArrayList<>();
+    this.attackingCardRows = new ArrayList<>();
+    this.attackingCardCols = new ArrayList<>();
 
     // deal cards
     dealCards(cardCellCount);
@@ -129,9 +132,56 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     }
   }
 
+  private int getGridRowIdx(Cell cell) {
+    for (int i = 0; i < grid.size(); i++) {
+      for (int j = 0; j < grid.get(i).size(); j++) {
+        if (grid.get(i).get(j).equals(cell)) {
+          return i;
+        }
+      }
+    }
+    return -1;
+  }
+
+  private int getGridColIdx(Cell cell) {
+    for (int i = 0; i < grid.size(); i++) {
+      for (int j = 0; j < grid.get(i).size(); j++) {
+        if (grid.get(i).get(j).equals(cell)) {
+          return j;
+        }
+      }
+    }
+    return -1;
+  }
+
   @Override
   public void battle() {
-
+    int attackRow;
+    int attackCol;
+    while (!attackingCardRows.isEmpty()) {
+      attackRow = attackingCardRows.get(0);
+      attackCol = attackingCardCols.get(0);
+      if (attackRow - 1 >= 0) {
+        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow -1).get(attackCol), Direction.NORTH)) {
+          grid.get(attackRow -1).get(attackCol).flipCell();
+        }
+      }
+      if (attackRow + 1 < grid.size()) {
+        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow + 1).get(attackCol), Direction.SOUTH)) {
+          grid.get(attackRow + 1).get(attackCol).flipCell();
+        }
+      }
+      if (attackCol - 1 >= 0) {
+        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow).get(attackCol - 1), Direction.WEST)) {
+          grid.get(attackRow).get(attackCol - 1).flipCell();
+        }
+      }
+      if (attackCol + 1 < grid.size()) {
+        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow).get(attackCol + 1), Direction.EAST)) {
+          grid.get(attackRow).get(attackCol + 1).flipCell();
+        }
+      }
+    }
   }
 
 
