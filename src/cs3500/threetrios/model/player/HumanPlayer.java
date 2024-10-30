@@ -17,6 +17,7 @@ public class HumanPlayer implements Player {
   @Override
   public int getCurrentHandSize() {
 
+    return 0;
   }
 
   @Override
