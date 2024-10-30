@@ -3,6 +3,7 @@ package cs3500.threetrios.model;
 import java.util.List;
 
 import cs3500.threetrios.model.card.Card;
+import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.player.Player;
@@ -66,4 +67,11 @@ public interface ThreeTriosModel {
    * @return The player that won the game.
    * */
   Player getWinner();
+
+  List<ThreeTriosCard> getHand(CardColor color);
+
+  CardColor getCurrentPlayerColor();
+
+  List<List<Cell>> getGrid();
+
 }
