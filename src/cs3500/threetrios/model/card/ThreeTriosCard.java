@@ -63,4 +63,9 @@ public class ThreeTriosCard implements Card {
   public CardColor getColor() {
     return color;
   }
+
+  @Override
+  public String toString() {
+    return name + " " + north + " " + south + " " + east + " " + west;
+  }
 }
