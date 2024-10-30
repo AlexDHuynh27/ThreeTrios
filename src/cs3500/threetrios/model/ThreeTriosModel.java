@@ -21,7 +21,7 @@ public interface ThreeTriosModel {
    * @throws IllegalStateException if the game has already started.
    * @throws IllegalArgumentException if any of the fields are null or contain a null.
    * @throws IllegalArgumentException if the name of the cards in deck are not unique.
-   * @throws IllegalArgumentException if the
+   * @throws IllegalArgumentException if the number od cards in the deck is not enough to play to the grid.
    */
   void startGame(List<List<Cell>> grid, List<ThreeTriosCard> deck, Player redPlayer, Player bluePlayer);
 
