@@ -15,6 +15,7 @@ public class HumanPlayer implements Player {
   public HumanPlayer() {
     hand = new ArrayList<ThreeTriosCard>();
   }
+
   @Override
   public void addToHand(ThreeTriosCard card) {
     hand.add(card);

@@ -210,9 +210,6 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     }
   }
 
-<<<<<<< HEAD
-  // HELPER METHODS
-=======
   @Override
   public List<ThreeTriosCard> getHand(CardColor color) {
     if (color == CardColor.RED) {
@@ -231,9 +228,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   public List<List<Cell>> getGrid() {
     return List.copyOf(this.grid);
   }
-
->>>>>>> 4d7307ad5628c233c3608a71afd7d8a1bde4f91f
-
+  
   /**
    * Deals cards randomly to both players until their hands are filled.
    * Each player gets (N+1)/2 cards, where N is the number of card cells.
