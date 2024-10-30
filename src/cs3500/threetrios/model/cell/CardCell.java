@@ -4,7 +4,7 @@ import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 
 public class CardCell implements Cell{
-  ThreeTriosCard card;
+  private ThreeTriosCard card;
 
   @Override
   public void flipCell() {
