@@ -14,8 +14,11 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   private Player redPlayer;
   private Player bluePlayer;
   private CardColor colorTurn;
+
   private boolean battled;
   private boolean playedToGrid;
+  private boolean gameStarted;
+  private boolean gameOver;
 
   @Override
   public void startGame(List<List<Cell>> grid, List<ThreeTriosCard> deck, Player redPlayer, Player bluePlayer) {
