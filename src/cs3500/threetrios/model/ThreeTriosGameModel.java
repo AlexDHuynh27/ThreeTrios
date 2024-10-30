@@ -112,12 +112,53 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
 
   @Override
   public boolean gameOver() {
-    return false;
+    if (!gameStarted) {
+      throw new IllegalStateException("Game has not started.");
+    }
+
+    // Check if all card cells on the grid are filled
+    for (List<Cell> row : grid) {
+      for (Cell cell : row) {
+        if (cell instanceof CardCell && !cell.isEmpty()) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   @Override
   public Player getWinner() {
-    return null;
+    if (!gameOver) {
+      throw new IllegalStateException("Cannot determine winner: game is not over.");
+    }
+
+    int redCount = redPlayer.getCurrentHandSize(); // Count red player's cards
+    int blueCount = bluePlayer.getCurrentHandSize(); // Count blue player's cards
+
+    // Count the number of cards owned on the grid
+    for (List<Cell> row : grid) {
+      for (Cell cell : row) {
+        if (cell instanceof CardCell) {
+          String cardColor = cell.toString();
+          if (cardColor.equals("R")) {
+              redCount++;
+            } else if (cardColor.equals("B")) {
+              blueCount++;
+            }
+          }
+        }
+      }
+
+    // Determine the winner based on card counts
+    if (redCount > blueCount) {
+      return redPlayer; // Red player wins
+    } else if (blueCount > redCount) {
+      return bluePlayer; // Blue player wins
+    } else {
+      return null; // It's a tie
+    }
   }
 
 

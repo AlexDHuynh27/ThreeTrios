@@ -17,4 +17,9 @@ public interface Cell {
   void setCard(ThreeTriosCard card);
 
   String toString();
+
+  /**
+   * Checks if the cell empty
+   */
+  boolean isEmpty();
 }

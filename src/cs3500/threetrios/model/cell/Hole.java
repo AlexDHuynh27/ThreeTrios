@@ -14,4 +14,9 @@ public class Hole implements Cell {
   public void setCard(ThreeTriosCard card) {
 
   }
+
+  @Override
+  public boolean isEmpty() {
+    return false;
+  }
 }
