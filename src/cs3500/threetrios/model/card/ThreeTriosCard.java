@@ -9,11 +9,15 @@ public class ThreeTriosCard implements Card {
   private CardColor color;
 
   public ThreeTriosCard(String name, int north, int south, int east, int west) {
+    if (north < 1 || north > 10 || south < 1 || south > 10 || east < 1 || east > 10 || west < 1 ||
+            west > 10 ) {
+      throw new IllegalArgumentException("Attack values must be between 1 and 10.");
+    }
     this.name = name;
     this.north = north;
     this.south = south;
     this.east = east;
-    this.west = east;
+    this.west = west;
   }
 
   @Override
@@ -65,7 +69,22 @@ public class ThreeTriosCard implements Card {
 
   @Override
   public String toString() {
-    return name + " " + north + " " + south + " " + east + " " + west;
+    String northA = String.valueOf(north);
+    String southA = String.valueOf(south);
+    String eastA = String.valueOf(east);
+    String westA = String.valueOf(west);
+
+    if (north == 10) {
+      northA = "A";
+    } if (south == 10) {
+      southA = "A";
+    } if (east == 10) {
+      eastA = "A";
+    } if (west == 10) {
+      westA = "A";
+    }
+
+    return name + " " + northA + " " + southA + " " + eastA + " " + westA;
   }
 
   public String colorString() {
