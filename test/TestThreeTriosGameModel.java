@@ -26,8 +26,8 @@ public class TestThreeTriosGameModel {
   public void setUp() {
     // Initialize different ThreeTriosCard instances for testing
     card = new ThreeTriosCard("Warrior", 5, 3, 7, 6);
-    maxAttackCard = new ThreeTriosCard("MaxCard", 10, 10, 10, 10); // All max values
-    minAttackCard = new ThreeTriosCard("MinCard", 1, 1, 1, 1); // All min values
+    maxAttackCard = new ThreeTriosCard("MaxCard", 10, 10, 10, 10);
+    minAttackCard = new ThreeTriosCard("MinCard", 1, 1, 1, 1);
   }
 
   // Test for name retrieval
