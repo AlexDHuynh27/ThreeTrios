@@ -2,10 +2,10 @@ package cs3500.threetrios.model.card;
 
 public class ThreeTriosCard implements Card {
   private String name;
-  private int north;
-  private int east;
-  private int south;
-  private int west;
+  private final int north;
+  private final int east;
+  private final int south;
+  private final int west;
   private CardColor color;
 
   ThreeTriosCard(String name, int north, int east, int south, int west) {
