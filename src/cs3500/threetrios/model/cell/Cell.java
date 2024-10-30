@@ -1,6 +1,10 @@
 package cs3500.threetrios.model.cell;
 
+import cs3500.threetrios.model.card.Card;
+import cs3500.threetrios.model.card.ThreeTriosCard;
+
 public interface Cell {
+
   /**
    *
    */
@@ -8,6 +12,9 @@ public interface Cell {
 
   /**
    *
+   * @param card
    */
-  void setCard();
+  void setCard(ThreeTriosCard card);
+
+  String toString();
 }

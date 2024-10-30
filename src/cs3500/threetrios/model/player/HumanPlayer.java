@@ -19,6 +19,11 @@ public class HumanPlayer implements Player {
 
   }
 
+  @Override
+  public void setColor() {
+
+  }
+
 
   @Override
   public void getColor() {

@@ -1,13 +1,12 @@
 package cs3500.threetrios.model.cell;
 
 import cs3500.threetrios.model.card.Card;
+import cs3500.threetrios.model.card.ThreeTriosCard;
 
-public class CardCell {
-  Card card;
+public class CardCell implements Cell{
+  ThreeTriosCard card;
 
-  /**
-   * Flips the
-   */
+  @Override
   public void flipCell() {
     if (this.card == null) {
       throw new IllegalStateException("The card in the cell is null.");
@@ -15,7 +14,8 @@ public class CardCell {
     this.card.flip();
   }
 
-  public void setCard(Card card) {
+  @Override
+  public void setCard(ThreeTriosCard card) {
     if (this.card != null) {
       throw new IllegalStateException("The card in the cell is already set.");
     }
@@ -28,6 +28,14 @@ public class CardCell {
    * @return
    */
   public boolean battleCell(Cell other) {
+  }
 
+  String toString() {
+    if (this.card == null) {
+      return "_";
+    }
+    else {
+      return this.card.colorString();
+    }
   }
 }

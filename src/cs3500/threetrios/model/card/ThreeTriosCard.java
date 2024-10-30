@@ -3,16 +3,16 @@ package cs3500.threetrios.model.card;
 public class ThreeTriosCard implements Card {
   String name;
   int north;
-  int east;
   int south;
+  int east;
   int west;
   CardColor color;
 
-  ThreeTriosCard(String name, int north, int east, int south, int west) {
+  ThreeTriosCard(String name, int north, int south, int east,  int west) {
     this.name = name;
     this.north = north;
-    this.east = east;
     this.south = south;
+    this.east = east;
     this.west = east;
   }
 
@@ -42,4 +42,5 @@ public class ThreeTriosCard implements Card {
   public String getName() {
     return name;
   }
+
 }

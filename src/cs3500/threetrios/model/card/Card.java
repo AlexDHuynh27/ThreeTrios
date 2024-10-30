@@ -16,4 +16,6 @@ public interface Card {
    */
   void flip();
 
+  String toString();
+
 }

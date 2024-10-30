@@ -12,5 +12,7 @@ public interface Player {
 
   int getCurrentHandSize();
 
+  void setColor();
+
   void getColor();
 }
