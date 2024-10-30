@@ -1,9 +1,13 @@
 package cs3500.threetrios;
 
+import cs3500.threetrios.model.ThreeTriosGameModel;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.configreader.CardReader;
 import cs3500.threetrios.model.configreader.GridReader;
+import cs3500.threetrios.model.player.HumanPlayer;
+import cs3500.threetrios.model.player.Player;
+import cs3500.threetrios.view.ThreeTriosGameView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,5 +23,22 @@ public class testMain {
 
     List<List<Cell>> grid = GridReader.getGridFromConfig("src/cs3500/threetrios/gridconfig1.txt");
     System.out.println(grid);
+    ThreeTriosGameModel newGame = new ThreeTriosGameModel();
+    newGame.startGame(grid, deck, new HumanPlayer(), new HumanPlayer());
+    newGame.playToGrid(1, 2, 2);
+    newGame.battle();
+    newGame.drawHand();
+    newGame.playToGrid(1, 1, 2);
+    newGame.battle();
+    ThreeTriosGameView view = new ThreeTriosGameView(newGame, System.out);
+    try {
+      view.render();
+    }
+    catch(IOException e) {
+      System.out.println("hi");
+    }
+
+
   }
+
 }

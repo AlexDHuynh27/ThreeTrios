@@ -1,19 +1,24 @@
 package cs3500.threetrios.model.player;
 
 import cs3500.threetrios.model.card.Card;
+import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.ThreeTriosCard;
+
+import java.util.List;
 
 public interface Player {
   /**
    *
    */
-  void addToHand(Card card);
+  void addToHand(ThreeTriosCard card);
 
   ThreeTriosCard playFromHand(int idx);
 
+  List<ThreeTriosCard> getHand();
+
   int getCurrentHandSize();
 
-  void setColor();
+  void setColor(CardColor color);
 
-  void getColor();
+  CardColor getColor();
 }

@@ -11,6 +11,7 @@ import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.cell.CardCell;
 import cs3500.threetrios.model.player.Player;
+import cs3500.threetrios.view.ThreeTriosGameView;
 
 public class ThreeTriosGameModel implements ThreeTriosModel {
   private List<List<Cell>> grid;
@@ -53,7 +54,9 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     // Assign values
     this.grid = grid;
     this.deck = new ArrayList<>(deck);
+    redPlayer.setColor(CardColor.RED);
     this.redPlayer = redPlayer;
+    bluePlayer.setColor(CardColor.BLUE);
     this.bluePlayer = bluePlayer;
     this.colorTurn = CardColor.RED;
     this.gameStarted = true;
@@ -75,8 +78,8 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     while (currentPlayer.getCurrentHandSize() < handSize && !deck.isEmpty()) {
       currentPlayer.addToHand(deck.remove(0));
     }
-
     switchTurn();
+
   }
 
   @Override
@@ -98,36 +101,21 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     }
     else {
       if (colorTurn == CardColor.RED) {
-        grid.get(row).get(column).setCard(redPlayer.playFromHand(curPlayerHandIdx));
+        ThreeTriosCard card = redPlayer.playFromHand(curPlayerHandIdx);
+        card.setColor(colorTurn);
+        grid.get(row).get(column).setCard(card);
       }
       else {
-        grid.get(row).get(column).setCard(bluePlayer.playFromHand(curPlayerHandIdx));
+        ThreeTriosCard card = bluePlayer.playFromHand(curPlayerHandIdx);
+        card.setColor(colorTurn);
+        grid.get(row).get(column).setCard(card);
       }
+      attackingCardRows.add(row);
+      attackingCardCols.add(column);
       playedToGrid = true;
     }
   }
 
-  private int getGridRowIdx(Cell cell) {
-    for (int i = 0; i < grid.size(); i++) {
-      for (int j = 0; j < grid.get(i).size(); j++) {
-        if (grid.get(i).get(j).equals(cell)) {
-          return i;
-        }
-      }
-    }
-    return -1;
-  }
-
-  private int getGridColIdx(Cell cell) {
-    for (int i = 0; i < grid.size(); i++) {
-      for (int j = 0; j < grid.get(i).size(); j++) {
-        if (grid.get(i).get(j).equals(cell)) {
-          return j;
-        }
-      }
-    }
-    return -1;
-  }
 
   @Override
   public void battle() {
@@ -139,24 +127,35 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
       if (attackRow - 1 >= 0) {
         if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow -1).get(attackCol), Direction.NORTH)) {
           grid.get(attackRow -1).get(attackCol).flipCell();
+          attackingCardRows.add(attackRow - 1);
+          attackingCardCols.add(attackCol);
         }
       }
       if (attackRow + 1 < grid.size()) {
         if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow + 1).get(attackCol), Direction.SOUTH)) {
           grid.get(attackRow + 1).get(attackCol).flipCell();
+          attackingCardRows.add(attackRow + 1);
+          attackingCardCols.add(attackCol);
         }
       }
       if (attackCol - 1 >= 0) {
         if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow).get(attackCol - 1), Direction.WEST)) {
           grid.get(attackRow).get(attackCol - 1).flipCell();
+          attackingCardRows.add(attackRow);
+          attackingCardCols.add(attackCol - 1);
         }
       }
       if (attackCol + 1 < grid.size()) {
         if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow).get(attackCol + 1), Direction.EAST)) {
           grid.get(attackRow).get(attackCol + 1).flipCell();
+          attackingCardRows.add(attackRow);
+          attackingCardCols.add(attackCol + 1);
         }
       }
+      attackingCardRows.remove(0);
+      attackingCardCols.remove(0);
     }
+    battled = true;
   }
 
 
@@ -211,7 +210,29 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     }
   }
 
+<<<<<<< HEAD
   // HELPER METHODS
+=======
+  @Override
+  public List<ThreeTriosCard> getHand(CardColor color) {
+    if (color == CardColor.RED) {
+      return redPlayer.getHand();
+    }
+    else {
+      return bluePlayer.getHand();
+    }
+  }
+
+  @Override
+  public CardColor getCurrentPlayerColor() {
+    return colorTurn;
+  }
+
+  public List<List<Cell>> getGrid() {
+    return List.copyOf(this.grid);
+  }
+
+>>>>>>> 4d7307ad5628c233c3608a71afd7d8a1bde4f91f
 
   /**
    * Deals cards randomly to both players until their hands are filled.
@@ -252,9 +273,12 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
 
   private void switchTurn() {
     colorTurn = (colorTurn == CardColor.RED) ? CardColor.BLUE : CardColor.RED;
+    playedToGrid = false;
+    battled = false;
   }
 
   private Player getCurrentPlayer() {
     return (colorTurn == CardColor.RED) ? redPlayer : bluePlayer;
   }
+
 }
