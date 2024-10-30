@@ -25,8 +25,6 @@ public interface ThreeTriosModel {
    */
   void drawHand();
 
-
-
   /**
    * Plays the given card to the
    * @param card
@@ -45,6 +43,6 @@ public interface ThreeTriosModel {
    * Gets the winner of the game.
    * @throws IllegalStateException if the game is not over or if the game has not started.
    * @return The player that won the game.
-   */
-   Player getWinner();
+   * */
+  Player getWinner();
 }

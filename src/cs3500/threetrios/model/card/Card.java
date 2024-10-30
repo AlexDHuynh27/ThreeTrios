@@ -10,7 +10,10 @@ public interface Card {
   void setColor(CardColor color);
 
   /**
-   * Changes the current color of the card to the other CardColor.
+   * Changes the current color of the card to the opposite CardColor.
+   * If the card color is red it will be changed to blue. Vice Versa.
+   * @throws IllegalStateException If color has not been set.
    */
   void flip();
+
 }

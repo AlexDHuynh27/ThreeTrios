@@ -21,4 +21,13 @@ public class CardCell {
     }
     this.card = card;
   }
+
+  /**
+   * Compares the
+   * @param other
+   * @return
+   */
+  public boolean battleCell(Cell other) {
+
+  }
 }

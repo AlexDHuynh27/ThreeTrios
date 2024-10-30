@@ -1,13 +1,15 @@
 package cs3500.threetrios.model.card;
 
 public class ThreeTriosCard implements Card {
+  String name;
   int north;
   int east;
   int south;
   int west;
-  CardColor color = null;
+  CardColor color;
 
-  ThreeTriosCard(int north, int east, int south, int west) {
+  ThreeTriosCard(String name, int north, int east, int south, int west) {
+    this.name = name;
     this.north = north;
     this.east = east;
     this.south = south;
@@ -26,11 +28,18 @@ public class ThreeTriosCard implements Card {
 
   @Override
   public void flip() {
-    if (this.color == CardColor.RED) {
+    if (this.color == null) {
+      throw new IllegalStateException("Color has not been set");
+    }
+    else if (this.color == CardColor.RED) {
       this.color = CardColor.BLUE;
     }
-    else if (this.color == CardColor.BLUE) {
+    else {
       this.color = CardColor.RED;
     }
+  }
+
+  public String getName() {
+    return name;
   }
 }
