@@ -1,12 +1,12 @@
 package cs3500.threetrios.model.card;
 
 public class ThreeTriosCard implements Card {
-  String name;
-  int north;
-  int south;
-  int east;
-  int west;
-  CardColor color;
+  private String name;
+  private final int north;
+  private final int east;
+  private final int south;
+  private final int west;
+  private CardColor color;
 
   ThreeTriosCard(String name, int north, int south, int east,  int west) {
     this.name = name;
@@ -43,4 +43,24 @@ public class ThreeTriosCard implements Card {
     return name;
   }
 
+  public int getNorthAttack() {
+    return north;
+  }
+
+
+  public int getSouthAttack() {
+    return south;
+  }
+
+  public int getEastAttack() {
+    return east;
+  }
+
+  public int getWestAttack() {
+    return west;
+  }
+
+  public CardColor getColor() {
+    return color;
+  }
 }
