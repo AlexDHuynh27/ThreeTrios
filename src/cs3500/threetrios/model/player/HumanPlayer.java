@@ -12,13 +12,11 @@ public class HumanPlayer implements Player {
 
   @Override
   public ThreeTriosCard playFromHand(int idx) {
-
     return null;
   }
 
   @Override
   public int getCurrentHandSize() {
-
     return 0;
   }
 

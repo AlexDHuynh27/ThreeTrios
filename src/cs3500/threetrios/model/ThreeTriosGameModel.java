@@ -65,31 +65,6 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     dealCards(cardCellCount);
   }
 
-  /**
-   * Deals cards randomly to both players until their hands are filled.
-   * Each player gets (N+1)/2 cards, where N is the number of card cells.
-   * @param cardCellCount the number of card cells in the grid
-   */
-  private void dealCards(int cardCellCount) {
-    int handSize = (cardCellCount + 1) / 2;
-
-    Collections.shuffle(deck);
-
-    // distribute cards to red
-    for (int i = 0; i < handSize; i++) {
-      if (!deck.isEmpty()) {
-        redPlayer.addToHand(deck.remove(0));
-      }
-    }
-
-    // distribute cards to blue
-    for (int i = 0; i < handSize; i++) {
-      if (!deck.isEmpty()) {
-        bluePlayer.addToHand(deck.remove(0));
-      }
-    }
-  }
-
   @Override
   public void drawHand() {
     if (!gameStarted || gameOver) {
@@ -236,8 +211,32 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     }
   }
 
+  // HELPER METHODS
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////
+  /**
+   * Deals cards randomly to both players until their hands are filled.
+   * Each player gets (N+1)/2 cards, where N is the number of card cells.
+   * @param cardCellCount the number of card cells in the grid
+   */
+  private void dealCards(int cardCellCount) {
+    int handSize = (cardCellCount + 1) / 2;
+
+    Collections.shuffle(deck);
+
+    // distribute cards to red
+    for (int i = 0; i < handSize; i++) {
+      if (!deck.isEmpty()) {
+        redPlayer.addToHand(deck.remove(0));
+      }
+    }
+
+    // distribute cards to blue
+    for (int i = 0; i < handSize; i++) {
+      if (!deck.isEmpty()) {
+        bluePlayer.addToHand(deck.remove(0));
+      }
+    }
+  }
 
   private int countCardCells(List<List<Cell>> grid) {
     int cardCellCount = 0;
