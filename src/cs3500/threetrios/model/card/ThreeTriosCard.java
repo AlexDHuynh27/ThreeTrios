@@ -63,14 +63,17 @@ public class ThreeTriosCard implements Card {
     return color;
   }
 
+  @Override
+  public String toString() {
+    return name + " " + north + " " + south + " " + east + " " + west;
+  }
+
   public String colorString() {
     if (color == null) {
       throw new IllegalStateException("Color has not been set");
-    }
-    else if (color == CardColor.RED) {
+    } else if (color == CardColor.RED) {
       return "R";
-    }
-    else {
+    } else {
       return "B";
     }
   }
