@@ -26,20 +26,14 @@ public class HumanPlayer implements Player {
 
   @Override
   public ThreeTriosCard playFromHand(int idx) {
-<<<<<<< HEAD
-    return null;
-=======
     return this.hand.remove(idx);
->>>>>>> 4d7307ad5628c233c3608a71afd7d8a1bde4f91f
+
   }
 
   @Override
   public int getCurrentHandSize() {
-<<<<<<< HEAD
-    return 0;
-=======
     return this.hand.size();
->>>>>>> 4d7307ad5628c233c3608a71afd7d8a1bde4f91f
+
   }
 
   @Override
