@@ -1,6 +1,5 @@
 package cs3500.threetrios.model.cell;
 
-import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 
 public class Hole implements Cell {
@@ -23,9 +22,5 @@ public class Hole implements Cell {
   @Override
   public boolean isEmpty() {
     return false;
-  }
-
-  public String toString() {
-    return " ";
   }
 }
