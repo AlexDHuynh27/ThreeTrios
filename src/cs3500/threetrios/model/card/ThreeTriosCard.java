@@ -13,7 +13,7 @@ public class ThreeTriosCard implements Card {
     this.north = north;
     this.south = south;
     this.east = east;
-    this.west = east;
+    this.west = west;
   }
 
   @Override
@@ -77,4 +77,6 @@ public class ThreeTriosCard implements Card {
       return "B";
     }
   }
+
+
 }

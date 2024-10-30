@@ -19,4 +19,8 @@ public class Hole implements Cell {
   public boolean isEmpty() {
     return false;
   }
+
+  public String toString() {
+    return " ";
+  }
 }

@@ -21,6 +21,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   private boolean playedToGrid;
   private boolean gameStarted;
   private boolean gameOver;
+  private List<ThreeTriosCard> attackingCards;
   private int handSize;
 
   @Override
@@ -55,6 +56,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     this.colorTurn = CardColor.RED;
     this.gameStarted = true;
     this.gameOver = false;
+    this.attackingCards = new ArrayList<>();
 
     // deal cards
     dealCards(cardCellCount);
@@ -101,7 +103,30 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
 
   @Override
   public void playToGrid(int curPlayerHandIdx, int row, int column) {
-
+    if (!gameStarted || gameOver) {
+      throw new IllegalStateException("Cannot play to grid: game hasn't started or is already over.");
+    }
+    else if (row >= grid.size() || column >= grid.get(row).size()) {
+      throw new IllegalArgumentException("Row or column out of bounds");
+    }
+    else if (!(grid.get(row).get(column) instanceof CardCell)) {
+      throw new IllegalArgumentException("Row and column given is not a card cell");
+    }
+    else if (!grid.get(row).get(column).isEmpty()) {
+      throw new IllegalStateException("CardCell to play on is not empty");
+    }
+    else if (playedToGrid) {
+      throw new IllegalStateException("Already played to grid this turn");
+    }
+    else {
+      if (colorTurn == CardColor.RED) {
+        grid.get(row).get(column).setCard(redPlayer.playFromHand(curPlayerHandIdx));
+      }
+      else {
+        grid.get(row).get(column).setCard(bluePlayer.playFromHand(curPlayerHandIdx));
+      }
+      playedToGrid = true;
+    }
   }
 
   @Override

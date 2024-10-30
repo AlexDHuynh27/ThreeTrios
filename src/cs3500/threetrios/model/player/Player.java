@@ -1,6 +1,7 @@
 package cs3500.threetrios.model.player;
 
 import cs3500.threetrios.model.card.Card;
+import cs3500.threetrios.model.card.ThreeTriosCard;
 
 public interface Player {
   /**
@@ -8,7 +9,7 @@ public interface Player {
    */
   void addToHand(Card card);
 
-  void playFromHand(int idx);
+  ThreeTriosCard playFromHand(int idx);
 
   int getCurrentHandSize();
 
