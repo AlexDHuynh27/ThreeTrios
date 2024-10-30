@@ -25,9 +25,14 @@ public class ThreeTriosGameView {
         }
         out.append("\n");
       }
+      List<ThreeTriosCard> hand = model.getHand(model.getCurrentPlayerColor());
+      for (int i = 0; i < hand.size(); i++) {
+        out.append(hand.get(i).toString()).append("\n");
+      };
     }
     catch (Exception e) {
       e.printStackTrace();
     }
+
   }
 }

@@ -28,8 +28,6 @@ public class testMain {
     newGame.playToGrid(1, 2, 2);
     newGame.battle();
     newGame.drawHand();
-    newGame.playToGrid(1, 1, 2);
-    newGame.battle();
     ThreeTriosGameView view = new ThreeTriosGameView(newGame, System.out);
     try {
       view.render();
