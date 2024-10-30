@@ -18,6 +18,9 @@ public class CardCell implements Cell{
     if (this.card != null) {
       throw new IllegalStateException("The card in the cell is already set.");
     }
+    if (card == null) {
+      throw new IllegalArgumentException("The card cannot be null");
+    }
     this.card = card;
   }
 
