@@ -68,31 +68,6 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     dealCards(cardCellCount);
   }
 
-  /**
-   * Deals cards randomly to both players until their hands are filled.
-   * Each player gets (N+1)/2 cards, where N is the number of card cells.
-   * @param cardCellCount the number of card cells in the grid
-   */
-  private void dealCards(int cardCellCount) {
-    int handSize = (cardCellCount + 1) / 2;
-
-    Collections.shuffle(deck);
-
-    // distribute cards to red
-    for (int i = 0; i < handSize; i++) {
-      if (!deck.isEmpty()) {
-        redPlayer.addToHand(deck.remove(0));
-      }
-    }
-
-    // distribute cards to blue
-    for (int i = 0; i < handSize; i++) {
-      if (!deck.isEmpty()) {
-        bluePlayer.addToHand(deck.remove(0));
-      }
-    }
-  }
-
   @Override
   public void drawHand() {
     if (!gameStarted || gameOver) {
@@ -235,6 +210,9 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     }
   }
 
+<<<<<<< HEAD
+  // HELPER METHODS
+=======
   @Override
   public List<ThreeTriosCard> getHand(CardColor color) {
     if (color == CardColor.RED) {
@@ -254,8 +232,32 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     return List.copyOf(this.grid);
   }
 
+>>>>>>> 4d7307ad5628c233c3608a71afd7d8a1bde4f91f
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////
+  /**
+   * Deals cards randomly to both players until their hands are filled.
+   * Each player gets (N+1)/2 cards, where N is the number of card cells.
+   * @param cardCellCount the number of card cells in the grid
+   */
+  private void dealCards(int cardCellCount) {
+    int handSize = (cardCellCount + 1) / 2;
+
+    Collections.shuffle(deck);
+
+    // distribute cards to red
+    for (int i = 0; i < handSize; i++) {
+      if (!deck.isEmpty()) {
+        redPlayer.addToHand(deck.remove(0));
+      }
+    }
+
+    // distribute cards to blue
+    for (int i = 0; i < handSize; i++) {
+      if (!deck.isEmpty()) {
+        bluePlayer.addToHand(deck.remove(0));
+      }
+    }
+  }
 
   private int countCardCells(List<List<Cell>> grid) {
     int cardCellCount = 0;

@@ -1,6 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.Card;
@@ -19,6 +20,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestThreeTriosGameModel {
   private ThreeTriosCard card;
   private ThreeTriosCard maxAttackCard;
@@ -27,20 +31,27 @@ public class TestThreeTriosGameModel {
   private Cell hole;
   private CardCell emptyCardCell;
   private CardCell filledCardCell;
+  private Player redPlayer;
+  private Player bluePlayer;
+  private ThreeTriosGameModel gameModel;
 
   @Before
   public void setUp() {
-    card = new ThreeTriosCard("Warrior", 5, 5, 7, 6);
-    maxAttackCard = new ThreeTriosCard("MaxCard", 10, 10, 10, 10);
-    minAttackCard = new ThreeTriosCard("MinCard", 1, 1, 1, 1);
-    filledCard = new ThreeTriosCard("Filled", 6, 2, 1 ,3);
-    hole = new Hole();
-    emptyCardCell = new CardCell();
-    filledCardCell = new CardCell();
+      card = new ThreeTriosCard("Warrior", 5, 5, 7, 6);
+      maxAttackCard = new ThreeTriosCard("MaxCard", 10, 10, 10, 10);
+      minAttackCard = new ThreeTriosCard("MinCard", 1, 1, 1, 1);
+      filledCard = new ThreeTriosCard("Filled", 6, 2, 1, 3);
+      hole = new Hole();
+      emptyCardCell = new CardCell();
+      filledCardCell = new CardCell();
 
-    filledCard.setColor(CardColor.RED);
-    filledCardCell.setCard(filledCard);
-  }
+      filledCard.setColor(CardColor.RED);
+      filledCardCell.setCard(filledCard);
+
+      redPlayer = new HumanPlayer();
+      bluePlayer = new HumanPlayer();
+      gameModel = new ThreeTriosGameModel();
+    }
 
   // Test for name retrieval
   @Test
@@ -53,30 +64,30 @@ public class TestThreeTriosGameModel {
   // Test for correct retrieval of attack values
   @Test
   public void testGetNorthAttack() {
-    assertEquals(5, card.getNorthAttack());
-    assertEquals(10, maxAttackCard.getNorthAttack());
-    assertEquals(1, minAttackCard.getNorthAttack());
+    assertEquals(5, card.getAttack(Direction.NORTH));
+    assertEquals(10, maxAttackCard.getAttack(Direction.NORTH));
+    assertEquals(1, minAttackCard.getAttack(Direction.NORTH));
   }
 
   @Test
   public void testGetSouthAttack() {
-    assertEquals(5, card.getSouthAttack());
-    assertEquals(10, maxAttackCard.getSouthAttack());
-    assertEquals(1, minAttackCard.getSouthAttack());
+    assertEquals(5, card.getAttack(Direction.SOUTH));
+    assertEquals(10, maxAttackCard.getAttack(Direction.SOUTH));
+    assertEquals(1, minAttackCard.getAttack(Direction.SOUTH));
   }
 
   @Test
   public void testGetEastAttack() {
-    assertEquals(7, card.getEastAttack());
-    assertEquals(10, maxAttackCard.getEastAttack());
-    assertEquals(1, minAttackCard.getEastAttack());
+    assertEquals(7, card.getAttack(Direction.EAST));
+    assertEquals(10, maxAttackCard.getAttack(Direction.EAST));
+    assertEquals(1, minAttackCard.getAttack(Direction.EAST));
   }
 
   @Test
   public void testGetWestAttack() {
-    assertEquals(6, card.getWestAttack());
-    assertEquals(10, maxAttackCard.getWestAttack());
-    assertEquals(1, minAttackCard.getWestAttack());
+    assertEquals(6, card.getAttack(Direction.WEST));
+    assertEquals(10, maxAttackCard.getAttack(Direction.WEST));
+    assertEquals(1, minAttackCard.getAttack(Direction.WEST));
   }
 
   // Tests for setting color
@@ -160,18 +171,18 @@ public class TestThreeTriosGameModel {
   // Boundary tests for min and max attack values
   @Test
   public void testMinimumAttackValues() {
-    assertEquals(1, minAttackCard.getNorthAttack());
-    assertEquals(1, minAttackCard.getSouthAttack());
-    assertEquals(1, minAttackCard.getEastAttack());
-    assertEquals(1, minAttackCard.getWestAttack());
+    assertEquals(1, minAttackCard.getAttack(Direction.NORTH));
+    assertEquals(1, minAttackCard.getAttack(Direction.SOUTH));
+    assertEquals(1, minAttackCard.getAttack(Direction.EAST));
+    assertEquals(1, minAttackCard.getAttack(Direction.WEST));
   }
 
   @Test
   public void testMaximumAttackValues() {
-    assertEquals(10, maxAttackCard.getNorthAttack());
-    assertEquals(10, maxAttackCard.getSouthAttack());
-    assertEquals(10, maxAttackCard.getEastAttack());
-    assertEquals(10, maxAttackCard.getWestAttack());
+    assertEquals(10, maxAttackCard.getAttack(Direction.NORTH));
+    assertEquals(10, maxAttackCard.getAttack(Direction.SOUTH));
+    assertEquals(10, maxAttackCard.getAttack(Direction.EAST));
+    assertEquals(10, maxAttackCard.getAttack(Direction.WEST));
   }
 
   /**
@@ -272,5 +283,146 @@ public class TestThreeTriosGameModel {
 
     filledCardCell.flipCell();  // BLUE -> RED
     assertEquals("R", filledCardCell.toString());
+  }
+
+  /**
+   * Test that starting the game twice throws an IllegalStateException.
+   */
+  @Test(expected = IllegalStateException.class)
+  public void testStartGameTwiceThrowsException() {
+    List<List<Cell>> grid = createValidGrid(3, 3);
+    List<ThreeTriosCard> deck = createDeckWithEnoughCards(10);
+
+    gameModel.startGame(grid, deck, redPlayer, bluePlayer);
+    gameModel.startGame(grid, deck, redPlayer, bluePlayer);
+  }
+
+  /**
+   * Test that starting the game with insufficient cards throws IllegalArgumentException.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testStartGameInsufficientCards() {
+    List<List<Cell>> grid = createValidGrid(3, 3);
+    List<ThreeTriosCard> deck = createDeckWithEnoughCards(5);
+
+    gameModel.startGame(grid, deck, redPlayer, bluePlayer);
+  }
+
+  /**
+   * Test drawing hands for both players.
+   */
+  @Test
+  public void testDrawHand() {
+    List<List<Cell>> grid = createValidGrid(3, 3);
+    List<ThreeTriosCard> deck = createDeckWithEnoughCards(10);
+
+    gameModel.startGame(grid, deck, redPlayer, bluePlayer);
+    gameModel.drawHand();
+
+    assertTrue(redPlayer.getCurrentHandSize() > 0);
+    assertTrue(bluePlayer.getCurrentHandSize() > 0);
+  }
+
+  /**
+   * Test playing a card to the grid.
+   */
+  @Test
+  public void testPlayToGrid() {
+    List<List<Cell>> grid = createValidGrid(3, 3);
+    List<ThreeTriosCard> deck = createDeckWithEnoughCards(10);
+
+    gameModel.startGame(grid, deck, redPlayer, bluePlayer);
+    gameModel.drawHand();
+
+    int handIndex = 0;
+    gameModel.playToGrid(handIndex, 1, 1);
+
+    assertFalse(grid.get(1).get(1).isEmpty());
+  }
+
+  /**
+   * Test playing to a filled CardCell throws an IllegalStateException.
+   */
+  @Test(expected = IllegalStateException.class)
+  public void testPlayToGridFilledCellThrowsException() {
+    List<List<Cell>> grid = createValidGrid(3, 3);
+    List<ThreeTriosCard> deck = createDeckWithEnoughCards(10);
+
+    gameModel.startGame(grid, deck, redPlayer, bluePlayer);
+    gameModel.drawHand();
+
+    int handIndex = 0;
+    gameModel.playToGrid(handIndex, 1, 1); // Play first card
+
+    gameModel.playToGrid(handIndex, 1, 1); // Attempt to play again on the same cell
+  }
+
+  /**
+   * Test battle phase with a scenario where no cards should flip.
+   */
+  @Test
+  public void testBattleNoFlip() {
+    List<List<Cell>> grid = createValidGrid(3, 3);
+    List<ThreeTriosCard> deck = createDeckWithEnoughCards(10);
+
+    gameModel.startGame(grid, deck, redPlayer, bluePlayer);
+    gameModel.drawHand();
+
+    int handIndex = 0;
+    gameModel.playToGrid(handIndex, 1, 1);
+    gameModel.battle();
+
+    assertEquals("R", grid.get(1).get(1).toString());
+  }
+
+  /**
+   * Test gameOver method returns true when all cells are filled.
+   */
+  @Test
+  public void testGameOverTrue() {
+    List<List<Cell>> grid = createValidGrid(3, 3);
+    List<ThreeTriosCard> deck = createDeckWithEnoughCards(10);
+
+    gameModel.startGame(grid, deck, redPlayer, bluePlayer);
+
+    // Fill all cells
+    for (int row = 0; row < grid.size(); row++) {
+      for (int col = 0; col < grid.get(row).size(); col++) {
+        if (grid.get(row).get(col) instanceof CardCell && grid.get(row).get(col).isEmpty()) {
+          gameModel.playToGrid(0, row, col);
+          gameModel.drawHand();
+        }
+      }
+    }
+
+    assertTrue(gameModel.gameOver());
+  }
+
+  /**
+   * Test getWinner method when red player wins.
+   */
+  @Test
+  public void testGetWinnerRedPlayerWins() {
+    List<List<Cell>> grid = createValidGrid(3, 3);
+    List<ThreeTriosCard> deck = createDeckWithEnoughCards(10);
+
+    gameModel.startGame(grid, deck, redPlayer, bluePlayer);
+
+    // Simulate Red winning by controlling most cells
+    for (int row = 0; row < grid.size(); row++) {
+      for (int col = 0; col < grid.get(row).size(); col++) {
+        if (grid.get(row).get(col) instanceof CardCell && grid.get(row).get(col).isEmpty()) {
+          if (row % 2 == 0) {
+            grid.get(row).get(col).setCard(new ThreeTriosCard("RedCard", 3, 3, 3, 3));
+            grid.get(row).get(col).getCard().setColor(CardColor.RED);
+          } else {
+            grid.get(row).get(col).setCard(new ThreeTriosCard("BlueCard", 2, 2, 2, 2));
+            grid.get(row).get(col).getCard().setColor(CardColor.BLUE);
+          }
+        }
+      }
+    }
+
+    assertEquals(redPlayer, gameModel.getWinner());
   }
 }
