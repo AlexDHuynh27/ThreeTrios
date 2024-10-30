@@ -28,9 +28,10 @@ public class CardCell implements Cell{
    * @return
    */
   public boolean battleCell(Cell other) {
+    return false;
   }
 
-  String toString() {
+  public String toString() {
     if (this.card == null) {
       return "_";
     }

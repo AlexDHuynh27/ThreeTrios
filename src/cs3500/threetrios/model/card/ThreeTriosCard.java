@@ -8,7 +8,7 @@ public class ThreeTriosCard implements Card {
   private final int west;
   private CardColor color;
 
-  ThreeTriosCard(String name, int north, int south, int east,  int west) {
+  ThreeTriosCard(String name, int north, int south, int east, int west) {
     this.name = name;
     this.north = north;
     this.south = south;
@@ -47,7 +47,6 @@ public class ThreeTriosCard implements Card {
     return north;
   }
 
-
   public int getSouthAttack() {
     return south;
   }
@@ -67,5 +66,15 @@ public class ThreeTriosCard implements Card {
   @Override
   public String toString() {
     return name + " " + north + " " + south + " " + east + " " + west;
+  }
+
+  public String colorString() {
+    if (color == null) {
+      throw new IllegalStateException("Color has not been set");
+    } else if (color == CardColor.RED) {
+      return "R";
+    } else {
+      return "B";
+    }
   }
 }
