@@ -33,6 +33,5 @@ public class ThreeTriosGameView {
     catch (Exception e) {
       e.printStackTrace();
     }
-
   }
 }
