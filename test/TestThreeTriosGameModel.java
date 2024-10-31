@@ -66,27 +66,14 @@ public class TestThreeTriosGameModel {
       bluePlayer = new HumanPlayer();
       gameModel = new ThreeTriosGameModel();
 
-<<<<<<< Updated upstream
-      nonExistentFile = new File("non_existent_file.txt");
-
-     deck5 = CardReader.getDeckFromConfig( "src/cs3500" +
+      deck5 = getDeckFromConfig( "Assignment5/src/cs3500" +
              "/threetrios/exampleFiles/DeckOfCard(5).txt");
-     deck10 = CardReader.getDeckFromConfig( "src/cs3500" +
+      deck10 = getDeckFromConfig( "Assignment5/src/cs3500" +
             "/threetrios/exampleFiles/DeckOfCard(10).txt");
-     deck20 = CardReader.getDeckFromConfig( "src/cs3500" +
-            "/threetrios/exampleFiles/DeckOfCard(20).txt");
-     deck40 = CardReader.getDeckFromConfig( "src/cs3500" +
-            "/threetrios/exampleFiles/DeckOfCard(40).txt");
-=======
-     deck5 = getDeckFromConfig( "Assignment5/src/cs3500" +
-             "/threetrios/exampleFiles/DeckOfCard(5).txt");
-     deck10 = getDeckFromConfig( "Assignment5/src/cs3500" +
-            "/threetrios/exampleFiles/DeckOfCard(10).txt");
-     deck26 = getDeckFromConfig( "Assignment5/src/cs3500" +
+      deck26 = getDeckFromConfig( "Assignment5/src/cs3500" +
             "/threetrios/exampleFiles/DeckOfCard(26).txt");
-     deck50 = getDeckFromConfig( "Assignment5/src/cs3500" +
+      deck50 = getDeckFromConfig( "Assignment5/src/cs3500" +
             "/threetrios/exampleFiles/DeckOfCard(50).txt");
->>>>>>> Stashed changes
 
      grid1 = GridReader.getGridFromConfig( "src/cs3500" +
             "/threetrios/exampleFiles/GridEx(1).txt");
