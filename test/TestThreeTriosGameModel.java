@@ -652,7 +652,7 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Tests playthrough of game without battle
+   * Tests playthrough of game with battle
    */
   @Test
   public void testFullGame() {
@@ -703,7 +703,7 @@ public class TestThreeTriosGameModel {
     assertTrue(gameModel.gameOver());
     assertEquals(redPlayer, gameModel.getWinner());
   }
-
+  
   @Test
   public void testStartGame() {
 
