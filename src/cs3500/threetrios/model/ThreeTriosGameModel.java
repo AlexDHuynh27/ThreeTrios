@@ -14,6 +14,10 @@ import cs3500.threetrios.model.cell.CardCell;
 import cs3500.threetrios.model.player.Player;
 import cs3500.threetrios.view.ThreeTriosGameView;
 
+/**
+ * Represents the model of ThreeTriosGame. Contains the data and logic, to ensure that the game is played
+ * correctly by the rules.
+ */
 public class ThreeTriosGameModel implements ThreeTriosModel {
   private List<List<Cell>> grid;
   private List<ThreeTriosCard> deck;
@@ -27,11 +31,21 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   private List<Integer> attackingCardCols;
   private int handSize;
 
+  Random rand;
+
+  /**
+   * Constructor for randomizing the shuffling of deck and actual gameplay.
+   */
   public ThreeTriosGameModel() {
+    this.rand = new Random();
   }
 
+  /**
+   * Constructor for testing, so that deck has the same shuffled list.
+   * @param random
+   */
   public ThreeTriosGameModel(Random random) {
-
+    this.rand = random;
   }
 
 
@@ -114,6 +128,13 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
 
   @Override
   public void battle() {
+    if (!gameStarted || gameOver) {
+      throw new IllegalStateException("Cannot battle: game hasn't started or is already over.");
+    }
+    else if (!playedToGrid) {
+      throw new IllegalStateException("Cannot battle: haven't played to grid this turn yet");
+    }
+
     int attackRow;
     int attackCol;
     while (!attackingCardRows.isEmpty()) {
@@ -222,8 +243,21 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     return colorTurn;
   }
 
+  @Override
   public List<List<Cell>> getGrid() {
     return List.copyOf(this.grid);
+  }
+
+  /**
+   * Shuffles this deck based on this ThreeTriosGameModel's Random object.
+   */
+  private void shuffle() {
+    List<ThreeTriosCard> retDeck = new ArrayList<ThreeTriosCard>();
+    int loopCount = this.deck.size();
+    for (int i = 0; i < loopCount; i++) {
+      retDeck.add(this.deck.remove(this.rand.nextInt(deck.size())));
+    }
+    this.deck = retDeck;
   }
 
   /**

@@ -1,5 +1,8 @@
 package cs3500.threetrios.model.card;
 
+/**
+ * Represents a generic card for ThreeTrios.
+ */
 public interface Card {
 
   /**

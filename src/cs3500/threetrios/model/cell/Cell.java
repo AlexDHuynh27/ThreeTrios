@@ -20,8 +20,20 @@ public interface Cell {
    */
   void setCard(ThreeTriosCard card);
 
+  /**
+   * Gets the ThreeTriosCard of this cell. If this cell is a hole or if the cell is empty, it will
+   * return null.
+   * @return The ThreeTriosCard of this cell or null.
+   */
   ThreeTriosCard getCard();
 
+  /**
+   * Given a direction and a
+   * @param other The cell that is being attacked.
+   * @param dir The direction in which this cell is attacking the other cell.
+   * @return True if this cell won the battle. False if this cell can't battle, if this cell has the same color as
+   * the cell it is attacking, or if the cell that is being attacked can't battle.
+   */
   boolean battleCell(Cell other, Direction dir);
 
 

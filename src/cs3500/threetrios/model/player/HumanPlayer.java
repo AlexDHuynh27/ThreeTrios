@@ -12,9 +12,12 @@ import java.util.List;
  * Represents a Player that is human and actually playing the game based off of a user input.
  */
 public class HumanPlayer implements Player {
-  List<ThreeTriosCard> hand;
-  CardColor color;
+  private final List<ThreeTriosCard> hand;
+  private CardColor color;
 
+  /**
+   * The constructor for a HumanPlayer. Sets the hand to an empty ArrayList.
+   */
   public HumanPlayer() {
     hand = new ArrayList<>();
   }
@@ -30,6 +33,9 @@ public class HumanPlayer implements Player {
 
   @Override
   public ThreeTriosCard playFromHand(int idx) {
+    if (idx < 0 || idx >= hand.size()) {
+      throw new IllegalArgumentException("Index out of bounds " + idx);
+    }
     return this.hand.remove(idx);
   }
 

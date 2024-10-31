@@ -12,7 +12,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class that can read configuration files and produce a List of Lists of Cells.
+ */
 public class GridReader {
+
+  /**
+   * Reads a configuration file with a specified format and produces a List of Lists of Cells
+   * that represents a Grid. The first line of the configuration file should be broken into two
+   * parts seperated by a single space. The first part of the first line should represent the
+   * amount of rows in the List of Lists and the second part should represent the amount of columns
+   * in the List of Lists. The second line of the configuration file and onwards represents
+   * the grid, where each row is seperated by a new line. Each character on the second line and
+   * onwards must be a "X" or a "C". "X" represents a Hole and "C" represents a CardCell. Any
+   * lines after the row size will be ignored as will any characters after the given column size
+   * @param filename The name and path(if necessary) of the configuration file.
+   * @return A List of Lists of Cells based on the given grid configuration file and the specified
+   * format.
+   * @throws IllegalArgumentException If the configuration file doesn't match the specified format.
+   * @throws IllegalArgumentException if the card in the deck don't have unique names.
+   */
   public static List<List<Cell>> getGridFromConfig(String filename) {
     List<List<Cell>> grid = new ArrayList<>();
     try {
