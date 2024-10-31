@@ -19,6 +19,7 @@ import cs3500.threetrios.view.ThreeTriosGameView;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
@@ -424,7 +425,7 @@ public class TestThreeTriosGameModel {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testStartGameInsufficientDeck() {
-    gameModel.startGame(grid3, deck5, redPlayer, bluePlayer); // should fail as deck is too small
+    gameModel.startGame(grid3, deck5, redPlayer, bluePlayer);
   }
 
   /**
@@ -444,8 +445,8 @@ public class TestThreeTriosGameModel {
   @Test(expected = IllegalStateException.class)
   public void testPlayToOccupiedCell() {
     gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
-    gameModel.playToGrid(0, 0, 0); // Place a card
-    gameModel.playToGrid(0, 0, 0); // Attempt to place another card in the same cell
+    gameModel.playToGrid(0, 0, 0);
+    gameModel.playToGrid(0, 0, 0);
   }
 
   /**
@@ -454,13 +455,13 @@ public class TestThreeTriosGameModel {
   @Test
   public void testBattleWithFlip() {
     gameModel.startGame(grid2, deck40, redPlayer, bluePlayer);
-    gameModel.playToGrid(0, 1, 2); // Red plays first
+    gameModel.playToGrid(0, 1, 2);
     gameModel.battle();
-    assertEquals("R", grid2.get(1).get(2).toString()); // Card should remain red after battle
+    assertEquals("R", grid2.get(1).get(2).toString());
   }
 
   /**
-   * Tests full-playthrough of game
+   * Tests playthrough of game without battle
    */
   @Test
   public void testFullGame() {
@@ -508,10 +509,9 @@ public class TestThreeTriosGameModel {
     gameModel.playToGrid(0,1,2);
     gameModel.drawHand();
     gameModel.playToGrid(0,3,2);
-    gameModel.battle();
-    System.out.println(gameModel.getGrid());
     assertTrue(gameModel.gameOver());
     assertNotEquals(redPlayer, gameModel.getWinner());
     assertNotEquals(bluePlayer, gameModel.getWinner());
+    assertNull(gameModel.getWinner());
   }
 }

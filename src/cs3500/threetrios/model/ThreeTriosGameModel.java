@@ -174,17 +174,18 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
       }
     }
 
+    gameOver = true;
     return true;
   }
 
   @Override
   public Player getWinner() {
-    if (!gameOver) {
+    if (!gameOver()) {
       throw new IllegalStateException("Cannot determine winner: game is not over.");
     }
 
-    int redCount = redPlayer.getCurrentHandSize(); // Count red player's cards
-    int blueCount = bluePlayer.getCurrentHandSize(); // Count blue player's cards
+    int redCount = redPlayer.getCurrentHandSize();
+    int blueCount = bluePlayer.getCurrentHandSize();
 
     // Count the number of cards owned on the grid
     for (List<Cell> row : grid) {
@@ -202,11 +203,12 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
 
     // Determine the winner based on card counts
     if (redCount > blueCount) {
-      return redPlayer; // Red player wins
+      return redPlayer;
     } else if (blueCount > redCount) {
-      return bluePlayer; // Blue player wins
+      return bluePlayer;
     } else {
-      return null; // It's a tie
+      // tie == null
+      return null;
     }
   }
 
