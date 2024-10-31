@@ -15,7 +15,7 @@ public class ThreeTriosGameView {
     this.out = out;
   }
 
-  public void render() throws IOException {
+  public void render() {
     try {
       out.append("Player: ").append(String.valueOf(model.getCurrentPlayerColor())).append("\n");
       List<List<Cell>> grid = model.getGrid();
@@ -32,7 +32,7 @@ public class ThreeTriosGameView {
       };
     }
     catch (IOException e) {
-      throw new IOException(e.getMessage());
+      throw new RuntimeException("Something went wrong with rendering the model");
     }
   }
 }

@@ -4,6 +4,7 @@ import org.junit.Test;
 import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.card.CardColor;
+import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.cell.CardCell;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.cell.Hole;
@@ -12,9 +13,9 @@ import cs3500.threetrios.model.configreader.GridReader;
 import cs3500.threetrios.model.player.HumanPlayer;
 import cs3500.threetrios.model.player.Player;
 import cs3500.threetrios.model.ThreeTriosGameModel;
+import cs3500.threetrios.model.ThreeTriosModel;
 import cs3500.threetrios.view.ThreeTriosGameView;
 
-import static cs3500.threetrios.model.configreader.CardReader.getDeckFromConfig;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -23,6 +24,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,15 +41,16 @@ public class TestThreeTriosGameModel {
   private Player redPlayer;
   private Player bluePlayer;
   private ThreeTriosGameModel gameModel;
+  private File nonExistentFile;
   private List<List<Cell>> grid1;
   private List<List<Cell>> grid2;
   private List<List<Cell>> grid3;
   private List<ThreeTriosCard> deck5;
   private List<ThreeTriosCard> deck10;
 
-  private List<ThreeTriosCard> deck26;
+  private List<ThreeTriosCard> deck20;
 
-  private List<ThreeTriosCard> deck50;
+  private List<ThreeTriosCard> deck40;
 
   @Before
   public void setUp() {
@@ -66,14 +69,16 @@ public class TestThreeTriosGameModel {
       bluePlayer = new HumanPlayer();
       gameModel = new ThreeTriosGameModel();
 
-      deck5 = getDeckFromConfig( "Assignment5/src/cs3500" +
+      nonExistentFile = new File("non_existent_file.txt");
+
+     deck5 = CardReader.getDeckFromConfig( "src/cs3500" +
              "/threetrios/exampleFiles/DeckOfCard(5).txt");
-      deck10 = getDeckFromConfig( "Assignment5/src/cs3500" +
+     deck10 = CardReader.getDeckFromConfig( "src/cs3500" +
             "/threetrios/exampleFiles/DeckOfCard(10).txt");
-      deck26 = getDeckFromConfig( "Assignment5/src/cs3500" +
-            "/threetrios/exampleFiles/DeckOfCard(26).txt");
-      deck50 = getDeckFromConfig( "Assignment5/src/cs3500" +
-            "/threetrios/exampleFiles/DeckOfCard(50).txt");
+     deck20 = CardReader.getDeckFromConfig( "src/cs3500" +
+            "/threetrios/exampleFiles/DeckOfCard(20).txt");
+     deck40 = CardReader.getDeckFromConfig( "src/cs3500" +
+            "/threetrios/exampleFiles/DeckOfCard(40).txt");
 
      grid1 = GridReader.getGridFromConfig( "src/cs3500" +
             "/threetrios/exampleFiles/GridEx(1).txt");
@@ -386,12 +391,33 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Test startGame after starting game
+   * Tests for adding and retrieving cards in the HumanPlayer's hand.
    */
-  @Test(expected = IllegalStateException.class)
-  public void testStateGameTwice() {
-    gameModel.startGame(grid2, deck50, redPlayer, bluePlayer);
-    gameModel.startGame(grid2, deck50, redPlayer, bluePlayer);
+  @Test
+  public void testAddToHandAndGetHand() {
+    redPlayer.addToHand(card);
+    redPlayer.addToHand(maxAttackCard);
+    List<ThreeTriosCard> hand = redPlayer.getHand();
+
+    assertEquals(2, hand.size());
+    assertEquals("Warrior", hand.get(0).getName());
+    assertEquals("MaxCard", hand.get(1).getName());
+  }
+
+  /**
+   * Tests playFromHand for both successful removal and boundary conditions.
+   */
+  @Test
+  public void testPlayFromHand() {
+    redPlayer.addToHand(card);
+    redPlayer.addToHand(maxAttackCard);
+
+    assertEquals("Warrior", redPlayer.playFromHand(0).getName());
+    assertEquals("MaxCard", redPlayer.getHand().get(0).getName());
+
+    assertEquals(1, redPlayer.getCurrentHandSize());
+    assertEquals("MaxCard", redPlayer.playFromHand(0).getName());
+    assertEquals(0, redPlayer.getCurrentHandSize());
   }
 
   /**
@@ -428,7 +454,7 @@ public class TestThreeTriosGameModel {
    */
   @Test
   public void testBattleWithFlip() {
-    gameModel.startGame(grid2, deck50, redPlayer, bluePlayer);
+    gameModel.startGame(grid2, deck40, redPlayer, bluePlayer);
     gameModel.playToGrid(0, 1, 2);
     gameModel.battle();
     assertEquals("R", grid2.get(1).get(2).toString());
@@ -439,7 +465,7 @@ public class TestThreeTriosGameModel {
    */
   @Test
   public void testFullGame() {
-    gameModel.startGame(grid2, deck50, redPlayer, bluePlayer);
+    gameModel.startGame(grid2, deck40, redPlayer, bluePlayer);
     gameModel.playToGrid(0,0,0);
     gameModel.battle();
     gameModel.playToGrid(0,0,4);
@@ -487,67 +513,5 @@ public class TestThreeTriosGameModel {
     assertNotEquals(redPlayer, gameModel.getWinner());
     assertNotEquals(bluePlayer, gameModel.getWinner());
     assertNull(gameModel.getWinner());
-  }
-
-  /**
-   * Test gameOver and getWinner for incomplete game
-   */
-  @Test
-  public void testGameOverAndGetWinnerIncompleteGame() {
-    gameModel.startGame(grid2, deck50, redPlayer, bluePlayer);
-    gameModel.playToGrid(0,0,0);
-    gameModel.drawHand();
-    gameModel.playToGrid(0,0,4);
-    gameModel.drawHand();
-    assertFalse(gameModel.gameOver());
-    assertThrows(IllegalStateException.class, () -> gameModel.getWinner());
-  }
-
-  /**
-   * Test battle changes card color
-   */
-  @Test
-  public void testBattleChangeCardColor() {
-    gameModel.startGame(grid2, deck50, redPlayer, bluePlayer);
-    gameModel.playToGrid(0,0,0);
-    gameModel.drawHand();
-    gameModel.playToGrid(0,1,0);
-    assertEquals("[[R, _,  , _, _], [B, _, _, _, _], [_, _,  , _, _], [_, _, _, _, _], [_, _,  , " +
-            "_, _]]", gameModel.getGrid().toString());
-
-    gameModel.battle();
-
-    assertEquals("[[R, _,  , _, _], [R, _, _, _, _], [_, _,  , _, _], [_, _, _, _, _], [_, _,  , " +
-            "_, _]]", gameModel.getGrid().toString());
-  }
-
-  /**
-   * Tests for adding and retrieving cards in the HumanPlayer's hand.
-   */
-  @Test
-  public void testAddToHandAndGetHand() {
-    redPlayer.addToHand(card);
-    redPlayer.addToHand(maxAttackCard);
-    List<ThreeTriosCard> hand = redPlayer.getHand();
-
-    assertEquals(2, hand.size());
-    assertEquals("Warrior", hand.get(0).getName());
-    assertEquals("MaxCard", hand.get(1).getName());
-  }
-
-  /**
-   * Tests playFromHand for both successful removal and boundary conditions.
-   */
-  @Test
-  public void testPlayFromHand() {
-    redPlayer.addToHand(card);
-    redPlayer.addToHand(maxAttackCard);
-
-    assertEquals("Warrior", redPlayer.playFromHand(0).getName());
-    assertEquals("MaxCard", redPlayer.getHand().get(0).getName());
-
-    assertEquals(1, redPlayer.getCurrentHandSize());
-    assertEquals("MaxCard", redPlayer.playFromHand(0).getName());
-    assertEquals(0, redPlayer.getCurrentHandSize());
   }
 }

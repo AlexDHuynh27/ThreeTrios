@@ -76,21 +76,6 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     dealCards(cardCellCount);
   }
 
-<<<<<<< Updated upstream
-=======
-  @Override
-  public void drawHand() {
-    if (!gameStarted || gameOver) {
-      throw new IllegalStateException("Cannot draw hands: game hasn't started or is already over.");
-    }
-
-    Player currentPlayer = getCurrentPlayer();
-    while (currentPlayer.getCurrentHandSize() < handSize && !deck.isEmpty()) {
-      currentPlayer.addToHand(deck.remove(0));
-    }
-    switchTurn();
-  }
->>>>>>> Stashed changes
 
   @Override
   public void playToGrid(int curPlayerHandIdx, int row, int column) {
@@ -165,12 +150,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
       attackingCardRows.remove(0);
       attackingCardCols.remove(0);
     }
-<<<<<<< Updated upstream
     switchTurn();
-=======
-    battled = true;
-    drawHand();
->>>>>>> Stashed changes
   }
 
 
