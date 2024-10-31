@@ -18,6 +18,7 @@ import cs3500.threetrios.view.ThreeTriosGameView;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
@@ -456,5 +457,61 @@ public class TestThreeTriosGameModel {
     gameModel.playToGrid(0, 1, 2); // Red plays first
     gameModel.battle();
     assertEquals("R", grid2.get(1).get(2).toString()); // Card should remain red after battle
+  }
+
+  /**
+   * Tests full-playthrough of game
+   */
+  @Test
+  public void testFullGame() {
+    gameModel.startGame(grid2, deck40, redPlayer, bluePlayer);
+    gameModel.playToGrid(0,0,0);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,0,4);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,1,0);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,1,4);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,2,0);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,2,4);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,3,0);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,3,4);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,4,0);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,4,4);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,0,1);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,0,3);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,1,1);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,1,3);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,2,1);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,2,3);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,3,1);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,3,3);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,4,1);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,4,3);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,1,2);
+    gameModel.drawHand();
+    gameModel.playToGrid(0,3,2);
+    gameModel.battle();
+    System.out.println(gameModel.getGrid());
+    assertTrue(gameModel.gameOver());
+    assertNotEquals(redPlayer, gameModel.getWinner());
+    assertNotEquals(bluePlayer, gameModel.getWinner());
   }
 }

@@ -168,7 +168,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     // Check if all card cells on the grid are filled
     for (List<Cell> row : grid) {
       for (Cell cell : row) {
-        if (cell instanceof CardCell && !cell.isEmpty()) {
+        if (cell instanceof CardCell && cell.isEmpty()) {
           return false;
         }
       }
