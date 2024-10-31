@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Represents a Player that is human and actually playing the game based off of a user input.
+ */
 public class HumanPlayer implements Player {
   List<ThreeTriosCard> hand;
   CardColor color;
@@ -18,7 +21,7 @@ public class HumanPlayer implements Player {
 
   @Override
   public void addToHand(ThreeTriosCard card) {
-    hand.add(card);
+    this.hand.add(card);
   }
 
   public List<ThreeTriosCard> getHand() {

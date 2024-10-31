@@ -27,7 +27,6 @@ public class testMain {
     newGame.startGame(grid, deck, new HumanPlayer(), new HumanPlayer());
     newGame.playToGrid(1, 2, 2);
     newGame.battle();
-    newGame.drawHand();
     ThreeTriosGameView view = new ThreeTriosGameView(newGame, System.out);
     try {
       view.render();

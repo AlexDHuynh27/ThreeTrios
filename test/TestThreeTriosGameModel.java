@@ -53,7 +53,7 @@ public class TestThreeTriosGameModel {
   private List<ThreeTriosCard> deck40;
 
   @Before
-  public void setUp() throws IOException {
+  public void setUp() {
       card = new ThreeTriosCard("Warrior", 5, 5, 7, 6);
       maxAttackCard = new ThreeTriosCard("MaxCard", 10, 10, 10, 10);
       minAttackCard = new ThreeTriosCard("MinCard", 1, 1, 1, 1);
@@ -71,20 +71,20 @@ public class TestThreeTriosGameModel {
 
       nonExistentFile = new File("non_existent_file.txt");
 
-     deck5 = CardReader.getDeckFromConfig( "Assignment5/src/cs3500" +
+     deck5 = CardReader.getDeckFromConfig( "src/cs3500" +
              "/threetrios/exampleFiles/DeckOfCard(5).txt");
-     deck10 = CardReader.getDeckFromConfig( "Assignment5/src/cs3500" +
+     deck10 = CardReader.getDeckFromConfig( "src/cs3500" +
             "/threetrios/exampleFiles/DeckOfCard(10).txt");
-     deck20 = CardReader.getDeckFromConfig( "Assignment5/src/cs3500" +
+     deck20 = CardReader.getDeckFromConfig( "src/cs3500" +
             "/threetrios/exampleFiles/DeckOfCard(20).txt");
-     deck40 = CardReader.getDeckFromConfig( "Assignment5/src/cs3500" +
+     deck40 = CardReader.getDeckFromConfig( "src/cs3500" +
             "/threetrios/exampleFiles/DeckOfCard(40).txt");
 
-     grid1 = GridReader.getGridFromConfig( "Assignment5/src/cs3500" +
+     grid1 = GridReader.getGridFromConfig( "src/cs3500" +
             "/threetrios/exampleFiles/GridEx(1).txt");
-     grid2 = GridReader.getGridFromConfig( "Assignment5/src/cs3500" +
+     grid2 = GridReader.getGridFromConfig( "src/cs3500" +
             "/threetrios/exampleFiles/GridEx(2).txt");
-     grid3 = GridReader.getGridFromConfig( "Assignment5/src/cs3500" +
+     grid3 = GridReader.getGridFromConfig( "src/cs3500" +
             "/threetrios/exampleFiles/GridEx(3).txt");
   }
 
@@ -434,7 +434,7 @@ public class TestThreeTriosGameModel {
   @Test
   public void testPlayToGrid() {
     gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0, 0, 0);
     assertFalse(grid1.get(0).get(0).isEmpty());
   }
@@ -467,47 +467,47 @@ public class TestThreeTriosGameModel {
   public void testFullGame() {
     gameModel.startGame(grid2, deck40, redPlayer, bluePlayer);
     gameModel.playToGrid(0,0,0);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,0,4);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,1,0);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,1,4);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,2,0);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,2,4);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,3,0);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,3,4);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,4,0);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,4,4);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,0,1);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,0,3);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,1,1);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,1,3);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,2,1);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,2,3);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,3,1);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,3,3);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,4,1);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,4,3);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,1,2);
-    gameModel.drawHand();
+    gameModel.battle();
     gameModel.playToGrid(0,3,2);
     assertTrue(gameModel.gameOver());
     assertNotEquals(redPlayer, gameModel.getWinner());

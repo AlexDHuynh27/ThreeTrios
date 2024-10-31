@@ -33,7 +33,6 @@ public class CardReader {
       }
       String[] lines = fileContent.toString().split("\n");
       String[] attributes;
-      System.out.println(lines[0]);
       for (String line : lines) {
         attributes = line.split("\\s");
         if (attributes.length != 5 ) {

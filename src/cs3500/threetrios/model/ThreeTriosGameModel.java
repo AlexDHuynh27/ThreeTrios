@@ -3,6 +3,7 @@ package cs3500.threetrios.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
@@ -19,13 +20,20 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   private Player redPlayer;
   private Player bluePlayer;
   private CardColor colorTurn;
-  private boolean battled;
   private boolean playedToGrid;
   private boolean gameStarted;
   private boolean gameOver;
   private List<Integer> attackingCardRows;
   private List<Integer> attackingCardCols;
   private int handSize;
+
+  public ThreeTriosGameModel() {
+  }
+
+  public ThreeTriosGameModel(Random random) {
+
+  }
+
 
   @Override
   public void startGame(List<List<Cell>> grid, List<ThreeTriosCard> deck, Player redPlayer,
@@ -68,19 +76,6 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     dealCards(cardCellCount);
   }
 
-  @Override
-  public void drawHand() {
-    if (!gameStarted || gameOver) {
-      throw new IllegalStateException("Cannot draw hands: game hasn't started or is already over.");
-    }
-
-    Player currentPlayer = getCurrentPlayer();
-    while (currentPlayer.getCurrentHandSize() < handSize && !deck.isEmpty()) {
-      currentPlayer.addToHand(deck.remove(0));
-    }
-    switchTurn();
-
-  }
 
   @Override
   public void playToGrid(int curPlayerHandIdx, int row, int column) {
@@ -155,7 +150,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
       attackingCardRows.remove(0);
       attackingCardCols.remove(0);
     }
-    battled = true;
+    switchTurn();
   }
 
 
@@ -271,7 +266,6 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   public void switchTurn() {
     colorTurn = (colorTurn == CardColor.RED) ? CardColor.BLUE : CardColor.RED;
     playedToGrid = false;
-    battled = false;
   }
 
   private Player getCurrentPlayer() {

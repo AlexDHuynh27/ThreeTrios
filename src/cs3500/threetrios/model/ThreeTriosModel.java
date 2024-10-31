@@ -27,12 +27,6 @@ public interface ThreeTriosModel {
    */
   void startGame(List<List<Cell>> grid, List<ThreeTriosCard> deck, Player redPlayer, Player bluePlayer);
 
-  /**
-   * Makes the current player draw cards until their hand is full or the deck is out of cards.
-   * @throws IllegalStateException if the game hasn't started or is over.
-   * @throws IllegalStateException if the current player hasn't played a card or battled yet.
-   */
-  void drawHand();
 
   /**
    * Plays the given card to the given row and column coordinates CardCell on the grid.
@@ -50,7 +44,7 @@ public interface ThreeTriosModel {
   /**
    * Initiates the battle phase, changing the colors of any cards that lost to the current players play.
    * @throws IllegalStateException if the game hasn't started or is over.
-   * @throws IllegalStateException if a card hasn't been played this turn yet.
+   * @throws IllegalStateException if a card hasn't been played to the grid this turn yet.
    */
   void battle();
 
@@ -68,8 +62,17 @@ public interface ThreeTriosModel {
    * */
   Player getWinner();
 
+  /**
+   * Returns an immutable list of the hand of the player that is associated with the given color
+   * @param color The card color to know which player's hand to retrieve
+   * @return The hand of the player that matches the given color.
+   */
   List<ThreeTriosCard> getHand(CardColor color);
 
+  /**
+   * Returns
+   * @return
+   */
   CardColor getCurrentPlayerColor();
 
   List<List<Cell>> getGrid();
