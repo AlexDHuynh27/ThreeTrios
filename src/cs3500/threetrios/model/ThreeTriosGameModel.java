@@ -228,7 +228,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   public List<List<Cell>> getGrid() {
     return List.copyOf(this.grid);
   }
-  
+
   /**
    * Deals cards randomly to both players until their hands are filled.
    * Each player gets (N+1)/2 cards, where N is the number of card cells.
