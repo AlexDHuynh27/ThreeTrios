@@ -18,3 +18,9 @@ Zebra 6 3 7 4
 Jaguar 8 9 10 5
 Leopard 5 7 4 6
 Buffalo 9 8 2 10
+Owl 4 6 9 5
+Lynx 7 3 8 10
+Raccoon 5 10 4 7
+Otter 8 5 6 9
+Cobra 6 4 7 8
+Mongoose 3 9 10 5

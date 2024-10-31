@@ -38,3 +38,13 @@ Lynx 4 10 8 5
 Raven 6 3 9 7
 Marmot 5 8 7 4
 Beaver 9 7 6 10
+Dolphin 7 5 8 9
+Bat 6 4 10 7
+Antelope 9 3 6 8
+Puma 8 7 4 5
+Hyena 5 6 9 10
+Vulture 10 8 7 3
+Orca 4 9 5 6
+Mole 3 7 8 10
+Mouse 7 10 6 5
+Ferret 8 4 9 6
