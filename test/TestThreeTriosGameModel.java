@@ -448,9 +448,8 @@ public class TestThreeTriosGameModel {
     assertTrue(filledCardCell.battleCell(weakerCell, Direction.WEST));
   }
 
-
   /**
-   * Tests for adding and retrieving cards in the HumanPlayer's hand.
+   * Tests for adding and getting cards in the HumanPlayer's hand.
    */
   @Test
   public void testAddToHandAndGetHand() {
@@ -464,10 +463,10 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Tests playFromHand for both successful removal and boundary conditions.
+   * Tests playFromHand for removal of card and getCurrentHandSize to make sure hand is updated.
    */
   @Test
-  public void testPlayFromHand() {
+  public void testPlayFromHandAndCurrentHandSize() {
     redPlayer.addToHand(card);
     redPlayer.addToHand(maxAttackCard);
 
@@ -477,6 +476,44 @@ public class TestThreeTriosGameModel {
     assertEquals(1, redPlayer.getCurrentHandSize());
     assertEquals("MaxCard", redPlayer.playFromHand(0).getName());
     assertEquals(0, redPlayer.getCurrentHandSize());
+  }
+
+  /**
+   * Test setColor and getColor for HumanPlayer in case of both colors.
+   */
+  @Test
+  public void testSetColorSuccessfully() {
+    redPlayer.setColor(CardColor.RED);
+    bluePlayer.setColor(CardColor.BLUE);
+
+    assertEquals(CardColor.RED, redPlayer.getColor());
+    assertEquals(CardColor.BLUE, bluePlayer.getColor());
+  }
+
+  /**
+   * Tests setting color twice should throw an exception (different color)
+   */
+  @Test(expected = IllegalStateException.class)
+  public void testSetColorThrowsExceptionIfAlreadySet() {
+    redPlayer.setColor(CardColor.RED);
+    redPlayer.setColor(CardColor.BLUE);
+  }
+
+  /**
+   * Tests setting color twice should throw an exception (same color)
+   */
+  @Test(expected = IllegalStateException.class)
+  public void testSetColorThrowsExceptionIfAlreadySet2() {
+    redPlayer.setColor(CardColor.RED);
+    redPlayer.setColor(CardColor.RED);
+  }
+
+  /**
+   * Tests getColor before setting color should throw an exception.
+   */
+  @Test(expected = IllegalStateException.class)
+  public void testGetColorThrowsExceptionIfColorNotSet() {
+    redPlayer.getColor();
   }
 
   /**

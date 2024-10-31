@@ -16,7 +16,7 @@ public class HumanPlayer implements Player {
   CardColor color;
 
   public HumanPlayer() {
-    hand = new ArrayList<ThreeTriosCard>();
+    hand = new ArrayList<>();
   }
 
   @Override
@@ -31,13 +31,11 @@ public class HumanPlayer implements Player {
   @Override
   public ThreeTriosCard playFromHand(int idx) {
     return this.hand.remove(idx);
-
   }
 
   @Override
   public int getCurrentHandSize() {
     return this.hand.size();
-
   }
 
   @Override
