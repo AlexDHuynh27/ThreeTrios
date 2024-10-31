@@ -266,7 +266,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     return cardCellCount;
   }
 
-  private void switchTurn() {
+  public void switchTurn() {
     colorTurn = (colorTurn == CardColor.RED) ? CardColor.BLUE : CardColor.RED;
     playedToGrid = false;
     battled = false;

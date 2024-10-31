@@ -14,6 +14,7 @@ import cs3500.threetrios.model.player.HumanPlayer;
 import cs3500.threetrios.model.player.Player;
 import cs3500.threetrios.model.ThreeTriosGameModel;
 import cs3500.threetrios.model.ThreeTriosModel;
+import cs3500.threetrios.view.ThreeTriosGameView;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -39,6 +40,15 @@ public class TestThreeTriosGameModel {
   private Player bluePlayer;
   private ThreeTriosGameModel gameModel;
   private File nonExistentFile;
+  private List<List<Cell>> grid1;
+  private List<List<Cell>> grid2;
+  private List<List<Cell>> grid3;
+  private List<ThreeTriosCard> deck5;
+  private List<ThreeTriosCard> deck10;
+
+  private List<ThreeTriosCard> deck20;
+
+  private List<ThreeTriosCard> deck40;
 
   @Before
   public void setUp() throws IOException {
@@ -58,7 +68,23 @@ public class TestThreeTriosGameModel {
       gameModel = new ThreeTriosGameModel();
 
       nonExistentFile = new File("non_existent_file.txt");
-    }
+
+     deck5 = CardReader.getDeckFromConfig( "Assignment5/src/cs3500" +
+             "/threetrios/exampleFiles/DeckOfCard(5).txt");
+     deck10 = CardReader.getDeckFromConfig( "Assignment5/src/cs3500" +
+            "/threetrios/exampleFiles/DeckOfCard(10).txt");
+     deck20 = CardReader.getDeckFromConfig( "Assignment5/src/cs3500" +
+            "/threetrios/exampleFiles/DeckOfCard(20).txt");
+     deck40 = CardReader.getDeckFromConfig( "Assignment5/src/cs3500" +
+            "/threetrios/exampleFiles/DeckOfCard(40).txt");
+
+     grid1 = GridReader.getGridFromConfig( "Assignment5/src/cs3500" +
+            "/threetrios/exampleFiles/GridEx(1).txt");
+     grid2 = GridReader.getGridFromConfig( "Assignment5/src/cs3500" +
+            "/threetrios/exampleFiles/GridEx(2).txt");
+     grid3 = GridReader.getGridFromConfig( "Assignment5/src/cs3500" +
+            "/threetrios/exampleFiles/GridEx(3).txt");
+  }
 
   /**
    * Test for retrieving the card name.
@@ -390,5 +416,45 @@ public class TestThreeTriosGameModel {
     assertEquals(1, redPlayer.getCurrentHandSize());
     assertEquals("MaxCard", redPlayer.playFromHand(0).getName());
     assertEquals(0, redPlayer.getCurrentHandSize());
+  }
+
+  /**
+   * Tests starting the game with an insufficient deck, expecting an exception.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testStartGameInsufficientDeck() {
+    gameModel.startGame(grid3, deck5, redPlayer, bluePlayer); // should fail as deck is too small
+  }
+
+  /**
+   * Tests playing a card to the grid, validating successful placement.
+   */
+  @Test
+  public void testPlayToGrid() {
+    gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
+    gameModel.drawHand();
+    gameModel.playToGrid(0, 0, 0);
+    assertFalse(grid1.get(0).get(0).isEmpty());
+  }
+
+  /**
+   * Tests playing a card to an occupied cell, expecting an exception.
+   */
+  @Test(expected = IllegalStateException.class)
+  public void testPlayToOccupiedCell() {
+    gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
+    gameModel.playToGrid(0, 0, 0); // Place a card
+    gameModel.playToGrid(0, 0, 0); // Attempt to place another card in the same cell
+  }
+
+  /**
+   * Tests that initiating battle does not result in flipped cards.
+   */
+  @Test
+  public void testBattleWithFlip() {
+    gameModel.startGame(grid2, deck40, redPlayer, bluePlayer);
+    gameModel.playToGrid(0, 1, 2); // Red plays first
+    gameModel.battle();
+    assertEquals("R", grid2.get(1).get(2).toString()); // Card should remain red after battle
   }
 }

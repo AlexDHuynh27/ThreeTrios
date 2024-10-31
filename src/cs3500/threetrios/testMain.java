@@ -18,10 +18,10 @@ import java.util.List;
 
 public class testMain {
   public static void main(String[] args) {
-    List<ThreeTriosCard> deck = CardReader.getDeckFromConfig("src/cs3500/threetrios/Hello.txt");
+    List<ThreeTriosCard> deck = CardReader.getDeckFromConfig("Assignment5/src/cs3500/threetrios/exampleFiles/Hello.txt");
     System.out.println(deck);
 
-    List<List<Cell>> grid = GridReader.getGridFromConfig("src/cs3500/threetrios/gridconfig1.txt");
+    List<List<Cell>> grid = GridReader.getGridFromConfig("Assignment5/src/cs3500/threetrios/exampleFiles/gridconfig1.txt");
     System.out.println(grid);
     ThreeTriosGameModel newGame = new ThreeTriosGameModel();
     newGame.startGame(grid, deck, new HumanPlayer(), new HumanPlayer());
@@ -35,8 +35,6 @@ public class testMain {
     catch(IOException e) {
       System.out.println("hi");
     }
-
-
   }
 
 }
