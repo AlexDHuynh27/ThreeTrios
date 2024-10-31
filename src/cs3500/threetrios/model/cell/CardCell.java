@@ -4,6 +4,10 @@ import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 
+/**
+ * Represents a Cell that can have a card within it, CardCell can either have a null card (Empty
+ * CardCell) or nonnull card (Filled CardCell).
+ */
 public class CardCell implements Cell{
   private ThreeTriosCard card;
 

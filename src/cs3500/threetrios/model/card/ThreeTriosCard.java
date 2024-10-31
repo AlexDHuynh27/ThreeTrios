@@ -1,8 +1,10 @@
 package cs3500.threetrios.model.card;
 
 /**
- * Represents a card in the ThreeTrios game. A card has a name, and four attack values, one for each side of the card.
- * A card also has a CardColor that is associated with the player that owns the card that can change.
+ * Represents a card in the ThreeTrios game. A card has a name, and four attack values, one for
+ * each side of the card.
+ * A card also has a CardColor that is associated with the player that owns the card that can
+ * change.
  */
 public class ThreeTriosCard implements Card {
   private final String name;
