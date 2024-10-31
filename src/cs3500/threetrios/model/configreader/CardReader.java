@@ -1,6 +1,5 @@
 package cs3500.threetrios.model.configreader;
 
-import com.sun.jdi.connect.Connector;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 
 import java.io.FileNotFoundException;
@@ -31,6 +30,7 @@ public class CardReader {
    * space, the five parts together represents a card. The first part represents the
    * name of a card. The four other parts represent the attack values of the North, South,
    * East, and Wests sides respectively.
+   *
    * @param filename The name and path(if necessary) of the configuration file to read.
    * @return A List of ThreeTriosCards based on the given deck configuration file.
    * @throws IllegalArgumentException If the configuration file doesn't match the specified format.
@@ -55,27 +55,24 @@ public class CardReader {
       // Segments the parts of each line and adds a new card into deck
       for (String line : lines) {
         attributes = line.split("\\s");
-        if (attributes.length != 5 ) {
+        if (attributes.length != 5) {
           throw new IllegalArgumentException("Invalid card format");
         }
-        deck.add(new ThreeTriosCard(attributes[0], Integer.parseInt(attributes[1]), Integer.parseInt(attributes[2]),
-            Integer.parseInt(attributes[3]), Integer.parseInt(attributes[4])));
+        deck.add(new ThreeTriosCard(attributes[0], Integer.parseInt(attributes[1]),
+                Integer.parseInt(attributes[2]),
+                Integer.parseInt(attributes[3]), Integer.parseInt(attributes[4])));
       }
 
       if (!uniqueDeck(deck)) {
         throw new IllegalArgumentException("Cards must have unique names");
-      }
-      else {
+      } else {
         return deck;
       }
-    }
-    catch (FileNotFoundException e) {
+    } catch (FileNotFoundException e) {
       throw new IllegalArgumentException("File Not Found");
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
       throw new RuntimeException(e);
-    }
-    catch (NumberFormatException e) {
+    } catch (NumberFormatException e) {
       throw new IllegalArgumentException("Invalid card format");
     }
   }

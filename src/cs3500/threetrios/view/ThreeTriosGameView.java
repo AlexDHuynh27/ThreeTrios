@@ -8,16 +8,17 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * A class that renders the ThreeTriosGame when given the model and acessing
+ * A class that renders the ThreeTriosGame when given the model.
  */
 public class ThreeTriosGameView {
   ThreeTriosModel model;
   Appendable out;
 
   /**
-   * Constructor for the ThreeTriosGame
-   * @param model
-   * @param out
+   * Constructor for the ThreeTriosGame.
+   *
+   * @param model a game model of ThreeTriosModel
+   * @param out   an Appendable out
    */
   public ThreeTriosGameView(ThreeTriosModel model, Appendable out) {
     this.model = model;
@@ -36,11 +37,10 @@ public class ThreeTriosGameView {
       }
       List<ThreeTriosCard> hand = model.getHand(model.getCurrentPlayerColor());
       out.append("Hand:\n");
-      for (int i = 0; i < hand.size(); i++) {
-        out.append(hand.get(i).toString()).append("\n");
-      };
-    }
-    catch (IOException e) {
+      for (ThreeTriosCard threeTriosCard : hand) {
+        out.append(threeTriosCard.toString()).append("\n");
+      }
+    } catch (IOException e) {
       throw new RuntimeException("Something went wrong with rendering the model");
     }
   }
