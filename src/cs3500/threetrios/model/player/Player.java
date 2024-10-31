@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface Player {
   /**
-   * Adds the given card to the hand of this player.
+   * Adds the given card to the hand of this player and sets the color of the card, to the
+   * color of this player.
+   * @throws IllegalStateException if the color of this player hasn't been set.
    */
   void addToHand(ThreeTriosCard card);
 

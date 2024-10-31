@@ -4,6 +4,9 @@ import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 
+/**
+ * Interface for a Cell of ThreeTriosGame. Right now can either be a CardCell or Hole.
+ */
 public interface Cell {
 
   /**
@@ -28,11 +31,14 @@ public interface Cell {
   ThreeTriosCard getCard();
 
   /**
-   * Given a direction and a
-   * @param other The cell that is being attacked.
-   * @param dir The direction in which this cell is attacking the other cell.
-   * @return True if this cell won the battle. False if this cell can't battle, if this cell has the same color as
-   * the cell it is attacking, or if the cell that is being attacked can't battle.
+   * Compares an attack value of this Cell's card to an attack value of other's card based on the given direction.
+   * North attacks South, West attacks East and vice versa for both.
+   * @param other The cell that is being attacked
+   * @param dir The direction of this Cell's card that is attacking
+   * @return True if this cell's attack value is greater in the direction it is attacking.
+   * False if the other cell's attack value is higher in the direction it is being attacked
+   * if the other cell is empty, if the other cell is the same color, or if the other or this
+   * cell is a hole.
    */
   boolean battleCell(Cell other, Direction dir);
 

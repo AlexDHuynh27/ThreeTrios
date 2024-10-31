@@ -35,15 +35,9 @@ public class CardCell implements Cell{
     return card == null;
   }
 
-  /**
-   * Compares an attack value of this Cell's card to an attack value of other's card based on the givern direction.
-   * dir
-   * @param other The cell that is begin attacked
-   * @param dir The direction of this Cell's card that is attacking
-   * @return True if this cell
-   */
+  @Override
   public boolean battleCell(Cell other, Direction dir) {
-    if (other.toString().equals("_") || other.toString().equals(toString()) || other.toString().equals(" ")) {
+    if (other.isEmpty() || other.toString().equals(toString()) || other.toString().equals(" ")) {
       return false;
     }
     switch(dir) {
@@ -67,7 +61,6 @@ public class CardCell implements Cell{
   public ThreeTriosCard getCard() {
     return this.card;
   }
-
 
   /**
    * Returns the string representation of this cell.

@@ -111,12 +111,10 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     else {
       if (colorTurn == CardColor.RED) {
         ThreeTriosCard card = redPlayer.playFromHand(curPlayerHandIdx);
-        card.setColor(colorTurn);
         grid.get(row).get(column).setCard(card);
       }
       else {
         ThreeTriosCard card = bluePlayer.playFromHand(curPlayerHandIdx);
-        card.setColor(colorTurn);
         grid.get(row).get(column).setCard(card);
       }
       attackingCardRows.add(row);
@@ -267,8 +265,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
    */
   private void dealCards(int cardCellCount) {
     int handSize = (cardCellCount + 1) / 2;
-
-    Collections.shuffle(deck);
+    shuffle();
 
     // distribute cards to red
     for (int i = 0; i < handSize; i++) {
@@ -300,10 +297,6 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   private void switchTurn() {
     colorTurn = (colorTurn == CardColor.RED) ? CardColor.BLUE : CardColor.RED;
     playedToGrid = false;
-  }
-
-  private Player getCurrentPlayer() {
-    return (colorTurn == CardColor.RED) ? redPlayer : bluePlayer;
   }
 
 }

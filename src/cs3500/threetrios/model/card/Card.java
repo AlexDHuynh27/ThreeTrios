@@ -19,6 +19,10 @@ public interface Card {
    */
   void flip();
 
+  /**
+   * Returns a String that represents the card.
+   * @return A String representation of the card.
+   */
   String toString();
 
 }
