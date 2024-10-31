@@ -48,44 +48,36 @@ public class TestThreeTriosGameModel {
   private List<ThreeTriosCard> deck5;
   private List<ThreeTriosCard> deck10;
 
-  private List<ThreeTriosCard> deck20;
+  private List<ThreeTriosCard> deck26;
 
-  private List<ThreeTriosCard> deck40;
+  private List<ThreeTriosCard> deck50;
 
   @Before
   public void setUp() {
-      card = new ThreeTriosCard("Warrior", 5, 5, 7, 6);
-      maxAttackCard = new ThreeTriosCard("MaxCard", 10, 10, 10, 10);
-      minAttackCard = new ThreeTriosCard("MinCard", 1, 1, 1, 1);
-      filledCard = new ThreeTriosCard("Filled", 6, 2, 1, 3);
-      hole = new Hole();
-      emptyCardCell = new CardCell();
-      filledCardCell = new CardCell();
+    card = new ThreeTriosCard("Warrior", 5, 5, 7, 6);
+    maxAttackCard = new ThreeTriosCard("MaxCard", 10, 10, 10, 10);
+    minAttackCard = new ThreeTriosCard("MinCard", 1, 1, 1, 1);
+    filledCard = new ThreeTriosCard("Filled", 6, 2, 1, 3);
+    hole = new Hole();
+    emptyCardCell = new CardCell();
+    filledCardCell = new CardCell();
 
-      filledCard.setColor(CardColor.RED);
-      filledCardCell.setCard(filledCard);
+    filledCard.setColor(CardColor.RED);
+    filledCardCell.setCard(filledCard);
 
-      redPlayer = new HumanPlayer();
-      bluePlayer = new HumanPlayer();
-      gameModel = new ThreeTriosGameModel();
+    redPlayer = new HumanPlayer();
+    bluePlayer = new HumanPlayer();
+    gameModel = new ThreeTriosGameModel();
 
-      nonExistentFile = new File("non_existent_file.txt");
+    deck5 = CardReader.getDeckFromConfig("Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(5).txt");
+    deck10 = CardReader.getDeckFromConfig("Assignment5/src/cs3500/threetrios/exampleFiles" +
+            "/DeckOfCard(10).txt");
+    deck26 = CardReader.getDeckFromConfig("Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(26).txt");
+    deck50 = CardReader.getDeckFromConfig("Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
 
-     deck5 = CardReader.getDeckFromConfig( "src/cs3500" +
-             "/threetrios/exampleFiles/DeckOfCard(5).txt");
-     deck10 = CardReader.getDeckFromConfig( "src/cs3500" +
-            "/threetrios/exampleFiles/DeckOfCard(10).txt");
-     deck20 = CardReader.getDeckFromConfig( "src/cs3500" +
-            "/threetrios/exampleFiles/DeckOfCard(20).txt");
-     deck40 = CardReader.getDeckFromConfig( "src/cs3500" +
-            "/threetrios/exampleFiles/DeckOfCard(40).txt");
-
-     grid1 = GridReader.getGridFromConfig( "src/cs3500" +
-            "/threetrios/exampleFiles/GridEx(1).txt");
-     grid2 = GridReader.getGridFromConfig( "src/cs3500" +
-            "/threetrios/exampleFiles/GridEx(2).txt");
-     grid3 = GridReader.getGridFromConfig( "src/cs3500" +
-            "/threetrios/exampleFiles/GridEx(3).txt");
+    grid1 = GridReader.getGridFromConfig("Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
+    grid2 = GridReader.getGridFromConfig("Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(2).txt");
+    grid3 = GridReader.getGridFromConfig("Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(3).txt");
   }
 
   /**
@@ -246,28 +238,6 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Test minimum attack values to ensure they are within bounds.
-   */
-  @Test
-  public void testMinimumAttackValues() {
-    assertEquals(1, minAttackCard.getAttack(Direction.NORTH));
-    assertEquals(1, minAttackCard.getAttack(Direction.SOUTH));
-    assertEquals(1, minAttackCard.getAttack(Direction.EAST));
-    assertEquals(1, minAttackCard.getAttack(Direction.WEST));
-  }
-
-  /**
-   * Test maximum attack values to ensure they are within bounds.
-   */
-  @Test
-  public void testMaximumAttackValues() {
-    assertEquals(10, maxAttackCard.getAttack(Direction.NORTH));
-    assertEquals(10, maxAttackCard.getAttack(Direction.SOUTH));
-    assertEquals(10, maxAttackCard.getAttack(Direction.EAST));
-    assertEquals(10, maxAttackCard.getAttack(Direction.WEST));
-  }
-
-  /**
    * Test Hole's toString method to verify it returns a space.
    */
   @Test
@@ -300,6 +270,31 @@ public class TestThreeTriosGameModel {
   }
 
   /**
+   * Test battleCell on Hole, which should return false for all Cell Types and Directions.
+   */
+  @Test
+  public void testHoleBattleCellIsFalse() {
+    assertFalse(hole.battleCell(hole, Direction.NORTH));
+    assertFalse(hole.battleCell(hole, Direction.SOUTH));
+    assertFalse(hole.battleCell(hole, Direction.EAST));
+    assertFalse(hole.battleCell(hole, Direction.WEST));
+
+    assertFalse(hole.battleCell(new CardCell(), Direction.NORTH));
+    assertFalse(hole.battleCell(new CardCell(), Direction.SOUTH));
+    assertFalse(hole.battleCell(new CardCell(), Direction.EAST));
+    assertFalse(hole.battleCell(new CardCell(), Direction.WEST));
+
+  }
+
+  /**
+   * Test getCard on Hole, which should return null.
+   */
+  @Test
+  public void testHoleGetCardIsNull() {
+    assertNull(hole.getCard());
+  }
+
+  /**
    * Test toString for an empty CardCell, should return "_".
    */
   @Test
@@ -308,11 +303,16 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Test toString for a filled CardCell with a red card, should return "R".
+   * Test toString for a filled CardCell with a red card, should return "R" and should return "B"
+   * after being flipped.
    */
   @Test
   public void testFilledCardCellToString() {
     assertEquals("R", filledCardCell.toString());
+
+    filledCardCell.flipCell();
+
+    assertEquals("B", filledCardCell.toString());
   }
 
   /**
@@ -325,7 +325,7 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Test setting a card in an empty CardCell.
+   * Test setting a card in an empty CardCell for Color BLUE.
    */
   @Test
   public void testSetCardInEmptyCell() {
@@ -391,6 +391,65 @@ public class TestThreeTriosGameModel {
   }
 
   /**
+   * Test getting a Card with getCard(), should return null if empty CardCell
+   */
+  @Test
+  public void testGetCard() {
+    assertEquals(filledCard, filledCardCell.getCard());
+
+    assertNull(emptyCardCell.getCard());
+
+    maxAttackCard.setColor(CardColor.BLUE);
+    emptyCardCell.setCard(maxAttackCard);
+    assertEquals(maxAttackCard, emptyCardCell.getCard());
+  }
+
+
+  /**
+   * Test battleCell for empty Cell in all directions, should be false
+   */
+  @Test
+  public void testBattleCellWithEmptyCell() {
+    assertFalse(filledCardCell.battleCell(emptyCardCell, Direction.NORTH));
+    assertFalse(filledCardCell.battleCell(emptyCardCell, Direction.SOUTH));
+    assertFalse(filledCardCell.battleCell(emptyCardCell, Direction.EAST));
+    assertFalse(filledCardCell.battleCell(emptyCardCell, Direction.WEST));
+  }
+
+  /**
+   * Test battleCell for stronger cell in all directions, should be false
+   */
+  @Test
+  public void testBattleCellWithStrongerCell() {
+    CardCell strongerCell = new CardCell();
+    maxAttackCard.setColor(CardColor.RED);
+    strongerCell.setCard(maxAttackCard);
+
+    assertFalse(filledCardCell.battleCell(strongerCell, Direction.NORTH));
+    assertFalse(filledCardCell.battleCell(strongerCell, Direction.SOUTH));
+    assertFalse(filledCardCell.battleCell(strongerCell, Direction.EAST));
+    assertFalse(filledCardCell.battleCell(strongerCell, Direction.WEST));
+  }
+
+  /**
+   * Test battleCell for weaker cell in all directions, should be true, but if the same number,
+   * should be false.
+   */
+  @Test
+  public void testBattleCellWithWeakerCell() {
+    CardCell weakerCell = new CardCell();
+    minAttackCard.setColor(CardColor.BLUE);
+    weakerCell.setCard(minAttackCard);
+
+    assertTrue(filledCardCell.battleCell(weakerCell, Direction.NORTH));
+    assertTrue(filledCardCell.battleCell(weakerCell, Direction.SOUTH));
+    // False (same number) -> have to win if attacking
+    assertFalse(filledCardCell.battleCell(weakerCell, Direction.EAST));
+    assertTrue(filledCardCell.battleCell(weakerCell, Direction.WEST));
+  }
+
+
+  /**
    * Tests for adding and retrieving cards in the HumanPlayer's hand.
    */
   @Test
@@ -454,7 +513,7 @@ public class TestThreeTriosGameModel {
    */
   @Test
   public void testBattleWithFlip() {
-    gameModel.startGame(grid2, deck40, redPlayer, bluePlayer);
+    gameModel.startGame(grid2, deck50, redPlayer, bluePlayer);
     gameModel.playToGrid(0, 1, 2);
     gameModel.battle();
     assertEquals("R", grid2.get(1).get(2).toString());
@@ -465,7 +524,7 @@ public class TestThreeTriosGameModel {
    */
   @Test
   public void testFullGame() {
-    gameModel.startGame(grid2, deck40, redPlayer, bluePlayer);
+    gameModel.startGame(grid2, deck50, redPlayer, bluePlayer);
     gameModel.playToGrid(0,0,0);
     gameModel.battle();
     gameModel.playToGrid(0,0,4);
