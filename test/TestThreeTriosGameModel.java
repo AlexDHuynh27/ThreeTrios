@@ -53,7 +53,9 @@ public class TestThreeTriosGameModel {
       gameModel = new ThreeTriosGameModel();
     }
 
-  // Test for name retrieval
+  /**
+   * Test for retrieving the card name.
+   */
   @Test
   public void testGetName() {
     assertEquals("Warrior", card.getName());
@@ -61,7 +63,9 @@ public class TestThreeTriosGameModel {
     assertEquals("MinCard", minAttackCard.getName());
   }
 
-  // Test for correct retrieval of attack values
+  /**
+   * Test for retrieving the North attack value.
+   */
   @Test
   public void testGetNorthAttack() {
     assertEquals(5, card.getAttack(Direction.NORTH));
@@ -69,6 +73,9 @@ public class TestThreeTriosGameModel {
     assertEquals(1, minAttackCard.getAttack(Direction.NORTH));
   }
 
+  /**
+   * Test for retrieving the South attack value.
+   */
   @Test
   public void testGetSouthAttack() {
     assertEquals(5, card.getAttack(Direction.SOUTH));
@@ -76,6 +83,9 @@ public class TestThreeTriosGameModel {
     assertEquals(1, minAttackCard.getAttack(Direction.SOUTH));
   }
 
+  /**
+   * Test for retrieving the East attack value.
+   */
   @Test
   public void testGetEastAttack() {
     assertEquals(7, card.getAttack(Direction.EAST));
@@ -83,6 +93,9 @@ public class TestThreeTriosGameModel {
     assertEquals(1, minAttackCard.getAttack(Direction.EAST));
   }
 
+  /**
+   * Test for retrieving the West attack value.
+   */
   @Test
   public void testGetWestAttack() {
     assertEquals(6, card.getAttack(Direction.WEST));
@@ -90,26 +103,36 @@ public class TestThreeTriosGameModel {
     assertEquals(1, minAttackCard.getAttack(Direction.WEST));
   }
 
-  // Tests for setting color
+  /**
+   * Test setting color to RED.
+   */
   @Test
   public void testSetColorToRed() {
     card.setColor(CardColor.RED);
     assertEquals(CardColor.RED, card.getColor());
   }
 
+  /**
+   * Test setting color to BLUE.
+   */
   @Test
   public void testSetColorToBlue() {
     card.setColor(CardColor.BLUE);
     assertEquals(CardColor.BLUE, card.getColor());
   }
 
+  /**
+   * Test setting color again after it's already been set.
+   */
   @Test(expected = IllegalStateException.class)
   public void testSetColorAlreadySet() {
     card.setColor(CardColor.RED);
     card.setColor(CardColor.BLUE);
   }
 
-  // Tests for flipping the card color
+  /**
+   * Test flipping color from RED to BLUE.
+   */
   @Test
   public void testFlipFromRedToBlue() {
     card.setColor(CardColor.RED);
@@ -117,6 +140,9 @@ public class TestThreeTriosGameModel {
     assertEquals(CardColor.BLUE, card.getColor());
   }
 
+  /**
+   * Test flipping color from BLUE to RED.
+   */
   @Test
   public void testFlipFromBlueToRed() {
     card.setColor(CardColor.BLUE);
@@ -124,30 +150,43 @@ public class TestThreeTriosGameModel {
     assertEquals(CardColor.RED, card.getColor());
   }
 
+  /**
+   * Test flipping color without setting an initial color.
+   */
   @Test(expected = IllegalStateException.class)
   public void testFlipWithoutSettingColor() {
     card.flip();
   }
 
-  // Test for colorString
+  /**
+   * Test colorString method when color is RED.
+   */
   @Test
   public void testColorStringRed() {
     card.setColor(CardColor.RED);
     assertEquals("R", card.colorString());
   }
 
+  /**
+   * Test colorString method when color is BLUE.
+   */
   @Test
   public void testColorStringBlue() {
     card.setColor(CardColor.BLUE);
     assertEquals("B", card.colorString());
   }
 
+  /**
+   * Test colorString method without setting an initial color.
+   */
   @Test(expected = IllegalStateException.class)
   public void testColorStringWithoutSettingColor() {
     card.colorString();
   }
 
-  // Tests for toString method
+  /**
+   * Test toString method to verify the representation of card data.
+   */
   @Test
   public void testToStringRepresentation() {
     assertEquals("Warrior 5 5 7 6", card.toString());
@@ -155,20 +194,25 @@ public class TestThreeTriosGameModel {
     assertEquals("MinCard 1 1 1 1", minAttackCard.toString());
   }
 
-  // Edge cases for invalid attack values
+  /**
+   * Test setting an invalid negative attack value.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testNegativeAttackValues() {
-    // Should throw IllegalArgumentException as attack value is out of range
     new ThreeTriosCard("NegativeCard", -1, 5, 7, 6);
   }
 
+  /**
+   * Test setting an invalid attack value greater than 10.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testExcessiveAttackValues() {
-    // Should throw IllegalArgumentException as attack value is out of range
     new ThreeTriosCard("ExcessiveCard", 11, 5, 7, 6);
   }
 
-  // Boundary tests for min and max attack values
+  /**
+   * Test minimum attack values to ensure they are within bounds.
+   */
   @Test
   public void testMinimumAttackValues() {
     assertEquals(1, minAttackCard.getAttack(Direction.NORTH));
@@ -177,6 +221,9 @@ public class TestThreeTriosGameModel {
     assertEquals(1, minAttackCard.getAttack(Direction.WEST));
   }
 
+  /**
+   * Test maximum attack values to ensure they are within bounds.
+   */
   @Test
   public void testMaximumAttackValues() {
     assertEquals(10, maxAttackCard.getAttack(Direction.NORTH));
@@ -186,102 +233,155 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Tests for the Hole class
+   * Test Hole's toString method to verify it returns a space.
    */
   @Test
   public void testHoleToString() {
-    // Verify that hole's toString() returns a space
     assertEquals(" ", hole.toString());
   }
 
+  /**
+   * Test Hole's isEmpty method to verify it always returns false.
+   */
   @Test
   public void testHoleIsAlwaysNotEmpty() {
-    // Verify that hole is never considered empty
     assertFalse(hole.isEmpty());
   }
 
+  /**
+   * Test flipCell on Hole, which should throw an exception.
+   */
   @Test(expected = IllegalCallerException.class)
   public void testHoleFlipCellThrowsException() {
     hole.flipCell();
   }
 
+  /**
+   * Test setCard on Hole, which should throw an exception.
+   */
   @Test(expected = IllegalCallerException.class)
   public void testHoleSetCardThrowsException() {
     hole.setCard(card);
   }
 
   /**
-   * Tests for the CardCell class using existing cards
+   * Test toString for an empty CardCell, should return "_".
    */
   @Test
   public void testEmptyCardCellToString() {
-    // Verify that empty CardCell's toString() returns "_"
     assertEquals("_", emptyCardCell.toString());
   }
 
+  /**
+   * Test toString for a filled CardCell with a red card, should return "R".
+   */
   @Test
   public void testFilledCardCellToString() {
-    // Verify that a CardCell with a red card returns "R"
     assertEquals("R", filledCardCell.toString());
   }
 
+  /**
+   * Test isEmpty for both empty and filled CardCell.
+   */
   @Test
   public void testCardCellIsEmpty() {
-    // Verify that an empty CardCell is considered empty
     assertTrue(emptyCardCell.isEmpty());
-
-    // Verify that a filled CardCell is not empty
     assertFalse(filledCardCell.isEmpty());
   }
 
+  /**
+   * Test setting a card in an empty CardCell.
+   */
   @Test
   public void testSetCardInEmptyCell() {
-    // Set minAttackCard in an empty CardCell and verify
     minAttackCard.setColor(CardColor.BLUE);
     emptyCardCell.setCard(minAttackCard);
     assertEquals("B", emptyCardCell.toString());
   }
 
+  /**
+   * Test setting a card in a filled CardCell, should throw an exception.
+   */
   @Test(expected = IllegalStateException.class)
   public void testSetCardInFilledCellThrowsException() {
-    // Attempting to set a second card in a filled CardCell should throw IllegalStateException
     filledCardCell.setCard(minAttackCard);
   }
 
+  /**
+   * Test flipping an empty CardCell, which should throw an exception.
+   */
   @Test(expected = IllegalStateException.class)
   public void testFlipEmptyCardCellThrowsException() {
-    // Attempting to flip an empty CardCell should throw IllegalStateException
     emptyCardCell.flipCell();
   }
 
+  /**
+   * Test flipping a filled CardCell with a red card, should turn it blue.
+   */
   @Test
   public void testFlipCardCellWithRedCard() {
-    // Flip a red card in a filled CardCell and verify it turns blue
     filledCardCell.flipCell();
     assertEquals("B", filledCardCell.toString());
   }
 
+  /**
+   * Test flipping a CardCell containing maxAttackCard set to blue, should turn it red.
+   */
   @Test
   public void testFlipCardCellWithMaxAttackCard() {
-    // Set maxAttackCard to blue, flip it, and verify it changes to red
     emptyCardCell.setCard(maxAttackCard);
     maxAttackCard.setColor(CardColor.BLUE);
     emptyCardCell.flipCell();
     assertEquals("R", emptyCardCell.toString());
   }
 
+  /**
+   * Test setting a null card in CardCell, should throw IllegalArgumentException.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testSetNullCardInCardCell() {
     emptyCardCell.setCard(null);
   }
 
+  /**
+   * Test flipping a card multiple times to verify color toggles each time.
+   */
   @Test
   public void testRepeatedFlipping() {
-    // Flip a card multiple times and verify the color toggles
     filledCardCell.flipCell();  // RED -> BLUE
     assertEquals("B", filledCardCell.toString());
 
     filledCardCell.flipCell();  // BLUE -> RED
     assertEquals("R", filledCardCell.toString());
+  }
+
+  /**
+   * Tests for adding and retrieving cards in the HumanPlayer's hand.
+   */
+  @Test
+  public void testAddToHandAndGetHand() {
+    redPlayer.addToHand(card);
+    redPlayer.addToHand(maxAttackCard);
+    List<ThreeTriosCard> hand = redPlayer.getHand();
+
+    assertEquals(2, hand.size());
+    assertEquals("Warrior", hand.get(0).getName());
+    assertEquals("MaxCard", hand.get(1).getName());
+  }
+
+  /**
+   * Tests playFromHand for both successful removal and boundary conditions.
+   */
+  @Test
+  public void testPlayFromHand() {
+    redPlayer.addToHand(card);
+    redPlayer.addToHand(maxAttackCard);
+
+    assertEquals("Warrior", redPlayer.playFromHand(0).getName());
+    assertEquals("MaxCard", redPlayer.getHand().get(0).getName());
+
+    assertEquals(1, redPlayer.getCurrentHandSize());
+    assertEquals("MaxCard", redPlayer.playFromHand(0).getName());
+    assertEquals(0, redPlayer.getCurrentHandSize());
   }
 }
