@@ -24,7 +24,6 @@ public class GridReader {
    * the grid, where each row is seperated by a new line. Each character on the second line and
    * onwards must be a "X" or a "C". "X" represents a Hole and "C" represents a CardCell. Any
    * lines after the row size will be ignored as will any characters after the given column size
-   *
    * @param filename The name and path(if necessary) of the configuration file.
    * @return A List of Lists of Cells based on the given grid configuration file and the specified
    *         format.

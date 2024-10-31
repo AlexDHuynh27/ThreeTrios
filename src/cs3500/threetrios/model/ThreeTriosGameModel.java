@@ -99,7 +99,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     } else if (!(grid.get(row).get(column) instanceof CardCell)) {
       throw new IllegalArgumentException("Row and column given is not a card cell");
     } else if (!grid.get(row).get(column).isEmpty()) {
-      throw new IllegalStateException("CardCell to play on is not empty");
+      throw new IllegalStateException("CardCell to play on is not empty or is a hole");
     } else if (playedToGrid) {
       throw new IllegalStateException("Already played to grid this turn");
     } else {
