@@ -1,0 +1,5 @@
+Lion 7 5 9 6
+Tiger 4 8 3 7
+Bear 10 6 2 8
+Wolf 5 7 4 9
+Fox 8 3 10 5

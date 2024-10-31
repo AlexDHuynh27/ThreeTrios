@@ -20,7 +20,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TestThreeTriosGameModel {
@@ -34,9 +38,10 @@ public class TestThreeTriosGameModel {
   private Player redPlayer;
   private Player bluePlayer;
   private ThreeTriosGameModel gameModel;
+  private File nonExistentFile;
 
   @Before
-  public void setUp() {
+  public void setUp() throws IOException {
       card = new ThreeTriosCard("Warrior", 5, 5, 7, 6);
       maxAttackCard = new ThreeTriosCard("MaxCard", 10, 10, 10, 10);
       minAttackCard = new ThreeTriosCard("MinCard", 1, 1, 1, 1);
@@ -51,6 +56,8 @@ public class TestThreeTriosGameModel {
       redPlayer = new HumanPlayer();
       bluePlayer = new HumanPlayer();
       gameModel = new ThreeTriosGameModel();
+
+      nonExistentFile = new File("non_existent_file.txt");
     }
 
   /**
