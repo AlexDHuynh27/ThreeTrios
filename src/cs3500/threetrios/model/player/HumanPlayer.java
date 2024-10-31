@@ -1,11 +1,9 @@
 package cs3500.threetrios.model.player;
 
-import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,7 +27,7 @@ public class HumanPlayer implements Player {
       throw new IllegalStateException("Color of this player hasn't been set.");
     }
     card.setColor(this.color);
-    this.hand.add(card);;
+    this.hand.add(card);
   }
 
   @Override
@@ -51,18 +49,18 @@ public class HumanPlayer implements Player {
   }
 
   @Override
-  public void setColor(CardColor color) {
-    if (this.color != null) {
-      throw new IllegalStateException("Color is already set");
-    }
-    this.color = color;
-  }
-
-  @Override
   public CardColor getColor() {
     if (this.color == null) {
       throw new IllegalStateException("Color is not set");
     }
     return this.color;
+  }
+
+  @Override
+  public void setColor(CardColor color) {
+    if (this.color != null) {
+      throw new IllegalStateException("Color is already set");
+    }
+    this.color = color;
   }
 }

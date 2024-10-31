@@ -16,15 +16,16 @@ public class ThreeTriosCard implements Card {
 
   /**
    * Constructs a ThreeTriosCard with the given values.
-   * @param name The name of the card.
+   *
+   * @param name  The name of the card.
    * @param north The Attack value of the top side.
    * @param south The Attack value of the bottom side.
-   * @param east The attack value of the right side.
-   * @param west The attack value of the left side.
+   * @param east  The attack value of the right side.
+   * @param west  The attack value of the left side.
    */
   public ThreeTriosCard(String name, int north, int south, int east, int west) {
     if (north < 1 || north > 10 || south < 1 || south > 10 || east < 1 || east > 10 || west < 1 ||
-            west > 10 ) {
+            west > 10) {
       throw new IllegalArgumentException("Attack values must be between 1 and 10.");
     }
     this.name = name;
@@ -35,30 +36,19 @@ public class ThreeTriosCard implements Card {
   }
 
   @Override
-  public void setColor(CardColor color) {
-    if (this.color == null) {
-      this.color = color;
-    }
-    else {
-      throw new IllegalStateException("Color has already been set");
-    }
-  }
-
-  @Override
   public void flip() {
     if (this.color == null) {
       throw new IllegalStateException("Color has not been set");
-    }
-    else if (this.color == CardColor.RED) {
+    } else if (this.color == CardColor.RED) {
       this.color = CardColor.BLUE;
-    }
-    else {
+    } else {
       this.color = CardColor.RED;
     }
   }
 
   /**
-   * Returns the name of this card
+   * Returns the name of this card.
+   *
    * @return The name of this card.
    */
   public String getName() {
@@ -67,6 +57,7 @@ public class ThreeTriosCard implements Card {
 
   /**
    * Returns the attack value based on the given direction.
+   *
    * @param dir The direction of the attack value to get.
    * @return An Attack Value.
    */
@@ -87,10 +78,20 @@ public class ThreeTriosCard implements Card {
 
   /**
    * Returns the color of this card. Null if the color has not been set.
+   *
    * @return The color of this card.
    */
   public CardColor getColor() {
     return color;
+  }
+
+  @Override
+  public void setColor(CardColor color) {
+    if (this.color == null) {
+      this.color = color;
+    } else {
+      throw new IllegalStateException("Color has already been set");
+    }
   }
 
   @Override
@@ -102,11 +103,14 @@ public class ThreeTriosCard implements Card {
 
     if (north == 10) {
       northA = "A";
-    } if (south == 10) {
+    }
+    if (south == 10) {
       southA = "A";
-    } if (east == 10) {
+    }
+    if (east == 10) {
       eastA = "A";
-    } if (west == 10) {
+    }
+    if (west == 10) {
       westA = "A";
     }
 
@@ -116,6 +120,7 @@ public class ThreeTriosCard implements Card {
   /**
    * Returns "R" or "B", Representing the CardColors Red and Blue respectively.
    * The String representation of the CardColor of this card.
+   *
    * @return A Character that represents the CardColor of this card.
    * @throws IllegalStateException If the color of this card has not been set yet.
    */

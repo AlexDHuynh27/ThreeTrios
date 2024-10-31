@@ -1,24 +1,22 @@
 package cs3500.threetrios.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.cell.CardCell;
 import cs3500.threetrios.model.player.Player;
-import cs3500.threetrios.view.ThreeTriosGameView;
 
 /**
- * Represents the model of ThreeTriosGame. Contains the data and logic, to ensure that the game is played
- * correctly by the rules.
+ * Represents the model of ThreeTriosGame. Contains the data and logic, to ensure that the game
+ * is played correctly by the rules.
  */
 public class ThreeTriosGameModel implements ThreeTriosModel {
+  Random rand;
   private List<List<Cell>> grid;
   private List<ThreeTriosCard> deck;
   private Player redPlayer;
@@ -29,9 +27,6 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   private boolean gameOver;
   private List<Integer> attackingCardRows;
   private List<Integer> attackingCardCols;
-  private int handSize;
-
-  Random rand;
 
   /**
    * Constructor for randomizing the shuffling of deck and actual gameplay.
@@ -42,7 +37,8 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
 
   /**
    * Constructor for testing, so that deck has the same shuffled list.
-   * @param random
+   *
+   * @param random random
    */
   public ThreeTriosGameModel(Random random) {
     this.rand = random;
@@ -66,7 +62,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
 
     // Count the number of card cells
     int cardCellCount = countCardCells(grid);
-    handSize = (cardCellCount + 1) / 2;
+    int handSize = (cardCellCount + 1) / 2;
 
     // Check if the deck has enough cards (at least N+1)
     int requiredDeckSize = cardCellCount + 1;
@@ -96,26 +92,21 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   @Override
   public void playToGrid(int curPlayerHandIdx, int row, int column) {
     if (!gameStarted || gameOver) {
-      throw new IllegalStateException("Cannot play to grid: game hasn't started or is already over.");
-    }
-    else if (row >= grid.size() || column >= grid.get(row).size()) {
+      throw new IllegalStateException("Cannot play to grid: game hasn't started or is already " +
+              "over.");
+    } else if (row >= grid.size() || column >= grid.get(row).size()) {
       throw new IllegalArgumentException("Row or column out of bounds");
-    }
-    else if (!(grid.get(row).get(column) instanceof CardCell)) {
+    } else if (!(grid.get(row).get(column) instanceof CardCell)) {
       throw new IllegalArgumentException("Row and column given is not a card cell");
-    }
-    else if (!grid.get(row).get(column).isEmpty()) {
+    } else if (!grid.get(row).get(column).isEmpty()) {
       throw new IllegalStateException("CardCell to play on is not empty");
-    }
-    else if (playedToGrid) {
+    } else if (playedToGrid) {
       throw new IllegalStateException("Already played to grid this turn");
-    }
-    else {
+    } else {
       if (colorTurn == CardColor.RED) {
         ThreeTriosCard card = redPlayer.playFromHand(curPlayerHandIdx);
         grid.get(row).get(column).setCard(card);
-      }
-      else {
+      } else {
         ThreeTriosCard card = bluePlayer.playFromHand(curPlayerHandIdx);
         grid.get(row).get(column).setCard(card);
       }
@@ -130,8 +121,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   public void battle() {
     if (!gameStarted || gameOver) {
       throw new IllegalStateException("Cannot battle: game hasn't started or is already over.");
-    }
-    else if (!playedToGrid) {
+    } else if (!playedToGrid) {
       throw new IllegalStateException("Cannot battle: haven't played to grid this turn yet");
     }
 
@@ -141,28 +131,32 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
       attackRow = attackingCardRows.get(0);
       attackCol = attackingCardCols.get(0);
       if (attackRow - 1 >= 0) {
-        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow -1).get(attackCol), Direction.NORTH)) {
-          grid.get(attackRow -1).get(attackCol).flipCell();
+        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow - 1).get(attackCol),
+                Direction.NORTH)) {
+          grid.get(attackRow - 1).get(attackCol).flipCell();
           attackingCardRows.add(attackRow - 1);
           attackingCardCols.add(attackCol);
         }
       }
       if (attackRow + 1 < grid.size()) {
-        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow + 1).get(attackCol), Direction.SOUTH)) {
+        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow + 1).get(attackCol)
+                , Direction.SOUTH)) {
           grid.get(attackRow + 1).get(attackCol).flipCell();
           attackingCardRows.add(attackRow + 1);
           attackingCardCols.add(attackCol);
         }
       }
       if (attackCol - 1 >= 0) {
-        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow).get(attackCol - 1), Direction.WEST)) {
+        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow).get(attackCol - 1)
+                , Direction.WEST)) {
           grid.get(attackRow).get(attackCol - 1).flipCell();
           attackingCardRows.add(attackRow);
           attackingCardCols.add(attackCol - 1);
         }
       }
       if (attackCol + 1 < grid.size()) {
-        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow).get(attackCol + 1), Direction.EAST)) {
+        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow).get(attackCol + 1),
+                Direction.EAST)) {
           grid.get(attackRow).get(attackCol + 1).flipCell();
           attackingCardRows.add(attackRow);
           attackingCardCols.add(attackCol + 1);
@@ -209,13 +203,13 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
         if (cell instanceof CardCell) {
           String cardColor = cell.toString();
           if (cardColor.equals("R")) {
-              redCount++;
-            } else if (cardColor.equals("B")) {
-              blueCount++;
-            }
+            redCount++;
+          } else if (cardColor.equals("B")) {
+            blueCount++;
           }
         }
       }
+    }
 
     // Determine the winner based on card counts
     if (redCount > blueCount) {
@@ -232,8 +226,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   public List<ThreeTriosCard> getHand(CardColor color) {
     if (color == CardColor.RED) {
       return redPlayer.getHand();
-    }
-    else {
+    } else {
       return bluePlayer.getHand();
     }
   }
@@ -263,6 +256,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   /**
    * Deals cards randomly to both players until their hands are filled.
    * Each player gets (N+1)/2 cards, where N is the number of card cells.
+   *
    * @param cardCellCount the number of card cells in the grid
    */
   private void dealCards(int cardCellCount) {
