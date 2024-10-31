@@ -7,9 +7,18 @@ import cs3500.threetrios.model.cell.Cell;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * A class that renders the ThreeTriosGame when given the model and acessing
+ */
 public class ThreeTriosGameView {
   ThreeTriosModel model;
   Appendable out;
+
+  /**
+   * Constructor for the ThreeTriosGame
+   * @param model
+   * @param out
+   */
   public ThreeTriosGameView(ThreeTriosModel model, Appendable out) {
     this.model = model;
     this.out = out;

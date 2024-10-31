@@ -463,19 +463,26 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Tests when the addToHand method for the HumanPlayer class when the color of the card
-   * has already been set
+   * Tests when the addToHand method for the HumanPlayer class when the color of the Player
+   * hasn't been set
    */
   @Test
-  public void testAddToHandColorSet() {
-    card.setColor(CardColor.BLUE);
+  public void testAddToHandColorNotSet() {
     assertThrows("Adding to hand when card" +
         "color has already been set",
         IllegalStateException.class,
         () -> redPlayer.addToHand(card));
   }
 
-
+  /**
+   * Tests that the CardColor for the card gets changed when addToHand is called.
+   */
+  @Test
+  public void testAddToHandChangesColor() {
+    redPlayer.setColor(CardColor.RED);
+    redPlayer.addToHand(card);
+    assertEquals("R", card.colorString());
+  }
 
   /**
    * Tests playFromHand for removal of card and getCurrentHandSize to make sure hand is updated.
