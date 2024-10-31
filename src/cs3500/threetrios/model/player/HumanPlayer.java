@@ -26,7 +26,7 @@ public class HumanPlayer implements Player {
   @Override
   public void addToHand(ThreeTriosCard card) {
     if (this.color == null) {
-      throw new IllegalArgumentException("Color of this player hasn't been set.");
+      throw new IllegalStateException("Color of this player hasn't been set.");
     }
     card.setColor(this.color);
     this.hand.add(card);;

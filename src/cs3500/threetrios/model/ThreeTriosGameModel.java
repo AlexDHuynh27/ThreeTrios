@@ -58,9 +58,11 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     }
 
     // validate input
-    if (grid == null || deck == null || redPlayer == null || bluePlayer == null) {
-      throw new IllegalArgumentException("Input cannot be null");
+    if (grid == null || deck == null || redPlayer == null || bluePlayer == null ||
+        deck.contains(null) || grid.contains(null)) {
+      throw new IllegalArgumentException("Input cannot be null or have a null");
     }
+
 
     // Count the number of card cells
     int cardCellCount = countCardCells(grid);
