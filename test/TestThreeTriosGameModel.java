@@ -4,7 +4,6 @@ import org.junit.Test;
 import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.card.CardColor;
-import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.cell.CardCell;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.cell.Hole;
@@ -13,24 +12,20 @@ import cs3500.threetrios.model.configreader.GridReader;
 import cs3500.threetrios.model.player.HumanPlayer;
 import cs3500.threetrios.model.player.Player;
 import cs3500.threetrios.model.ThreeTriosGameModel;
-import cs3500.threetrios.model.ThreeTriosModel;
-import cs3500.threetrios.view.ThreeTriosGameView;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Test class for ThreeTriosGameModel.
+ */
 public class TestThreeTriosGameModel {
   private ThreeTriosCard card;
   private ThreeTriosCard maxAttackCard;
@@ -72,43 +67,38 @@ public class TestThreeTriosGameModel {
 
     // Uncomment if you are using Windows. Comment if you are using Mac //
     // -----------------------------------------------------------------//
-    deck5 = CardReader.getDeckFromConfig(
-        "src/cs3500/threetrios/exampleFiles/DeckOfCard(5).txt");
-    deck10 = CardReader.getDeckFromConfig(
-        "src/cs3500/threetrios/exampleFiles" +
-            "/DeckOfCard(10).txt");
-    deck26 = CardReader.getDeckFromConfig(
-        "src/cs3500/threetrios/exampleFiles/DeckOfCard(26).txt");
-    deck50 = CardReader.getDeckFromConfig(
-        "src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
+    deck5 = CardReader.getDeckFromConfig("src/cs3500/threetrios/exampleFiles/DeckOfCard(5).txt");
+    deck10 = CardReader.getDeckFromConfig("src/cs3500/threetrios/exampleFiles" + "/DeckOfCard(10)"
+            + ".txt");
+    deck26 = CardReader.getDeckFromConfig("src/cs3500/threetrios/exampleFiles/DeckOfCard(26).txt");
+    deck50 = CardReader.getDeckFromConfig("src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
 
-    grid1 = GridReader.getGridFromConfig(
-        "src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
-    grid2 = GridReader.getGridFromConfig(
-        "src/cs3500/threetrios/exampleFiles/GridEx(2).txt");
-    grid3 = GridReader.getGridFromConfig(
-        "src/cs3500/threetrios/exampleFiles/GridEx(3).txt");
+    grid1 = GridReader.getGridFromConfig("src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
+    grid2 = GridReader.getGridFromConfig("src/cs3500/threetrios/exampleFiles/GridEx(2).txt");
+    grid3 = GridReader.getGridFromConfig("src/cs3500/threetrios/exampleFiles/GridEx(3).txt");
     // -----------------------------------------------------------------//
 
     // Uncomment if you are using Mac. Comment if you are using windows //
     // -----------------------------------------------------------------//
-//    deck5 = CardReader.getDeckFromConfig(
-//        "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(5).txt");
-//    deck10 = CardReader.getDeckFromConfig(
-//        "Assignment5/src/cs3500/threetrios/exampleFiles" +
-//            "/DeckOfCard(10).txt");
-//    deck26 = CardReader.getDeckFromConfig(
-//        "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(26).txt");
-//    deck50 = CardReader.getDeckFromConfig(
-//        "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
-//
-//    grid1 = GridReader.getGridFromConfig(
-//        "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
-//    grid2 = GridReader.getGridFromConfig(
-//        "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(2).txt");
-//    grid3 = GridReader.getGridFromConfig(
-//        "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(3).txt");
+    /*
+      deck5 = CardReader.getDeckFromConfig(
+          "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(5).txt");
+      deck10 = CardReader.getDeckFromConfig(
+          "Assignment5/src/cs3500/threetrios/exampleFiles" +
+              "/DeckOfCard(10).txt");
+      deck26 = CardReader.getDeckFromConfig(
+          "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(26).txt");
+      deck50 = CardReader.getDeckFromConfig(
+          "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
+
+      grid1 = GridReader.getGridFromConfig(
+          "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
+      grid2 = GridReader.getGridFromConfig(
+          "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(2).txt");
+      grid3 = GridReader.getGridFromConfig(
+          "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(3).txt");
     // -----------------------------------------------------------------//
+    */
   }
 
   /**
@@ -424,7 +414,7 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Test getting a Card with getCard(), should return null if empty CardCell
+   * Test getting a Card with getCard(), should return null if empty CardCell.
    */
   @Test
   public void testGetCard() {
@@ -439,7 +429,7 @@ public class TestThreeTriosGameModel {
 
 
   /**
-   * Test battleCell for empty Cell in all directions, should be false
+   * Test battleCell for empty Cell in all directions, should be false.
    */
   @Test
   public void testBattleCellWithEmptyCell() {
@@ -450,7 +440,7 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Test battleCell for stronger cell in all directions, should be false
+   * Test battleCell for stronger cell in all directions, should be false.
    */
   @Test
   public void testBattleCellWithStrongerCell() {
@@ -498,14 +488,12 @@ public class TestThreeTriosGameModel {
 
   /**
    * Tests when the addToHand method for the HumanPlayer class when the color of the Player
-   * hasn't been set
+   * hasn't been set.
    */
   @Test
   public void testAddToHandColorNotSet() {
-    assertThrows("Adding to hand when card" +
-        "color has already been set",
-        IllegalStateException.class,
-        () -> redPlayer.addToHand(card));
+    assertThrows("Adding to hand when card" + "color has already been set",
+            IllegalStateException.class, () -> redPlayer.addToHand(card));
   }
 
   /**
@@ -548,7 +536,7 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Tests setting color twice should throw an exception (different color)
+   * Tests setting color twice should throw an exception (different color).
    */
   @Test(expected = IllegalStateException.class)
   public void testSetColorThrowsExceptionIfAlreadySet() {
@@ -557,7 +545,7 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Tests setting color twice should throw an exception (same color)
+   * Tests setting color twice should throw an exception (same color).
    */
   @Test(expected = IllegalStateException.class)
   public void testSetColorThrowsExceptionIfAlreadySet2() {
@@ -578,45 +566,40 @@ public class TestThreeTriosGameModel {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testStartGameInsufficientDeck() {
-    gameModel.startGame(grid3, deck5, redPlayer,
-        bluePlayer);
+    gameModel.startGame(grid3, deck5, redPlayer, bluePlayer);
   }
 
   /**
-   *
+   * Tests starting game when game has already been started.
    */
   @Test
   public void testStartGameGameStarted() {
-    gameModel.startGame(grid3, deck50, redPlayer,
-        bluePlayer);
+    gameModel.startGame(grid3, deck50, redPlayer, bluePlayer);
     assertThrows(IllegalStateException.class, () -> gameModel.startGame(grid3, deck50, redPlayer,
-        bluePlayer));
+            bluePlayer));
   }
 
+  /**
+   * Tests starting game with null fields, should throw an exception.
+   */
   @Test
   public void testStartGameNullFields() {
-    assertThrows("Null Grid",
-        IllegalArgumentException.class, () -> gameModel.startGame(null, deck26, redPlayer,
-        bluePlayer));
-    assertThrows("Null Deck",
-        IllegalArgumentException.class, () -> gameModel.startGame(grid3, null, redPlayer,
-            bluePlayer));
-    assertThrows("Null RedPlayer",
-        IllegalArgumentException.class, () -> gameModel.startGame(grid3, deck26, null,
-            bluePlayer));
-    assertThrows("Null BluePlayer",
-        IllegalArgumentException.class, () -> gameModel.startGame(grid3, deck26, redPlayer,
-            null));
+    assertThrows("Null Grid", IllegalArgumentException.class, () -> gameModel.startGame(null,
+            deck26, redPlayer, bluePlayer));
+    assertThrows("Null Deck", IllegalArgumentException.class, () -> gameModel.startGame(grid3,
+            null, redPlayer, bluePlayer));
+    assertThrows("Null RedPlayer", IllegalArgumentException.class, () -> gameModel
+            .startGame(grid3, deck26, null, bluePlayer));
+    assertThrows("Null BluePlayer", IllegalArgumentException.class, () -> gameModel
+            .startGame(grid3, deck26, redPlayer, null));
     grid1.add(null);
     deck26.add(null);
 
-    assertThrows("Null in Grid",
-        IllegalArgumentException.class, () -> gameModel.startGame(grid1, deck50, redPlayer,
-            bluePlayer));
+    assertThrows("Null in Grid", IllegalArgumentException.class, () -> gameModel.startGame(grid1,
+            deck50, redPlayer, bluePlayer));
 
-    assertThrows("Null in Deck",
-        IllegalArgumentException.class, () -> gameModel.startGame(grid2, deck26, redPlayer,
-            bluePlayer));
+    assertThrows("Null in Deck", IllegalArgumentException.class, () -> gameModel.startGame(grid2,
+            deck26, redPlayer, bluePlayer));
 
   }
 
@@ -652,62 +635,128 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Tests playthrough of game with battle
+   * Tests playthrough of game with battle.
    */
   @Test
   public void testFullGame() {
     gameModel.startGame(grid2, deck50, redPlayer, bluePlayer);
-    gameModel.playToGrid(0,0,0);
+    gameModel.playToGrid(0, 0, 0);
     gameModel.battle();
-    gameModel.playToGrid(0,0,4);
+    gameModel.playToGrid(0, 0, 4);
     gameModel.battle();
-    gameModel.playToGrid(0,1,0);
+    gameModel.playToGrid(0, 1, 0);
     gameModel.battle();
-    gameModel.playToGrid(0,1,4);
+    gameModel.playToGrid(0, 1, 4);
     gameModel.battle();
-    gameModel.playToGrid(0,2,0);
+    gameModel.playToGrid(0, 2, 0);
     gameModel.battle();
-    gameModel.playToGrid(0,2,4);
+    gameModel.playToGrid(0, 2, 4);
     gameModel.battle();
-    gameModel.playToGrid(0,3,0);
+    gameModel.playToGrid(0, 3, 0);
     gameModel.battle();
-    gameModel.playToGrid(0,3,4);
+    gameModel.playToGrid(0, 3, 4);
     gameModel.battle();
-    gameModel.playToGrid(0,4,0);
+    gameModel.playToGrid(0, 4, 0);
     gameModel.battle();
-    gameModel.playToGrid(0,4,4);
+    gameModel.playToGrid(0, 4, 4);
     gameModel.battle();
-    gameModel.playToGrid(0,0,1);
+    gameModel.playToGrid(0, 0, 1);
     gameModel.battle();
-    gameModel.playToGrid(0,0,3);
+    gameModel.playToGrid(0, 0, 3);
     gameModel.battle();
-    gameModel.playToGrid(0,1,1);
+    gameModel.playToGrid(0, 1, 1);
     gameModel.battle();
-    gameModel.playToGrid(0,1,3);
+    gameModel.playToGrid(0, 1, 3);
     gameModel.battle();
-    gameModel.playToGrid(0,2,1);
+    gameModel.playToGrid(0, 2, 1);
     gameModel.battle();
-    gameModel.playToGrid(0,2,3);
+    gameModel.playToGrid(0, 2, 3);
     gameModel.battle();
-    gameModel.playToGrid(0,3,1);
+    gameModel.playToGrid(0, 3, 1);
     gameModel.battle();
-    gameModel.playToGrid(0,3,3);
+    gameModel.playToGrid(0, 3, 3);
     gameModel.battle();
-    gameModel.playToGrid(0,4,1);
+    gameModel.playToGrid(0, 4, 1);
     gameModel.battle();
-    gameModel.playToGrid(0,4,3);
+    gameModel.playToGrid(0, 4, 3);
     gameModel.battle();
-    gameModel.playToGrid(0,1,2);
+    gameModel.playToGrid(0, 1, 2);
     gameModel.battle();
-    gameModel.playToGrid(0,3,2);
+    gameModel.playToGrid(0, 3, 2);
     assertTrue(gameModel.gameOver());
     assertEquals(redPlayer, gameModel.getWinner());
   }
-  
-  @Test
-  public void testStartGame() {
 
+  /**
+   * Tests calling gameOver when game has not started, should throw an exception.
+   */
+  @Test(expected = IllegalStateException.class)
+  public void testGameOverThrowsExceptionIfGameNotStarted() {
+    gameModel.gameOver();
   }
 
+  /**
+   * Tests getWinner and gameOver for incomplete game.
+   */
+  @Test
+  public void testGetWinnerThrowsExceptionIfGameNotOver() {
+    gameModel.startGame(grid3, deck50, redPlayer, bluePlayer);
+    gameModel.playToGrid(0, 0, 0);
+
+    assertThrows(IllegalStateException.class, () -> gameModel.getWinner());
+    assertFalse(gameModel.gameOver());
+  }
+
+  /**
+   * Test for getHand before and after playToGrid ensuring that playToGrid actually takes the
+   * card out of hand.
+   */
+  @Test
+  public void testGetHandAndPlayToGrid() {
+    gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
+    assertEquals("[Eagle 6 A 7 3, Tiger 4 8 3 7, Bear A 6 2 8, Gorilla A 5 6 4, Wolf 5 7 4 9]",
+            gameModel.getHand(CardColor.RED).toString());
+
+    gameModel.playToGrid(0, 0, 0);
+
+    assertEquals("[Tiger 4 8 3 7, Bear A 6 2 8, Gorilla A 5 6 4, Wolf 5 7 4 9]",
+            gameModel.getHand(CardColor.RED).toString());
+  }
+
+  /**
+   * Tests getCurrentPlayer before and after first turn.
+   */
+  @Test
+  public void testGetCurrentPlayerColor() {
+    gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
+    assertEquals(CardColor.RED, gameModel.getCurrentPlayerColor());
+
+    gameModel.playToGrid(0, 0, 0);
+    gameModel.battle();
+
+    assertEquals(CardColor.BLUE, gameModel.getCurrentPlayerColor());
+  }
+
+  /**
+   * Tests getCurrentPlayer after multiple turns.
+   */
+  @Test
+  public void testGetCurrentPlayerColorMultipleTurns() {
+    gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
+    assertEquals(CardColor.RED, gameModel.getCurrentPlayerColor());
+
+    gameModel.playToGrid(0, 0, 0);
+    gameModel.battle();
+
+    gameModel.playToGrid(0, 1, 1);
+    gameModel.battle();
+
+    assertEquals(CardColor.RED, gameModel.getCurrentPlayerColor());
+
+    gameModel.playToGrid(0, 2, 2);
+    gameModel.battle();
+
+    assertEquals(CardColor.BLUE, gameModel.getCurrentPlayerColor());
+  }
 
 }

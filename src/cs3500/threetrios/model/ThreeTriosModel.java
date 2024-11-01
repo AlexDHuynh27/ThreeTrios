@@ -40,7 +40,7 @@ public interface ThreeTriosModel {
    * @throws IllegalArgumentException if any of the fields are null.
    * @throws IllegalArgumentException if the row or column is out of bounds of the grid.
    * @throws IllegalArgumentException if the row and column coordinates are a hole on the grid or
-   * a card has already been placed.
+   *                                  a card has already been placed.
    */
   void playToGrid(int curPlayerHandIdx, int row, int column);
 
