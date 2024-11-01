@@ -1,7 +1,10 @@
-Overview:
-    The Following code contains the logic and enforces rules of the game, Three Trios.
-The Code allows access to immutable copies of data as well functionality to play the game.
+    The Following Code enforces the rules of the game, Three Trios, allows access to immutable copies
+of data related to the game as well functionality to play the games.
 
+    To use this code it is assumed that you know how classes work and how to call methods,
+as well as read comments. It is also assumed that you know how to set up a class that actually
+runs and are familiar with the rules of Three Trios, though additional information about the rules
+and concepts can be found below. Information on how to run the game is also found below
 
 Quick Start Code:
     List<ThreeTriosCard> deck = CardReader.getDeckFromConfig(
@@ -15,6 +18,8 @@ Quick Start Code:
     new ThreeTriosGameView(newGame, System.out).render();
     newGame.isGameOver()
     newGame.getWinner()
+
+To see the example in go to the TestMain file in the cs3500.threetrios package.
 
 
 Quick Start Explanation:
@@ -108,7 +113,8 @@ sort
 
 Players - Represents a Player playing the game
 
-    Hand - The List<ThreeTriosCard> that represents the cards the Player can play to the Grid
+    Hand - The List<ThreeTriosCard> that represents the cards the Player can play to the Grid.
+    The hand is drawn for each player at the beginning of the game.
 
     CardColor - Red or Blue. Represents the two sides of the game.
 

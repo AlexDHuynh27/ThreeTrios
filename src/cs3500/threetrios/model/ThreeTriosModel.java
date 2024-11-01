@@ -45,9 +45,8 @@ public interface ThreeTriosModel {
   void playToGrid(int curPlayerHandIdx, int row, int column);
 
   /**
-   * Initiates the battle phase, changing the colors of any cards that lost to the current
-   * players play.
-   *
+   * Initiates the battle phase and combo phase, changing the colors of any cards that lost
+   * to the current players play.
    * @throws IllegalStateException if the game hasn't started or is over.
    * @throws IllegalStateException if a card hasn't been played to the grid this turn yet.
    */

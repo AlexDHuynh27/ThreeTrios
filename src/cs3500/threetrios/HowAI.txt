@@ -1,0 +1,9 @@
+We would have an interface with one method makePlay()
+
+A class would implement the interface and have two variables associated with it, a model and the
+player that it would take over. The player must be a player of the model. the makePlay()
+method would then run through some algorithm that checks the color of the player it is associated
+with and then view the grid and the player's hand and determines what the best move would be.
+and then it would call model.playToGrid() on whatever card would be best to play and in whatever
+place on the grid it would be best to play. makePlay() or the controller would then initiate the
+battle phase either one.

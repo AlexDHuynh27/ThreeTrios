@@ -16,12 +16,14 @@ import java.util.List;
 public class TestMain {
 
   /**
-   * Example of the game running
-   * @param args Don't give args
+   * Example of the game running.
+   * @param args Don't give args.
    */
   public static void main(String[] args) {
-    List<ThreeTriosCard> deck = CardReader.getDeckFromConfig("src/cs3500/threetrios/exampleFiles/Hello.txt");
-    List<List<Cell>> grid = GridReader.getGridFromConfig("src/cs3500/threetrios/exampleFiles/gridconfig1.txt");
+    List<ThreeTriosCard> deck = CardReader.getDeckFromConfig(
+        "src/cs3500/threetrios/exampleFiles/Hello.txt");
+    List<List<Cell>> grid = GridReader.getGridFromConfig(
+        "src/cs3500/threetrios/exampleFiles/gridconfig1.txt");
     ThreeTriosGameModel newGame = new ThreeTriosGameModel();
     newGame.startGame(grid, deck, new HumanPlayer(), new HumanPlayer());
     newGame.playToGrid(1, 2, 2);

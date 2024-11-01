@@ -30,7 +30,6 @@ public class CardReader {
    * space, the five parts together represents a card. The first part represents the
    * name of a card. The four other parts represent the attack values of the North, South,
    * East, and Wests sides respectively.
-   *
    * @param filename The name and path(if necessary) of the configuration file to read.
    * @return A List of ThreeTriosCards based on the given deck configuration file.
    * @throws IllegalArgumentException If the configuration file doesn't match the specified format.

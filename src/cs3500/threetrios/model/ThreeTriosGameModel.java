@@ -117,6 +117,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   }
 
 
+
   @Override
   public void battle() {
     if (!gameStarted || gameOver) {
@@ -125,6 +126,9 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
       throw new IllegalStateException("Cannot battle: haven't played to grid this turn yet");
     }
 
+    // To make combo phase seperate to view the battles occuring one by one remove the while loop
+    // and add a boolean that checks if attackingCardRows isEmpty. if it is empty switch turn.
+    // else do nothing.
     int attackRow;
     int attackCol;
     while (!attackingCardRows.isEmpty()) {

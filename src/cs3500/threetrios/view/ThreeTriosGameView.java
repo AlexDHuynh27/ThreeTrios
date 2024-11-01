@@ -8,7 +8,8 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * A class that renders the ThreeTriosGame when given the model.
+ * A class that renders the ThreeTriosGame when given the model. More information on what
+ * it renders can be found in the render() method
  */
 public class ThreeTriosGameView {
   ThreeTriosModel model;
@@ -16,7 +17,6 @@ public class ThreeTriosGameView {
 
   /**
    * Constructor for the ThreeTriosGame.
-   *
    * @param model a game model of ThreeTriosModel
    * @param out   an Appendable out
    */
@@ -25,6 +25,11 @@ public class ThreeTriosGameView {
     this.out = out;
   }
 
+  /**
+   * Renders information about the ThreeTrios game model it is given.
+   * The information includes, the CurrentPlayer's turn, the current state of the Grid including
+   * what color owns what cards, and the hand of the CurrentPlayer
+   */
   public void render() {
     try {
       out.append("Player: ").append(String.valueOf(model.getCurrentPlayerColor())).append("\n");
