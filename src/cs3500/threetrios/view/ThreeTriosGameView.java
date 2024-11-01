@@ -29,9 +29,9 @@ public class ThreeTriosGameView {
     try {
       out.append("Player: ").append(String.valueOf(model.getCurrentPlayerColor())).append("\n");
       List<List<Cell>> grid = model.getGrid();
-      for (int i = 0; i < grid.size(); i++) {
-        for (int j = 0; j < grid.get(i).size(); j++) {
-          out.append(grid.get(i).get(j).toString());
+      for (List<Cell> cells : grid) {
+        for (Cell cell : cells) {
+          out.append(cell.toString());
         }
         out.append("\n");
       }

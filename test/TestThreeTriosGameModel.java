@@ -78,25 +78,26 @@ public class TestThreeTriosGameModel {
     grid3 = GridReader.getGridFromConfig("src/cs3500/threetrios/exampleFiles/GridEx(3).txt");
     // -----------------------------------------------------------------//
 
+
     // Uncomment if you are using Mac. Comment if you are using windows //
     // -----------------------------------------------------------------//
     /*
-      deck5 = CardReader.getDeckFromConfig(
-          "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(5).txt");
-      deck10 = CardReader.getDeckFromConfig(
-          "Assignment5/src/cs3500/threetrios/exampleFiles" +
-              "/DeckOfCard(10).txt");
-      deck26 = CardReader.getDeckFromConfig(
-          "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(26).txt");
-      deck50 = CardReader.getDeckFromConfig(
-          "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
+    deck5 = CardReader.getDeckFromConfig(
+            "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(5).txt");
+    deck10 = CardReader.getDeckFromConfig(
+            "Assignment5/src/cs3500/threetrios/exampleFiles" +
+                    "/DeckOfCard(10).txt");
+    deck26 = CardReader.getDeckFromConfig(
+            "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(26).txt");
+    deck50 = CardReader.getDeckFromConfig(
+            "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
 
-      grid1 = GridReader.getGridFromConfig(
-          "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
-      grid2 = GridReader.getGridFromConfig(
-          "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(2).txt");
-      grid3 = GridReader.getGridFromConfig(
-          "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(3).txt");
+    grid1 = GridReader.getGridFromConfig(
+            "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
+    grid2 = GridReader.getGridFromConfig(
+            "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(2).txt");
+    grid3 = GridReader.getGridFromConfig(
+            "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(3).txt");
     // -----------------------------------------------------------------//
     */
   }
@@ -759,4 +760,31 @@ public class TestThreeTriosGameModel {
     assertEquals(CardColor.BLUE, gameModel.getCurrentPlayerColor());
   }
 
+  /**
+   * Test for getGrid() method of GameModel in inital state, after 1 turn, after multiple turns.
+   */
+  @Test
+  public void testGetGrid() {
+    gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
+    assertEquals("[[_, _, _], [_, _, _], [_, _, _]]", gameModel.getGrid().toString());
+
+    gameModel.playToGrid(0, 0, 0);
+    gameModel.battle();
+
+    assertEquals("[[R, _, _], [_, _, _], [_, _, _]]", gameModel.getGrid().toString());
+
+    gameModel.playToGrid(0, 2, 0);
+    gameModel.battle();
+
+    gameModel.playToGrid(0, 0, 2);
+    gameModel.battle();
+
+    gameModel.playToGrid(0, 1, 1);
+    gameModel.battle();
+
+    gameModel.playToGrid(0, 1, 2);
+    gameModel.battle();
+
+    assertEquals("[[R, _, R], [_, R, R], [B, _, _]]", gameModel.getGrid().toString());
+  }
 }
