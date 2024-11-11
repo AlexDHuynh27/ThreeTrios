@@ -65,11 +65,12 @@ public class TestThreeTriosGameModel {
     bluePlayer = new HumanPlayer();
     gameModel = new ThreeTriosGameModel(new Random(100));
 
+    /*
     // Uncomment if you are using Windows. Comment if you are using Mac //
     // -----------------------------------------------------------------//
     deck5 = CardReader.getDeckFromConfig("src/cs3500/threetrios/exampleFiles/DeckOfCard(5).txt");
-    deck10 = CardReader.getDeckFromConfig("src/cs3500/threetrios/exampleFiles" + "/DeckOfCard(10)"
-            + ".txt");
+    deck10 = CardReader.getDeckFromConfig("src/cs3500/threetrios/exampleFiles" + "/DeckOfCard(10)" +
+            ".txt");
     deck26 = CardReader.getDeckFromConfig("src/cs3500/threetrios/exampleFiles/DeckOfCard(26).txt");
     deck50 = CardReader.getDeckFromConfig("src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
 
@@ -77,11 +78,10 @@ public class TestThreeTriosGameModel {
     grid2 = GridReader.getGridFromConfig("src/cs3500/threetrios/exampleFiles/GridEx(2).txt");
     grid3 = GridReader.getGridFromConfig("src/cs3500/threetrios/exampleFiles/GridEx(3).txt");
     // -----------------------------------------------------------------//
-
+*/
 
     // Uncomment if you are using Mac. Comment if you are using windows //
     // -----------------------------------------------------------------//
-    /*
     deck5 = CardReader.getDeckFromConfig(
             "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(5).txt");
     deck10 = CardReader.getDeckFromConfig(
@@ -99,7 +99,6 @@ public class TestThreeTriosGameModel {
     grid3 = GridReader.getGridFromConfig(
             "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(3).txt");
     // -----------------------------------------------------------------//
-    */
   }
 
   /**
@@ -786,5 +785,40 @@ public class TestThreeTriosGameModel {
     gameModel.battle();
 
     assertEquals("[[R, _, R], [_, R, R], [B, _, _]]", gameModel.getGrid().toString());
+  }
+
+  /**
+   * Test playToGrid exceptions.
+   */
+  @Test
+  public void testPlayToGridExceptions() {
+    assertThrows("Cannot play to grid: game hasn't started or is already over",
+            IllegalStateException.class, () -> gameModel.playToGrid(0, 0, 0));
+
+    gameModel.startGame(grid2, deck26, redPlayer, bluePlayer);
+
+    assertThrows("Row or column out of bounds", IndexOutOfBoundsException.class, () ->
+            gameModel.playToGrid(0, -1, 0));
+    assertThrows("Row or column out of bounds", IndexOutOfBoundsException.class, () ->
+            gameModel.playToGrid(0, 0, -1));
+    assertThrows("Row or column out of bounds", IndexOutOfBoundsException.class, () ->
+            gameModel.playToGrid(0, 7, 0));
+    assertThrows("Row or column out of bounds", IndexOutOfBoundsException.class, () ->
+            gameModel.playToGrid(0, 0, 7));
+    assertThrows("PlayerIndex is out of bounds", IndexOutOfBoundsException.class, () ->
+            gameModel.playToGrid(-1, 0, 0));
+    assertThrows("PlayerIndex is out of bounds", IndexOutOfBoundsException.class, () ->
+            gameModel.playToGrid(15, 0, 0));
+    assertThrows("PlayerIndex is out of bounds", IndexOutOfBoundsException.class, () ->
+            gameModel.playToGrid(15, 0, 0));
+    assertThrows("Row and column given is not a card cell", IllegalArgumentException.class,
+     () -> gameModel.playToGrid(0, 0, 2));
+
+    gameModel.playToGrid(0, 0, 0);
+
+    assertThrows("CardCell to play on is not empty", IllegalStateException.class, () ->
+            gameModel.playToGrid(0, 0, 0));
+    assertThrows("Already played to grid this turn", IllegalStateException.class, () ->
+            gameModel.playToGrid(0, 0, 1));
   }
 }
