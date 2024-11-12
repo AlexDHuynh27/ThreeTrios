@@ -59,7 +59,6 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
       throw new IllegalArgumentException("Input cannot be null or have a null");
     }
 
-
     // Count the number of card cells
     int cardCellCount = countCardCells(grid);
     int handSize = (cardCellCount + 1) / 2;
