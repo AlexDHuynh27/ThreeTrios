@@ -211,6 +211,21 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     return List.copyOf(this.grid);
   }
 
+  @Override
+  public int getPlayerScore(Player player) {
+    int score = player.getCurrentHandSize();
+    CardColor playerColor = player.getColor();
+
+    for (List<Cell> row : grid) {
+      for (Cell cell : row) {
+        if (cell instanceof CardCell && cell.toString().equals(playerColor == CardColor.RED ? "R" : "B")) {
+          score++;
+        }
+      }
+    }
+    return score;
+  }
+
   /**
    * Shuffles this deck based on this ThreeTriosGameModel's Random object.
    */

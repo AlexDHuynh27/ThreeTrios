@@ -821,4 +821,73 @@ public class TestThreeTriosGameModel {
     assertThrows("Already played to grid this turn", IllegalStateException.class, () ->
             gameModel.playToGrid(0, 0, 1));
   }
+
+  /**
+   * Test initial score after starting the game should be 1/2 of deck
+   */
+  @Test
+  public void testGetPlayerScoreInitial() {
+    gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
+    assertEquals(5, gameModel.getPlayerScore(redPlayer));
+    assertEquals(5, gameModel.getPlayerScore(bluePlayer));
+  }
+
+  /**
+   * Test score after 0, 1, 2 turns of placing cards and a battle occurring
+   */
+  @Test
+  public void testGetPlayerScoreAfterBattle() {
+    gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
+    gameModel.playToGrid(0, 0, 0);
+    gameModel.battle();
+    // R _ _
+    // _ _ _
+    // _ _ _
+    assertEquals(5, gameModel.getPlayerScore(redPlayer));
+    assertEquals(5, gameModel.getPlayerScore(bluePlayer));
+    gameModel.playToGrid(0, 1, 0);
+    gameModel.battle();
+    // R _ _
+    // B _ _
+    // _ _ _
+    assertEquals(5, gameModel.getPlayerScore(redPlayer));
+    assertEquals(5, gameModel.getPlayerScore(bluePlayer));
+    gameModel.playToGrid(0, 2, 0);
+    gameModel.battle();
+    // R _ _
+    // R _ _
+    // R _ _
+    assertEquals(6, gameModel.getPlayerScore(redPlayer));
+    assertEquals(4, gameModel.getPlayerScore(bluePlayer));
+  }
+
+  /**
+   * Test score after full game of placing cards
+   */
+  @Test
+  public void testGetPlayerFullGame() {
+    // Test score after multiple turns
+    gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
+    gameModel.playToGrid(0, 0, 0);
+    gameModel.battle();
+    gameModel.playToGrid(0, 0, 1);
+    gameModel.battle();
+    gameModel.playToGrid(0, 1, 0);
+    gameModel.battle();
+    gameModel.playToGrid(0, 2, 0);
+    gameModel.battle();
+    gameModel.playToGrid(0, 1, 1);
+    gameModel.battle();
+    gameModel.playToGrid(1, 2, 2);
+    gameModel.battle();
+    gameModel.playToGrid(0, 1, 2);
+    gameModel.battle();
+    gameModel.playToGrid(0, 2, 1);
+    gameModel.battle();
+    gameModel.playToGrid(0, 0, 2);
+    gameModel.battle();
+    System.out.println(gameModel.getGrid());
+    assertEquals(6, gameModel.getPlayerScore(redPlayer));
+    assertEquals(4, gameModel.getPlayerScore(bluePlayer));
+  }
 }

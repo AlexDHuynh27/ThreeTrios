@@ -52,4 +52,12 @@ public interface ReadOnlyThreeTriosModel {
    * @throws IllegalStateException if the game has not started or is over.
    */
   List<List<Cell>> getGrid();
+
+  /**
+   * Calculates the current score of the given player.
+   *
+   * @param player The player whose score is to be calculated.
+   * @return The score of the player, which is the sum of cards in hand and cards owned on the grid.
+   */
+  int getPlayerScore(Player player);
 }
