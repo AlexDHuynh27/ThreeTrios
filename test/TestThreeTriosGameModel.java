@@ -872,22 +872,22 @@ public class TestThreeTriosGameModel {
     gameModel.battle();
     gameModel.playToGrid(0, 0, 1);
     gameModel.battle();
-    gameModel.playToGrid(0, 1, 0);
+    gameModel.playToGrid(0, 1, 1);
     gameModel.battle();
     gameModel.playToGrid(0, 2, 0);
     gameModel.battle();
-    gameModel.playToGrid(0, 1, 1);
+    gameModel.playToGrid(0, 2, 2);
     gameModel.battle();
-    gameModel.playToGrid(1, 2, 2);
+    gameModel.playToGrid(1, 1, 0);
     gameModel.battle();
     gameModel.playToGrid(0, 1, 2);
     gameModel.battle();
-    gameModel.playToGrid(0, 2, 1);
-    gameModel.battle();
     gameModel.playToGrid(0, 0, 2);
     gameModel.battle();
+    gameModel.playToGrid(0, 2, 1);
+    gameModel.battle();
     System.out.println(gameModel.getGrid());
-    assertEquals(6, gameModel.getPlayerScore(redPlayer));
-    assertEquals(4, gameModel.getPlayerScore(bluePlayer));
+    assertEquals(7, gameModel.getPlayerScore(redPlayer));
+    assertEquals(3, gameModel.getPlayerScore(bluePlayer));
   }
 }
