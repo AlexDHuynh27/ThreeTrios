@@ -6,7 +6,7 @@ import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.configreader.CardReader;
 import cs3500.threetrios.model.configreader.GridReader;
 import cs3500.threetrios.model.player.HumanPlayer;
-import cs3500.threetrios.view.ThreeTriosGameView;
+import cs3500.threetrios.view.ThreeTriosTextView;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class TestMain {
     newGame.startGame(grid, deck, new HumanPlayer(), new HumanPlayer());
     newGame.playToGrid(1, 2, 2);
     newGame.battle();
-    new ThreeTriosGameView(newGame, System.out).render();
+    new ThreeTriosTextView(newGame, System.out).render();
 
   }
 

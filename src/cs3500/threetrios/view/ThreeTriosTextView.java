@@ -11,7 +11,7 @@ import java.util.List;
  * A class that renders the ThreeTriosGame when given the model. More information on what
  * it renders can be found in the render() method
  */
-public class ThreeTriosGameView {
+public class ThreeTriosTextView {
   ThreeTriosModel model;
   Appendable out;
 
@@ -20,7 +20,7 @@ public class ThreeTriosGameView {
    * @param model a game model of ThreeTriosModel
    * @param out   an Appendable out
    */
-  public ThreeTriosGameView(ThreeTriosModel model, Appendable out) {
+  public ThreeTriosTextView(ThreeTriosModel model, Appendable out) {
     this.model = model;
     this.out = out;
   }
