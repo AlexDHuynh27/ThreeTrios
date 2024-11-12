@@ -8,7 +8,8 @@ import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.player.Player;
 
 /**
- * ThreeTriosModel interface for ThreeTriosGameModel class.
+ * Interface representing a mutable Three Trios game model that extends the read-only version.
+ * Provides additional methods for game setup, playing moves, and initiating battles.
  */
 public interface ThreeTriosModel extends ReadOnlyThreeTriosModel{
 

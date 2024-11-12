@@ -4,7 +4,9 @@ import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 
 /**
- * Interface for a Cell of ThreeTriosGame. Right now can either be a CardCell or Hole.
+ * Represents a cell in the ThreeTrios game board. A cell can either be a CardCell, which holds a
+ * card, or a Hole, which cannot hold any cards. This interface defines the basic operations
+ * available for manipulating cells such as flipping, setting, and getting cards among others.
  */
 public interface Cell {
 

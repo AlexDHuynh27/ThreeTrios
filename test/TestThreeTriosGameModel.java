@@ -797,19 +797,19 @@ public class TestThreeTriosGameModel {
 
     gameModel.startGame(grid2, deck26, redPlayer, bluePlayer);
 
-    assertThrows("Row or column out of bounds", IndexOutOfBoundsException.class, () ->
+    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
             gameModel.playToGrid(0, -1, 0));
-    assertThrows("Row or column out of bounds", IndexOutOfBoundsException.class, () ->
+    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
             gameModel.playToGrid(0, 0, -1));
-    assertThrows("Row or column out of bounds", IndexOutOfBoundsException.class, () ->
+    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
             gameModel.playToGrid(0, 7, 0));
-    assertThrows("Row or column out of bounds", IndexOutOfBoundsException.class, () ->
+    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
             gameModel.playToGrid(0, 0, 7));
-    assertThrows("PlayerIndex is out of bounds", IndexOutOfBoundsException.class, () ->
+    assertThrows("PlayerIndex is out of bounds", IllegalArgumentException.class, () ->
             gameModel.playToGrid(-1, 0, 0));
-    assertThrows("PlayerIndex is out of bounds", IndexOutOfBoundsException.class, () ->
+    assertThrows("PlayerIndex is out of bounds", IllegalArgumentException.class, () ->
             gameModel.playToGrid(15, 0, 0));
-    assertThrows("PlayerIndex is out of bounds", IndexOutOfBoundsException.class, () ->
+    assertThrows("PlayerIndex is out of bounds", IllegalArgumentException.class, () ->
             gameModel.playToGrid(15, 0, 0));
     assertThrows("Row and column given is not a card cell", IllegalArgumentException.class,
      () -> gameModel.playToGrid(0, 0, 2));

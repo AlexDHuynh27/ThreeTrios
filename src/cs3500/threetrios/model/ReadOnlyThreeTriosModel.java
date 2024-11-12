@@ -7,6 +7,11 @@ import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.player.Player;
 
+/**
+ * The ReadOnlyThreeTriosModel interface provides a read-only view of the Three Trios game model,
+ * allowing observation of the game's state without modifying it. This interface supports the
+ * MVC pattern, enabling the view to access the model safely.
+ */
 public interface ReadOnlyThreeTriosModel {
   /**
    * Determines if the game is over or not, by seeing if all card cells are filled.

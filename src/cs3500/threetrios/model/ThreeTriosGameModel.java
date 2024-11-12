@@ -16,7 +16,7 @@ import cs3500.threetrios.model.player.Player;
  * is played correctly by the rules.
  */
 public class ThreeTriosGameModel implements ThreeTriosModel {
-  Random rand;
+  private final Random rand;
   private List<List<Cell>> grid;
   private List<ThreeTriosCard> deck;
   private Player redPlayer;
@@ -94,29 +94,29 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     if (!gameStarted || gameOver) {
       throw new IllegalStateException("Cannot play to grid: game hasn't started or is already " +
               "over.");
-    } else if (row >= grid.size() || column >= grid.get(row).size()) {
+    } else if (row < 0 || row >= grid.size() || column >= grid.get(row).size() || column < 0) {
       throw new IllegalArgumentException("Row or column out of bounds");
-    } else if (!(grid.get(row).get(column) instanceof CardCell)) {
-      throw new IllegalArgumentException("Row and column given is not a card cell");
-    } else if (!grid.get(row).get(column).isEmpty()) {
-      throw new IllegalStateException("CardCell to play on is not empty or is a hole");
-    } else if (playedToGrid) {
-      throw new IllegalStateException("Already played to grid this turn");
     } else {
-      if (colorTurn == CardColor.RED) {
-        ThreeTriosCard card = redPlayer.playFromHand(curPlayerHandIdx);
-        grid.get(row).get(column).setCard(card);
+      if (!(grid.get(row).get(column) instanceof CardCell)) {
+        throw new IllegalArgumentException("Row and column given is not a card cell");
+      } else if (!grid.get(row).get(column).isEmpty()) {
+        throw new IllegalStateException("CardCell to play on is not empty or is a hole");
+      } else if (playedToGrid) {
+        throw new IllegalStateException("Already played to grid this turn");
       } else {
-        ThreeTriosCard card = bluePlayer.playFromHand(curPlayerHandIdx);
-        grid.get(row).get(column).setCard(card);
+        if (colorTurn == CardColor.RED) {
+          ThreeTriosCard card = redPlayer.playFromHand(curPlayerHandIdx);
+          grid.get(row).get(column).setCard(card);
+        } else {
+          ThreeTriosCard card = bluePlayer.playFromHand(curPlayerHandIdx);
+          grid.get(row).get(column).setCard(card);
+        }
+        attackingCardRows.add(row);
+        attackingCardCols.add(column);
+        playedToGrid = true;
       }
-      attackingCardRows.add(row);
-      attackingCardCols.add(column);
-      playedToGrid = true;
     }
   }
-
-
 
   @Override
   public void battle() {
@@ -126,49 +126,16 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
       throw new IllegalStateException("Cannot battle: haven't played to grid this turn yet");
     }
 
-    // To make combo phase seperate to view the battles occuring one by one remove the while loop
-    // and add a boolean that checks if attackingCardRows isEmpty. if it is empty switch turn.
-    // else do nothing.
-    int attackRow;
-    int attackCol;
     while (!attackingCardRows.isEmpty()) {
-      attackRow = attackingCardRows.get(0);
-      attackCol = attackingCardCols.get(0);
-      if (attackRow - 1 >= 0) {
-        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow - 1).get(attackCol),
-                Direction.NORTH)) {
-          grid.get(attackRow - 1).get(attackCol).flipCell();
-          attackingCardRows.add(attackRow - 1);
-          attackingCardCols.add(attackCol);
-        }
-      }
-      if (attackRow + 1 < grid.size()) {
-        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow + 1).get(attackCol)
-                , Direction.SOUTH)) {
-          grid.get(attackRow + 1).get(attackCol).flipCell();
-          attackingCardRows.add(attackRow + 1);
-          attackingCardCols.add(attackCol);
-        }
-      }
-      if (attackCol - 1 >= 0) {
-        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow).get(attackCol - 1)
-                , Direction.WEST)) {
-          grid.get(attackRow).get(attackCol - 1).flipCell();
-          attackingCardRows.add(attackRow);
-          attackingCardCols.add(attackCol - 1);
-        }
-      }
-      if (attackCol + 1 < grid.size()) {
-        if (grid.get(attackRow).get(attackCol).battleCell(grid.get(attackRow).get(attackCol + 1),
-                Direction.EAST)) {
-          grid.get(attackRow).get(attackCol + 1).flipCell();
-          attackingCardRows.add(attackRow);
-          attackingCardCols.add(attackCol + 1);
-        }
-      }
-      attackingCardRows.remove(0);
-      attackingCardCols.remove(0);
+      int attackRow = attackingCardRows.remove(0);
+      int attackCol = attackingCardCols.remove(0);
+
+      processBattle(attackRow, attackCol, attackRow - 1, attackCol, Direction.NORTH);
+      processBattle(attackRow, attackCol, attackRow + 1, attackCol, Direction.SOUTH);
+      processBattle(attackRow, attackCol, attackRow, attackCol - 1, Direction.WEST);
+      processBattle(attackRow, attackCol, attackRow, attackCol + 1, Direction.EAST);
     }
+
     switchTurn();
   }
 
@@ -299,4 +266,13 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     playedToGrid = false;
   }
 
+  private void processBattle(int attackRow, int attackCol, int targetRow, int targetCol, Direction direction) {
+    if (targetRow >= 0 && targetRow < grid.size() && targetCol >= 0 && targetCol < grid.get(targetRow).size()) {
+      if (grid.get(attackRow).get(attackCol).battleCell(grid.get(targetRow).get(targetCol), direction)) {
+        grid.get(targetRow).get(targetCol).flipCell();
+        attackingCardRows.add(targetRow);
+        attackingCardCols.add(targetCol);
+      }
+    }
+  }
 }
