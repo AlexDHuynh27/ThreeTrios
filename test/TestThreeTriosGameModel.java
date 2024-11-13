@@ -15,6 +15,8 @@ import cs3500.threetrios.model.ThreeTriosGameModel;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -31,9 +33,13 @@ public class TestThreeTriosGameModel {
   private ThreeTriosCard maxAttackCard;
   private ThreeTriosCard minAttackCard;
   private ThreeTriosCard filledCard;
+  private ThreeTriosCard eagle;
+  private ThreeTriosCard fox;
   private Cell hole;
   private CardCell emptyCardCell;
   private CardCell filledCardCell;
+  private CardCell red1;
+  private CardCell blue1;
   private Player redPlayer;
   private Player bluePlayer;
   private ThreeTriosGameModel gameModel;
@@ -47,17 +53,25 @@ public class TestThreeTriosGameModel {
   private List<ThreeTriosCard> deck26;
 
   private List<ThreeTriosCard> deck50;
-
   @Before
   public void setUp() {
     card = new ThreeTriosCard("Warrior", 5, 5, 7, 6);
     maxAttackCard = new ThreeTriosCard("MaxCard", 10, 10, 10, 10);
     minAttackCard = new ThreeTriosCard("MinCard", 1, 1, 1, 1);
     filledCard = new ThreeTriosCard("Filled", 6, 2, 1, 3);
+    eagle = new ThreeTriosCard("Eagle", 6, 10, 7, 3);
+    fox = new ThreeTriosCard("Fox", 8, 3, 10, 5);
     hole = new Hole();
     emptyCardCell = new CardCell();
     filledCardCell = new CardCell();
+    red1 = new CardCell();
+    blue1 = new CardCell();
 
+
+    eagle.setColor(CardColor.RED);
+    red1.setCard(eagle);
+    fox.setColor(CardColor.BLUE);
+    blue1.setCard(fox);
     filledCard.setColor(CardColor.RED);
     filledCardCell.setCard(filledCard);
 
@@ -788,31 +802,31 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Test playToGrid exceptions.
+   * Test playToGrid exceptions through isLegalPlay's exception handling.
    */
   @Test
-  public void testPlayToGridExceptions() {
+  public void testIsLegalPlayExceptions() {
     assertThrows("Cannot play to grid: game hasn't started or is already over",
             IllegalStateException.class, () -> gameModel.playToGrid(0, 0, 0));
 
     gameModel.startGame(grid2, deck26, redPlayer, bluePlayer);
 
-    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
-            gameModel.playToGrid(0, -1, 0));
-    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
-            gameModel.playToGrid(0, 0, -1));
-    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
-            gameModel.playToGrid(0, 7, 0));
-    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
-            gameModel.playToGrid(0, 0, 7));
-    assertThrows("PlayerIndex is out of bounds", IllegalArgumentException.class, () ->
-            gameModel.playToGrid(-1, 0, 0));
-    assertThrows("PlayerIndex is out of bounds", IllegalArgumentException.class, () ->
-            gameModel.playToGrid(15, 0, 0));
-    assertThrows("PlayerIndex is out of bounds", IllegalArgumentException.class, () ->
-            gameModel.playToGrid(15, 0, 0));
-    assertThrows("Row and column given is not a card cell", IllegalArgumentException.class,
-     () -> gameModel.playToGrid(0, 0, 2));
+    assertThrows("Cannot play to the specified cell: illegal move.",
+            IllegalArgumentException.class, () -> gameModel.playToGrid(0, -1, 0));
+    assertThrows("Cannot play to the specified cell: illegal move.",
+            IllegalArgumentException.class, () -> gameModel.playToGrid(0, 0, -1));
+    assertThrows("Cannot play to the specified cell: illegal move.",
+            IllegalArgumentException.class, () -> gameModel.playToGrid(0, 7, 0));
+    assertThrows("Cannot play to the specified cell: illegal move.",
+            IllegalArgumentException.class, () -> gameModel.playToGrid(0, 0, 7));
+    assertThrows("Cannot play to the specified cell: illegal move.",
+            IllegalArgumentException.class, () -> gameModel.playToGrid(-1, 0, 0));
+    assertThrows("Cannot play to the specified cell: illegal move.",
+            IllegalArgumentException.class, () -> gameModel.playToGrid(15, 0, 0));
+    assertThrows("Cannot play to the specified cell: illegal move.",
+            IllegalArgumentException.class, () -> gameModel.playToGrid(15, 0, 0));
+    assertThrows("Cannot play to the specified cell: illegal move.",
+            IllegalStateException.class, () -> gameModel.playToGrid(0, 0, 2));
 
     gameModel.playToGrid(0, 0, 0);
 
@@ -823,7 +837,7 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Test initial score after starting the game should be 1/2 of deck
+   * Test initial score after starting the game should be 1/2 of deck.
    */
   @Test
   public void testGetPlayerScoreInitial() {
@@ -833,7 +847,7 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Test score after 0, 1, 2 turns of placing cards and a battle occurring
+   * Test score after 0, 1, 2 turns of placing cards and a battle occurring.
    */
   @Test
   public void testGetPlayerScoreAfterBattle() {
@@ -862,7 +876,7 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Test score after full game of placing cards
+   * Test score after full game of placing cards.
    */
   @Test
   public void testGetPlayerFullGame() {
@@ -889,5 +903,92 @@ public class TestThreeTriosGameModel {
     System.out.println(gameModel.getGrid());
     assertEquals(7, gameModel.getPlayerScore(redPlayer));
     assertEquals(3, gameModel.getPlayerScore(bluePlayer));
+  }
+
+  /**
+   * Test getGridSize() method for non-empty grid state and throwing exception before game start.
+   */
+  @Test
+  public void testGetGridSize() {
+    assertThrows("Game has not started.", IllegalStateException.class, () ->
+            gameModel.getGridSize());
+    gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
+    assertEquals(9, gameModel.getGridSize());
+  }
+
+  /**
+   * Test getGridSize() method for grid state with connected cardCells.
+   */
+  @Test
+  public void testGetGridSize2() {
+    gameModel.startGame(grid2, deck26, redPlayer, bluePlayer);
+    assertEquals(22, gameModel.getGridSize());
+  }
+
+  /**
+   * Test getGridSize() method for grid state with non-connected cardCells.
+   */
+  @Test
+  public void testGetGridSize3() {
+    gameModel.startGame(grid3, deck50, redPlayer, bluePlayer);
+    assertEquals(31, gameModel.getGridSize());
+  }
+
+  /**
+   * Test getCell to ensure the contents are properly retrieved and throws exceptions when needed.
+   */
+  @Test
+  public void testGetCell() {
+    assertThrows("Game has not started.", IllegalStateException.class, () ->
+            gameModel.getCellAt(0,0));
+    gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
+    assertEquals(new CardCell(), gameModel.getCellAt(0,0));
+    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
+            gameModel.getCellAt(0,-1));
+    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
+            gameModel.getCellAt(-1,0));
+    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
+            gameModel.getCellAt(3,0));
+    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
+            gameModel.getCellAt(0,3));
+
+    gameModel.playToGrid(0, 0, 0);
+    assertEquals(red1, gameModel.getCellAt(0,0));
+    assertEquals(new CardCell(), gameModel.getCellAt(0,1));
+
+    gameModel.battle();
+    gameModel.playToGrid(0, 0, 1);
+    assertNotEquals(new CardCell(), gameModel.getCellAt(0,1));
+    assertEquals(blue1, gameModel.getCellAt(0,1));
+  }
+
+  /**
+   * Test for getting CardOwnerColor at different coordinates and making sure exceptions are thrown.
+   */
+  @Test
+  public void testCardOwnerColorAt() {
+    assertThrows("Game has not started.", IllegalStateException.class, () ->
+            gameModel.getCardOwnerColorAt(0,0));
+    gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
+    assertNull(gameModel.getCardOwnerColorAt(0,0));
+
+    assertEquals(new CardCell(), gameModel.getCellAt(0,0));
+    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
+            gameModel.getCardOwnerColorAt(0,-1));
+    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
+            gameModel.getCardOwnerColorAt(-1,0));
+    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
+            gameModel.getCardOwnerColorAt(3,0));
+    assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
+            gameModel.getCardOwnerColorAt(0,3));
+
+    gameModel.playToGrid(0, 0, 0);
+    assertEquals(CardColor.RED, gameModel.getCardOwnerColorAt(0,0));
+    assertNull(gameModel.getCardOwnerColorAt(0,1));
+
+    gameModel.battle();
+    gameModel.playToGrid(0, 0, 1);
+    assertNotNull(gameModel.getCardOwnerColorAt(0,1));
+    assertEquals(CardColor.BLUE, gameModel.getCardOwnerColorAt(0,1));
   }
 }

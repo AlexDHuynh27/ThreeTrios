@@ -60,4 +60,45 @@ public interface ReadOnlyThreeTriosModel {
    * @return The score of the player, which is the sum of cards in hand and cards owned on the grid.
    */
   int getPlayerScore(Player player);
+
+  /**
+   * Retrieves the cell at the specified coordinates.
+   *
+   * @param row    the row index.
+   * @param column the column index.
+   * @return the cell at the specified coordinates.
+   * @throws IllegalStateException    if the game hasn't started.
+   * @throws IllegalArgumentException if the coordinates are out of bounds.
+   */
+  Cell getCellAt(int row, int column);
+
+  /**
+   * Determines which player owns the card at the specified coordinates.
+   *
+   * @param row    the row index.
+   * @param column the column index.
+   * @return the CardColor of the player owning the card, or null if the cell is empty or a hole.
+   * @throws IllegalStateException    if the game hasn't started.
+   * @throws IllegalArgumentException if the coordinates are out of bounds.
+   */
+  CardColor getCardOwnerColorAt(int row, int column);
+
+  /**
+   * Returns the number of CardCells in the grid.
+   *
+   * @return the number of CardCells present in the grid.
+   * @throws IllegalStateException if the game hasn't started.
+   */
+  int getGridSize();
+
+  /**
+   * Checks if it is legal for the current player to play at the given coordinates.
+   *
+   * @param row    the row index.
+   * @param column the column index.
+   * @return true if it is legal to play; false otherwise.
+   * @throws IllegalStateException    if the game hasn't started or is over.
+   * @throws IllegalArgumentException if the coordinates are out of bounds.
+   */
+  boolean isLegalPlay(int row, int column);
 }

@@ -87,34 +87,44 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     dealCards(cardCellCount);
   }
 
-
   @Override
   public void playToGrid(int curPlayerHandIdx, int row, int column) {
-    if (!gameStarted || gameOver) {
-      throw new IllegalStateException("Cannot play to grid: game hasn't started or is already " +
-              "over.");
-    } else if (row < 0 || row >= grid.size() || column >= grid.get(row).size() || column < 0) {
-      throw new IllegalArgumentException("Row or column out of bounds");
-    } else {
-      if (!(grid.get(row).get(column) instanceof CardCell)) {
-        throw new IllegalArgumentException("Row and column given is not a card cell");
-      } else if (!grid.get(row).get(column).isEmpty()) {
-        throw new IllegalStateException("CardCell to play on is not empty or is a hole");
-      } else if (playedToGrid) {
-        throw new IllegalStateException("Already played to grid this turn");
-      } else {
-        if (colorTurn == CardColor.RED) {
-          ThreeTriosCard card = redPlayer.playFromHand(curPlayerHandIdx);
-          grid.get(row).get(column).setCard(card);
-        } else {
-          ThreeTriosCard card = bluePlayer.playFromHand(curPlayerHandIdx);
-          grid.get(row).get(column).setCard(card);
-        }
-        attackingCardRows.add(row);
-        attackingCardCols.add(column);
-        playedToGrid = true;
-      }
+    if (!isLegalPlay(row, column)) {
+      throw new IllegalStateException("Cannot play to the specified cell: illegal move.");
     }
+
+    ThreeTriosCard card;
+    if (colorTurn == CardColor.RED) {
+      card = redPlayer.playFromHand(curPlayerHandIdx);
+    } else {
+      card = bluePlayer.playFromHand(curPlayerHandIdx);
+    }
+
+    grid.get(row).get(column).setCard(card);
+    attackingCardRows.add(row);
+    attackingCardCols.add(column);
+    playedToGrid = true;
+  }
+
+  @Override
+  public boolean isLegalPlay(int row, int column) {
+    if (!gameStarted || gameOver) {
+      throw new IllegalStateException("Game hasn't started or is already over.");
+    }
+    if (row < 0 || row >= grid.size() || column < 0 || column >= grid.get(row).size()) {
+      throw new IllegalArgumentException("Row or column out of bounds");
+    }
+    Cell cell = grid.get(row).get(column);
+    if (!(cell instanceof CardCell)) {
+      return false;
+    }
+    if (!cell.isEmpty()) {
+      return false;
+    }
+    if (playedToGrid) {
+      return false;
+    }
+    return true;
   }
 
   @Override
@@ -164,30 +174,14 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
       throw new IllegalStateException("Cannot determine winner: game is not over.");
     }
 
-    int redCount = redPlayer.getCurrentHandSize();
-    int blueCount = bluePlayer.getCurrentHandSize();
+    int redScore = getPlayerScore(redPlayer);
+    int blueScore = getPlayerScore(bluePlayer);
 
-    // Count the number of cards owned on the grid
-    for (List<Cell> row : grid) {
-      for (Cell cell : row) {
-        if (cell instanceof CardCell) {
-          String cardColor = cell.toString();
-          if (cardColor.equals("R")) {
-            redCount++;
-          } else if (cardColor.equals("B")) {
-            blueCount++;
-          }
-        }
-      }
-    }
-
-    // Determine the winner based on card counts
-    if (redCount > blueCount) {
+    if (redScore > blueScore) {
       return redPlayer;
-    } else if (blueCount > redCount) {
+    } else if (blueScore > redScore) {
       return bluePlayer;
     } else {
-      // tie == null
       return null;
     }
   }
@@ -218,12 +212,49 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
 
     for (List<Cell> row : grid) {
       for (Cell cell : row) {
-        if (cell instanceof CardCell && cell.toString().equals(playerColor == CardColor.RED ? "R" : "B")) {
+        if (cell instanceof CardCell && cell.toString().equals(playerColor == CardColor.RED ?
+                "R" : "B")) {
           score++;
         }
       }
     }
     return score;
+  }
+
+  @Override
+  public Cell getCellAt(int row, int column) {
+    if (!gameStarted) {
+      throw new IllegalStateException("Game has not started.");
+    }
+    if (row < 0 || row >= grid.size() || column < 0 || column >= grid.get(row).size()) {
+      throw new IllegalArgumentException("Row or column out of bounds");
+    }
+    return grid.get(row).get(column);
+  }
+
+  @Override
+  public CardColor getCardOwnerColorAt(int row, int column) {
+    if (!gameStarted) {
+      throw new IllegalStateException("Game has not started.");
+    }
+    if (row < 0 || row >= grid.size() || column < 0 || column >= grid.get(row).size()) {
+      throw new IllegalArgumentException("Row or column out of bounds");
+    }
+    Cell cell = grid.get(row).get(column);
+    if (cell instanceof CardCell) {
+      ThreeTriosCard card = cell.getCard();
+      if (card != null) {
+        return card.getColor();
+      }
+    }
+    return null;
+  }
+
+  public int getGridSize() {
+    if (!gameStarted) {
+      throw new IllegalStateException("Game has not started.");
+    }
+    return countCardCells(grid);
   }
 
   /**

@@ -1,5 +1,7 @@
 package cs3500.threetrios.model.cell;
 
+import java.util.Objects;
+
 import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 
@@ -74,5 +76,29 @@ public class CardCell implements Cell {
     } else {
       return this.card.colorString();
     }
+  }
+
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof CardCell)) {
+      return false;
+    }
+    CardCell other = (CardCell) obj;
+    if (this.card == null && other.card == null) {
+      return true;
+    }
+    if (this.card != null && other.card != null) {
+      return this.card.equals(other.card);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(card);
   }
 }

@@ -1,5 +1,7 @@
 package cs3500.threetrios.model.card;
 
+import java.util.Objects;
+
 /**
  * Represents a card in the ThreeTrios game. A card has a name, and four attack values, one for
  * each side of the card.
@@ -132,5 +134,27 @@ public class ThreeTriosCard implements Card {
     } else {
       return "B";
     }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    ThreeTriosCard other = (ThreeTriosCard) obj;
+    return north == other.north &&
+            south == other.south &&
+            east == other.east &&
+            west == other.west &&
+            Objects.equals(name, other.name) &&
+            color == other.color;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, north, south, east, west, color);
   }
 }
