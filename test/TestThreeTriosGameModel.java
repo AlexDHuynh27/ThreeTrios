@@ -990,4 +990,38 @@ public class TestThreeTriosGameModel {
     assertNotNull(gameModel.getCardOwnerColorAt(0,1));
     assertEquals(CardColor.BLUE, gameModel.getCardOwnerColorAt(0,1));
   }
+
+  @Test
+  public void testHowManyFlip() {
+    gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
+
+    System.out.println(gameModel.getHand(CardColor.RED));
+    System.out.println(gameModel.getHand(CardColor.BLUE));
+
+    gameModel.playToGrid(0, 0, 0);
+    gameModel.battle();
+    gameModel.playToGrid(0, 1, 0);
+    gameModel.battle();
+
+    gameModel.playToGrid(0, 2, 0);
+    gameModel.battle();
+
+    System.out.println(gameModel.getGrid());
+
+    gameModel.playToGrid(0, 1, 1);
+    gameModel.battle();
+
+    System.out.println(gameModel.getGrid());
+
+    gameModel.playToGrid(0, 2, 2);
+    gameModel.battle();
+
+    System.out.println(gameModel.getGrid());
+
+    gameModel.playToGrid(0, 1, 2);
+    gameModel.battle();
+
+    System.out.println(gameModel.getGrid());
+    // assertEquals(1, gameModel.howManyFlips(eagle, 2, 0));
+  }
 }

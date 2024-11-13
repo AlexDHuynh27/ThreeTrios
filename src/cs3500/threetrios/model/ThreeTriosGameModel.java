@@ -9,6 +9,7 @@ import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.cell.CardCell;
+import cs3500.threetrios.model.cell.Hole;
 import cs3500.threetrios.model.player.Player;
 
 /**
@@ -250,12 +251,121 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     return null;
   }
 
+  @Override
   public int getGridSize() {
     if (!gameStarted) {
       throw new IllegalStateException("Game has not started.");
     }
     return countCardCells(grid);
   }
+
+  @Override
+  public int howManyFlips(ThreeTriosCard card, int row, int column) {
+    validateSimulationParameters(card, row, column);
+    List<List<Cell>> gridCopy = copyGrid();
+    placeCardInGridCopy(card, row, column, gridCopy);
+
+    return simulateBattle(gridCopy, row, column);
+  }
+
+  private void validateSimulationParameters(ThreeTriosCard card, int row, int column) {
+    if (!gameStarted || gameOver)
+      throw new IllegalStateException("Cannot simulate battle: game hasn't started or is already" +
+               " over.");
+    if (card == null)
+      throw new IllegalArgumentException("Card cannot be null.");
+    if (row < 0 || row >= grid.size() || column < 0 || column >= grid.get(row).size())
+      throw new IllegalArgumentException("Row or column out of bounds");
+    Cell cell = grid.get(row).get(column);
+    if (!(cell instanceof CardCell) || !cell.isEmpty())
+      throw new IllegalArgumentException("Invalid cell to play on.");
+  }
+
+  private void placeCardInGridCopy(ThreeTriosCard card, int row, int column,
+                                    List<List<Cell>> gridCopy) {
+    ThreeTriosCard cardCopy = new ThreeTriosCard(
+            card.getName(),
+            card.getAttack(Direction.NORTH),
+            card.getAttack(Direction.SOUTH),
+            card.getAttack(Direction.EAST),
+            card.getAttack(Direction.WEST));
+    cardCopy.setColor(card.getColor());
+    gridCopy.get(row).get(column).setCard(cardCopy);
+  }
+
+  private int simulateBattle(List<List<Cell>> gridCopy, int startRow, int startCol) {
+    List<int[]> attackingPositions = new ArrayList<>();
+    attackingPositions.add(new int[]{startRow, startCol});
+    int flipCount = 0;
+
+    int[][] directions = {
+            {-1, 0, Direction.NORTH.ordinal()},
+            {1, 0, Direction.SOUTH.ordinal()},
+            {0, -1, Direction.WEST.ordinal()},
+            {0, 1, Direction.EAST.ordinal()}};
+
+    while (!attackingPositions.isEmpty()) {
+      int[] pos = attackingPositions.remove(0);
+      int attackRow = pos[0], attackCol = pos[1];
+      for (int[] dir : directions) {
+        int targetRow = attackRow + dir[0];
+        int targetCol = attackCol + dir[1];
+        Direction direction = Direction.values()[dir[2]];
+        flipCount += processSimulatedBattle(gridCopy, attackingPositions, attackRow, attackCol,
+                targetRow, targetCol, direction);
+      }
+    }
+    return flipCount;
+  }
+
+  private int processSimulatedBattle(List<List<Cell>> gridCopy, List<int[]> attackingPositions,
+                                     int attackRow, int attackCol, int targetRow, int targetCol,
+                                     Direction direction) {
+    if (targetRow >= 0 && targetRow < gridCopy.size() && targetCol >= 0
+            && targetCol < gridCopy.get(targetRow).size()) {
+      Cell attackingCell = gridCopy.get(attackRow).get(attackCol);
+      Cell targetCell = gridCopy.get(targetRow).get(targetCol);
+
+      if (targetCell instanceof CardCell && !targetCell.isEmpty()) {
+        if (!attackingCell.toString().equals(targetCell.toString())
+                && attackingCell.battleCell(targetCell, direction)) {
+          targetCell.flipCell();
+          attackingPositions.add(new int[]{targetRow, targetCol});
+          return 1;
+        }
+      }
+    }
+    return 0;
+  }
+
+  private List<List<Cell>> copyGrid() {
+    List<List<Cell>> gridCopy = new ArrayList<>();
+    for (List<Cell> rowList : grid) {
+      List<Cell> rowCopy = new ArrayList<>();
+      for (Cell c : rowList) {
+        if (c instanceof CardCell) {
+          CardCell cellCopy = new CardCell();
+          ThreeTriosCard cellCard = c.getCard();
+          if (cellCard != null) {
+            // Create a copy of the card
+            ThreeTriosCard cardCopy = new ThreeTriosCard(cellCard.getName(),
+                    cellCard.getAttack(Direction.NORTH),
+                    cellCard.getAttack(Direction.SOUTH),
+                    cellCard.getAttack(Direction.EAST),
+                    cellCard.getAttack(Direction.WEST));
+            cardCopy.setColor(cellCard.getColor());
+            cellCopy.setCard(cardCopy);
+          }
+          rowCopy.add(cellCopy);
+        } else {
+          rowCopy.add(new Hole());
+        }
+      }
+      gridCopy.add(rowCopy);
+    }
+    return gridCopy;
+  }
+
 
   /**
    * Shuffles this deck based on this ThreeTriosGameModel's Random object.

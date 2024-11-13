@@ -101,4 +101,16 @@ public interface ReadOnlyThreeTriosModel {
    * @throws IllegalArgumentException if the coordinates are out of bounds.
    */
   boolean isLegalPlay(int row, int column);
+
+  /**
+   * Simulates playing a card at the given coordinates and returns the number of cards that would be flipped.
+   *
+   * @param card   the card to play.
+   * @param row    the row index.
+   * @param column the column index.
+   * @return the number of cards that would be flipped.
+   * @throws IllegalStateException    if the game hasn't started or is over.
+   * @throws IllegalArgumentException if the coordinates are out of bounds or the cell is invalid.
+   */
+  int howManyFlips(ThreeTriosCard card, int row, int column);
 }
