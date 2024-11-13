@@ -900,7 +900,6 @@ public class TestThreeTriosGameModel {
     gameModel.battle();
     gameModel.playToGrid(0, 2, 1);
     gameModel.battle();
-    System.out.println(gameModel.getGrid());
     assertEquals(7, gameModel.getPlayerScore(redPlayer));
     assertEquals(3, gameModel.getPlayerScore(bluePlayer));
   }
