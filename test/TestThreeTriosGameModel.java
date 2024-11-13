@@ -33,8 +33,6 @@ public class TestThreeTriosGameModel {
   private ThreeTriosCard maxAttackCard;
   private ThreeTriosCard minAttackCard;
   private ThreeTriosCard filledCard;
-  private ThreeTriosCard eagle;
-  private ThreeTriosCard fox;
   private Cell hole;
   private CardCell emptyCardCell;
   private CardCell filledCardCell;
@@ -53,6 +51,10 @@ public class TestThreeTriosGameModel {
   private List<ThreeTriosCard> deck26;
 
   private List<ThreeTriosCard> deck50;
+  private ThreeTriosCard croc;
+  private ThreeTriosCard eagle;
+  private ThreeTriosCard fox;
+
   @Before
   public void setUp() {
     card = new ThreeTriosCard("Warrior", 5, 5, 7, 6);
@@ -61,6 +63,7 @@ public class TestThreeTriosGameModel {
     filledCard = new ThreeTriosCard("Filled", 6, 2, 1, 3);
     eagle = new ThreeTriosCard("Eagle", 6, 10, 7, 3);
     fox = new ThreeTriosCard("Fox", 8, 3, 10, 5);
+    croc = new ThreeTriosCard("Crocodile", 3, 8, 5, 7);
     hole = new Hole();
     emptyCardCell = new CardCell();
     filledCardCell = new CardCell();
@@ -72,6 +75,7 @@ public class TestThreeTriosGameModel {
     red1.setCard(eagle);
     fox.setColor(CardColor.BLUE);
     blue1.setCard(fox);
+    croc.setColor(CardColor.BLUE);
     filledCard.setColor(CardColor.RED);
     filledCardCell.setCard(filledCard);
 
@@ -991,37 +995,29 @@ public class TestThreeTriosGameModel {
     assertEquals(CardColor.BLUE, gameModel.getCardOwnerColorAt(0,1));
   }
 
+  /**
+   * Test howManyFlips() for 0, 1, and Combo Flips.
+   */
   @Test
   public void testHowManyFlip() {
     gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
 
-    System.out.println(gameModel.getHand(CardColor.RED));
-    System.out.println(gameModel.getHand(CardColor.BLUE));
+    assertEquals(0, gameModel.howManyFlips(eagle,2, 1));
 
-    gameModel.playToGrid(0, 0, 0);
+    gameModel.playToGrid(0, 2, 1);
     gameModel.battle();
-    gameModel.playToGrid(0, 1, 0);
-    gameModel.battle();
+
+    assertEquals(1, gameModel.howManyFlips(fox,2, 0));
 
     gameModel.playToGrid(0, 2, 0);
     gameModel.battle();
-
-    System.out.println(gameModel.getGrid());
-
     gameModel.playToGrid(0, 1, 1);
     gameModel.battle();
-
-    System.out.println(gameModel.getGrid());
-
-    gameModel.playToGrid(0, 2, 2);
+    gameModel.playToGrid(0, 1, 0);
+    gameModel.battle();
+    gameModel.playToGrid(0, 0, 0);
     gameModel.battle();
 
-    System.out.println(gameModel.getGrid());
-
-    gameModel.playToGrid(0, 1, 2);
-    gameModel.battle();
-
-    System.out.println(gameModel.getGrid());
-    // assertEquals(1, gameModel.howManyFlips(eagle, 2, 0));
+    assertEquals(3, gameModel.howManyFlips(croc,0, 1));
   }
 }
