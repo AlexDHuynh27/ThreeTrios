@@ -20,7 +20,6 @@ public class HumanPlayer implements Player {
     hand = new ArrayList<>();
   }
 
-  //ADD test
   @Override
   public void addToHand(ThreeTriosCard card) {
     if (this.color == null) {

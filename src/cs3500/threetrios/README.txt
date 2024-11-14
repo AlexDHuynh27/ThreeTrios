@@ -134,3 +134,66 @@ ConfigReaders - cs3500.model.configreader
 Player - cs3500.model.player
 View - cs3500.view
 
+
+
+
+Changes for part 2:
+	⁃	Updated Battle method by separating the processing of battling to a helper method making
+	the battle method easier to use
+	⁃	Added ReadOnly interface with methods used only for observing the model
+	⁃	Added a mutable copy of Grid method making so that instead of returning an immutable list
+	    copy of the grid, we were able to have a mutable copy that we could use later on for
+	    simulating battle.
+	⁃	Added methods in order to figure out how many potential flips a turn could allow for by
+	    running simulated battles in mutable copies of the grid. This also helped when thinking
+	    about what the AI bot would need in order to implement the given strategies.
+	⁃	Added a method that returns the total gridSize or the total amount of CardCell (playable
+	    cells) in the grid making it easier for GUI implementation.
+	⁃	Added a method that returns the contents of a cell at the given (row, column). Gave us easy
+	    access to certain cells contents, before we were just checking if it was a cardCell and if
+	    it was the same color which was making the methods too long.
+	⁃	Added a method that gave the specific color of a cell. Made it easier to distinguish what
+	    colors are where.
+	⁃	Added a isLegalPlay method that helped to make the playToGrid much smaller and easier to
+	    work with. Also helped separate the legality with the actual functionality of the method,
+	    (is it legal and what to do were combined before).
+	⁃	Added a method to keep track of player score by counting number of cards in deck and in
+	    hand for given player. Made it easier to tell who is winning.
+	⁃	Already had a method for if game was over, so no change there.
+	⁃	Already had a method for playing to grid, however, changed it as mentioned above making it
+	    easier to work with and read.
+	⁃	Already had a way to run simulated tests of the grid with the configuration files at hand,
+	    so no big change there.
+	⁃	Updated the test class for whatever new methods we created to ensure proper functionality.
+
+
+
+
+
+
+
+Strategy 1 Impl:
+- We iterate over each card in the AI player's hand and every legal position on the grid,
+ calculating the number of opponent's cards that would be flipped if that card were played at that
+ position. It keeps track of all moves that result in the maximum number of flips, storing them in
+ the bestMoves list. If multiple moves have the same maximum flips, tie-breaker rules are applied
+ via the selectBestMove method to choose the optimal move. If no legal moves are available, it
+ defaults to selecting the first legal move found which would be the top-most left-most position
+ with cardIndex 0.
+
+
+Strategy 2 Impl:
+ - We first identify all corner cells and check for legal plays in those positions. For each legal
+ corner and each card in the player's hand, it calculates a "hardness" score based on the sum of
+ the card's attack values on the exposed sides when placed in that corner. The strategy selects the
+ move with the highest hardness score and if there are multiple such moves, it applies tie-breaker
+ rules to choose the optimal one.
+
+Strategy 3 Impl (Extra Credit):
+- We evaluate each card in the AI player's hand and every legal position on the grid, calculating a
+  "vulnerability" score for each potential move using the calculateVulnerability method which tells
+  us how susceptible the placed card would be to being flipped by the opponent's possible moves.
+  The strategy selects the moves with the lowest vulnerability scores, aiming to choose the safest
+  option. If there are multiple moves with the same minimal vulnerability, it applies tie-breaker
+  rules using selectBestMove to determine the optimal move. If no legal moves are found, it
+  defaults to selecting the first available legal move.

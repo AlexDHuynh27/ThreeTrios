@@ -1,32 +1,54 @@
-package cs3500.threetrios.model;
+package cs3500.threetrios.model.player;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
+import cs3500.threetrios.model.ReadOnlyThreeTriosModel;
 import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.cell.CardCell;
 
-public class StratsClassTemp {
+public class AIPlayer implements Player {
   private final List<ThreeTriosCard> hand;
-  private final int strategyNumber;
   private CardColor color;
 
-  public StratsClassTemp(int strategyNumber) {
-    if (strategyNumber != 1 && strategyNumber != 2) {
-      throw new IllegalArgumentException("Invalid strategy number. Must be 1 or 2.");
+  public AIPlayer(int strategyNumber) {
+    if (strategyNumber < 0 || strategyNumber > 3) {
+      throw new IllegalArgumentException("Invalid strategy number. Must be 1, 2, or 3.");
     }
-    this.strategyNumber = strategyNumber;
     this.hand = new ArrayList<>();
   }
 
+  @Override
+  public void addToHand(ThreeTriosCard card) {
+    if (this.color == null) {
+      throw new IllegalStateException("Color of this player hasn't been set.");
+    }
+    card.setColor(this.color);
+    this.hand.add(card);
+  }
+
+  @Override
   public List<ThreeTriosCard> getHand() {
     return List.copyOf(hand);
   }
 
+  @Override
+  public ThreeTriosCard playFromHand(int idx) {
+    if (idx < 0 || idx >= hand.size()) {
+      throw new IllegalArgumentException("Index out of bounds " + idx);
+    }
+    return this.hand.remove(idx);
+  }
+
+  @Override
+  public int getCurrentHandSize() {
+    return this.hand.size();
+  }
+
+  @Override
   public CardColor getColor() {
     if (this.color == null) {
       throw new IllegalStateException("Color is not set");
@@ -34,6 +56,7 @@ public class StratsClassTemp {
     return this.color;
   }
 
+  @Override
   public void setColor(CardColor color) {
     if (this.color != null) {
       throw new IllegalStateException("Color is already set");
@@ -41,6 +64,19 @@ public class StratsClassTemp {
     this.color = color;
   }
 
+  /**
+   * Determines the best move by selecting the play that flips the maximum number of opponent's
+   * cards in a single turn. It evaluates all possible plays with each card in the hand on all
+   * legal positions of the grid, calculating the number of flips for each move.
+   * <p>
+   * If multiple moves result in the same maximum flips, tie-breaker rules are applied:
+   * choose the move with the uppermost-leftmost coordinate, and if still tied, select the card
+   * with the smallest index in the hand. If no legal moves are available, it selects the first
+   * legal move found.
+   *
+   * @param model the current read-only game model
+   * @return an array of integers representing the chosen move: [card index in hand, row, column]
+   */
   public int[] strategy1(ReadOnlyThreeTriosModel model) {
     int maxFlips = -1;
     List<int[]> bestMoves = new ArrayList<>();
@@ -100,6 +136,19 @@ public class StratsClassTemp {
     return bestMove;
   }
 
+  /**
+   * Determines the best move by placing a card in a corner position, selecting the card that is
+   * hardest for the opponent to flip. It evaluates all legal corner positions and calculates a
+   * "hardness" score for each card based on the attack values exposed when placed in that corner.
+   * <p>
+   * If multiple moves have the same maximum hardness, tie-breaker rules are applied:
+   * choose the move with the uppermost-leftmost coordinate, and if still tied, select the card
+   * with the smallest index in the hand. If no legal corner moves are available, it selects the
+   * first legal move found.
+   *
+   * @param model the current read-only game model
+   * @return an array of integers representing the chosen move: [card index in hand, row, column]
+   */
   public int[] strategy2(ReadOnlyThreeTriosModel model) {
     List<int[]> possibleMoves = new ArrayList<>();
     List<ThreeTriosCard> hand = this.getHand();
@@ -182,7 +231,21 @@ public class StratsClassTemp {
     return hardness;
   }
 
-  public int[] strategy3(ReadOnlyThreeTriosModel model) {
+  /**
+   * Determines the best move by selecting the play that minimizes the risk of the placed card
+   * being flipped by the opponent in future turns. It calculates a "vulnerability" score for
+   * each possible move, representing how susceptible the card is to being flipped based on the
+   * opponent's potential moves.
+   * <p>
+   * If multiple moves have the same minimal vulnerability, tie-breaker rules are applied:
+   * choose the move with the uppermost-leftmost coordinate, and if still tied, select the card
+   * with the smallest index in the hand. If no legal moves are available, it selects the first
+   * legal move found.
+   *
+   * @param model the current read-only game model
+   * @return an array of integers representing the chosen move: [card index in hand, row, column]
+   */
+  private int[] strategy3(ReadOnlyThreeTriosModel model) {
     List<ThreeTriosCard> myHand = this.getHand();
     CardColor opponentColor = this.getColor() == CardColor.RED ? CardColor.BLUE : CardColor.RED;
     List<ThreeTriosCard> opponentHand = model.getHand(opponentColor);
@@ -285,5 +348,4 @@ public class StratsClassTemp {
 
     return oppAttackValue > ourDefenseValue;
   }
-
 }

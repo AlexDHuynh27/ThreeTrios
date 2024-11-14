@@ -10,6 +10,7 @@ import cs3500.threetrios.model.cell.Hole;
 import cs3500.threetrios.model.configreader.CardReader;
 import cs3500.threetrios.model.configreader.GridReader;
 import cs3500.threetrios.model.player.HumanPlayer;
+import cs3500.threetrios.model.player.AIPlayer;
 import cs3500.threetrios.model.player.Player;
 import cs3500.threetrios.model.ThreeTriosGameModel;
 
@@ -1019,5 +1020,21 @@ public class TestThreeTriosGameModel {
     gameModel.battle();
 
     assertEquals(3, gameModel.howManyFlips(croc,0, 1));
+  }
+
+  /**
+   * Test howManyFlips() for 0, 1, and Combo Flips.
+   */
+  @Test
+  public void testAIPlayer() {
+    AIPlayer bot1 = new AIPlayer(1);
+    gameModel.startGame(grid1, deck10, redPlayer, bot1);
+    gameModel.playToGrid(0, 0, 0);
+    gameModel.battle();
+    System.out.println(gameModel.getHand(CardColor.BLUE));
+    int [] a = bot1.strategy1(gameModel);
+    gameModel.playToGrid(a[0], a[1], a[2]);
+    System.out.println(gameModel.getGrid());
+    System.out.println(gameModel.getHand(CardColor.BLUE));
   }
 }
