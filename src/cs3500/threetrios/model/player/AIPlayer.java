@@ -15,17 +15,8 @@ import cs3500.threetrios.model.cell.CardCell;
  * Can function like a normal player and play a game of ThreeTriosModel and has a hand.
  */
 public class AIPlayer implements Player {
-  private final List<ThreeTriosCard> hand;
+  private List<ThreeTriosCard> hand;
   private CardColor color;
-
-  public AIPlayer() {
-  /**
-   * Constructor for AIPlayer.
-   * @param strategyNumber represents the strategy this AIPlayer will use.
-   */
-  public AIPlayer() {
-    this.hand = new ArrayList<>();
-  }
 
   @Override
   public void addToHand(ThreeTriosCard card) {
