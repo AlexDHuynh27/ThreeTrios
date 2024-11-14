@@ -19,7 +19,7 @@ public class AIPlayer implements Player {
   private CardColor color;
 
   /**
-   * Constructor for AIPlayer
+   * Constructor for AIPlayer.
    * @param strategyNumber represents the strategy this AIPlayer will use.
    */
   public AIPlayer(int strategyNumber) {
