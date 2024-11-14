@@ -1092,7 +1092,7 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Test strategy 1. AI player should place at row:0, col:1 because it flips 3 cards in 1 turn
+   * Test strategy 1. AI player should place at row:0, col:1 because it flips 3 cards in 1 turn.
    */
   @Test
   public void testStrategy1With3Flips() {
@@ -1167,5 +1167,33 @@ public class TestThreeTriosGameModel {
     assertEquals(0, a[2]);
   }
 
-
+  /**
+   * Test strategy 3 with no corners available. AI player should place at 1,0 because
+   * it is the top-left most.
+   */
+  @Test
+  public void testStrategy3() {
+    AIPlayer bot1 = new AIPlayer();
+    gameModel.startGame(grid1, deck10, redPlayer, bot1);
+    gameModel.playToGrid(0, 0, 0);
+    gameModel.battle();
+    gameModel.playToGrid(0, 2, 0);
+    gameModel.battle();
+    gameModel.playToGrid(0, 0, 2);
+    gameModel.battle();
+    gameModel.playToGrid(0, 2, 2);
+    gameModel.battle();
+    gameModel.playToGrid(0, 2, 1);
+    gameModel.battle();
+    System.out.println(gameModel.getHand(CardColor.BLUE));
+    System.out.println(gameModel.getGrid());
+    int [] a = bot1.strategy3(gameModel);
+    gameModel.playToGrid(a[0],a[1],a[2]);
+    gameModel.battle();
+    System.out.println(gameModel.getHand(CardColor.BLUE));
+    System.out.println(gameModel.getGrid());
+    assertEquals( 2, a[0]);
+    assertEquals( 1, a[1]);
+    assertEquals( 0, a[2]);
+  }
 }
