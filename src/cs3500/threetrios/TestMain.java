@@ -42,10 +42,12 @@ public class TestMain {
     newGame.battle();
     newGame.playToGrid(0, 2, 2);
     newGame.battle();
+    newGame.playToGrid(0, 3, 0);
+    newGame.battle();
     ThreeTriosGraphicsView view =
         new ThreeTriosGraphicsView(new ReadOnlyThreeTriosGameModel(newGame));
     List<ThreeTriosCard> hand = new ArrayList<>();
-    view.setSelected(CardColor.BLUE, 3);
+    view.setSelected(CardColor.RED, 3);
     view.makeVisible();
 
   }
