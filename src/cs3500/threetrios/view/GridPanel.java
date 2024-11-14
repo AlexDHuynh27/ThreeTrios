@@ -6,8 +6,12 @@ import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.cell.Hole;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import javax.swing.JPanel;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,22 +44,22 @@ public class GridPanel extends JPanel {
     for (int i = 0; i < grid.size(); i++) {
       for (int j = 0; j < grid.size(); j++) {
         Cell cell = grid.get(i).get(j);
-        int ScaleX = this.getWidth() / grid.size();
-        int ScaleY = this.getHeight() / grid.size();
+        int scaleX = this.getWidth() / grid.size();
+        int scaleY = this.getHeight() / grid.size();
         if (cell instanceof Hole) {
           g2d.setColor(Color.GRAY);
-          g2d.fillRect(ScaleX * j + 1, ScaleY * i + 1, ScaleX - 2,
-              ScaleY - 2);
+          g2d.fillRect(scaleX * j + 1, scaleY * i + 1, scaleX - 2,
+              scaleY - 2);
         }
         else if (cell.isEmpty()) {
           g2d.setColor(Color.YELLOW);
-          g2d.fillRect(ScaleX * j + 1, ScaleY * i + 1, ScaleX - 2,
-              ScaleY - 2);
+          g2d.fillRect(scaleX * j + 1, scaleY * i + 1, scaleX - 2,
+              scaleY - 2);
         }
         else {
           g2d.setColor(cardToColor(cell.getCard()));
-          g2d.fillRect(ScaleX * j + 1, ScaleY * i + 1, ScaleX - 2,
-              ScaleY - 2);
+          g2d.fillRect(scaleX * j + 1, scaleY * i + 1, scaleX - 2,
+              scaleY - 2);
           drawAttacks(g2d, i, j);
         }
       }
@@ -92,7 +96,7 @@ public class GridPanel extends JPanel {
 
   /**
    * Provide the GridPanel with the current grid
-   * of the ThreeTriosModel, presumably to show it
+   * of the ThreeTriosModel, presumably to show it.
    *
    * @param grid the grid of a ThreeTriosModel to show
    */

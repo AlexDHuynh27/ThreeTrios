@@ -1,6 +1,5 @@
 package cs3500.threetrios.model.card;
 
-import java.awt.*;
 
 /**
  * Represents the two different sides of a game of ThreeTrios. Red and Blue. CardColor

@@ -12,11 +12,15 @@ import java.util.List;
  */
 public interface IView {
 
+  /**
+   * Make the view visible. This is usually called
+   * after the view is constructed
+   */
   void makeVisible();
 
   /**
    * Provide the view with the current hand
-   * of a player with it's associated color, presumably to show it
+   * of a player with it's associated color, presumably to show it.
    *
    * @param color The Color of the player that's hand is being set
    * @param hand The hand to set
@@ -25,7 +29,7 @@ public interface IView {
 
   /**
    * Provide the view with the current grid
-   * of the ThreeTriosModel, presumably to show it
+   * of the ThreeTriosModel, presumably to show it.
    *
    * @param grid the grid of a ThreeTriosModel to show
    */

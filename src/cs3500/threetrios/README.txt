@@ -138,8 +138,10 @@ View - cs3500.view
 
 
 Changes for part 2:
+    -   Added a attackToString method in the ThreeTriosCardClass, for easier graphical display.
+        And updated toString to use the attackToString method
 	⁃	Updated Battle method by separating the processing of battling to a helper method making
-	the battle method easier to use
+	    the battle method easier to use
 	⁃	Added ReadOnly interface with methods used only for observing the model
 	⁃	Added a mutable copy of Grid method making so that instead of returning an immutable list
 	    copy of the grid, we were able to have a mutable copy that we could use later on for

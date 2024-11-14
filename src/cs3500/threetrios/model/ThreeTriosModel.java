@@ -2,7 +2,6 @@ package cs3500.threetrios.model;
 
 import java.util.List;
 
-import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.player.Player;
@@ -11,7 +10,7 @@ import cs3500.threetrios.model.player.Player;
  * Interface representing a mutable Three Trios game model that extends the read-only version.
  * Provides additional methods for game setup, playing moves, and initiating battles.
  */
-public interface ThreeTriosModel extends ReadOnlyThreeTriosModel{
+public interface ThreeTriosModel extends ReadOnlyThreeTriosModel {
 
   /**
    * Starts the game using given grid, deck, redPlayer, and bluePlayer.

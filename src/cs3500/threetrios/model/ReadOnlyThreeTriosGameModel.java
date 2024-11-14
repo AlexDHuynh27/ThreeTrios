@@ -7,6 +7,10 @@ import cs3500.threetrios.model.player.Player;
 
 import java.util.List;
 
+/**
+ * Represents a Read-only model of a ThreeTriosGame. Provides no mutibility,
+ * but provides useful information about the current state of the game.
+ */
 public class ReadOnlyThreeTriosGameModel implements ReadOnlyThreeTriosModel {
   ThreeTriosGameModel gameModel;
 

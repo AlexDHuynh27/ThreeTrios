@@ -10,10 +10,18 @@ import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.cell.CardCell;
 
+/**
+ * Represents an autonomous player that has access to multiple different strategies.
+ * Can function like a normal player and play a game of ThreeTriosModel and has a hand.
+ */
 public class AIPlayer implements Player {
   private final List<ThreeTriosCard> hand;
   private CardColor color;
 
+  /**
+   * Constructor for AIPlayer
+   * @param strategyNumber represents the strategy this AIPlayer will use.
+   */
   public AIPlayer(int strategyNumber) {
     if (strategyNumber < 0 || strategyNumber > 3) {
       throw new IllegalArgumentException("Invalid strategy number. Must be 1, 2, or 3.");
@@ -68,7 +76,6 @@ public class AIPlayer implements Player {
    * Determines the best move by selecting the play that flips the maximum number of opponent's
    * cards in a single turn. It evaluates all possible plays with each card in the hand on all
    * legal positions of the grid, calculating the number of flips for each move.
-   * <p>
    * If multiple moves result in the same maximum flips, tie-breaker rules are applied:
    * choose the move with the uppermost-leftmost coordinate, and if still tied, select the card
    * with the smallest index in the hand. If no legal moves are available, it selects the first
@@ -128,8 +135,8 @@ public class AIPlayer implements Player {
   private int[] selectBestMove(List<int[]> moves) {
     int[] bestMove = moves.get(0);
     for (int[] move : moves) {
-      if (move[1] < bestMove[1] || (move[1] == bestMove[1] && move[2] < bestMove[2]) ||
-              (move[1] == bestMove[1] && move[2] == bestMove[2] && move[0] < bestMove[0])) {
+      if (move[1] < bestMove[1] || (move[1] == bestMove[1] && move[2] < bestMove[2])
+          || (move[1] == bestMove[1] && move[2] == bestMove[2] && move[0] < bestMove[0])) {
         bestMove = move;
       }
     }
@@ -140,7 +147,6 @@ public class AIPlayer implements Player {
    * Determines the best move by placing a card in a corner position, selecting the card that is
    * hardest for the opponent to flip. It evaluates all legal corner positions and calculates a
    * "hardness" score for each card based on the attack values exposed when placed in that corner.
-   * <p>
    * If multiple moves have the same maximum hardness, tie-breaker rules are applied:
    * choose the move with the uppermost-leftmost coordinate, and if still tied, select the card
    * with the smallest index in the hand. If no legal corner moves are available, it selects the
@@ -219,10 +225,18 @@ public class AIPlayer implements Player {
     int numCols = grid.get(0).size();
     List<Direction> exposedDirections = new ArrayList<>();
 
-    if (row == 0) exposedDirections.add(Direction.NORTH);
-    if (row == numRows - 1) exposedDirections.add(Direction.SOUTH);
-    if (col == 0) exposedDirections.add(Direction.WEST);
-    if (col == numCols - 1) exposedDirections.add(Direction.EAST);
+    if (row == 0) {
+      exposedDirections.add(Direction.NORTH);
+    }
+    if (row == numRows - 1) {
+      exposedDirections.add(Direction.SOUTH);
+    }
+    if (col == 0) {
+      exposedDirections.add(Direction.WEST);
+    }
+    if (col == numCols - 1) {
+      exposedDirections.add(Direction.EAST);
+    }
 
     int hardness = 0;
     for (Direction dir : exposedDirections) {
@@ -236,7 +250,6 @@ public class AIPlayer implements Player {
    * being flipped by the opponent in future turns. It calculates a "vulnerability" score for
    * each possible move, representing how susceptible the card is to being flipped based on the
    * opponent's potential moves.
-   * <p>
    * If multiple moves have the same minimal vulnerability, tie-breaker rules are applied:
    * choose the move with the uppermost-leftmost coordinate, and if still tied, select the card
    * with the smallest index in the hand. If no legal moves are available, it selects the first
@@ -303,6 +316,8 @@ public class AIPlayer implements Player {
         case WEST:
           adjCol = col - 1;
           break;
+        default:
+          throw new IllegalArgumentException("Invalid direction: " + dir);
       }
 
       if (adjRow >= 0 && adjRow < grid.size() && adjCol >= 0 && adjCol < grid.get(adjRow).size()) {
@@ -321,7 +336,8 @@ public class AIPlayer implements Player {
     return vulnerability;
   }
 
-  private boolean canOpponentFlipOurCard(ThreeTriosCard ourCard, ThreeTriosCard oppCard, Direction dir) {
+  private boolean canOpponentFlipOurCard(ThreeTriosCard ourCard,
+                                         ThreeTriosCard oppCard, Direction dir) {
     Direction oppAttackDir = null;
     Direction ourAttackDir = null;
     switch (dir) {
@@ -341,6 +357,8 @@ public class AIPlayer implements Player {
         oppAttackDir = Direction.EAST;
         ourAttackDir = Direction.WEST;
         break;
+      default:
+        throw new IllegalArgumentException("Invalid direction: " + dir);
     }
 
     int oppAttackValue = oppCard.getAttack(oppAttackDir);

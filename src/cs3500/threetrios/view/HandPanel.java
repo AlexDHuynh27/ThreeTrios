@@ -26,7 +26,7 @@ public class HandPanel extends JPanel {
   int selected;
 
   /**
-   * Constructor for a HandPanel
+   * Constructor for a HandPanel.
    * @param color the color the HandPanel is associated with.
    */
   HandPanel(Color color) {
@@ -74,21 +74,25 @@ public class HandPanel extends JPanel {
     g.setColor(Color.BLACK);
     g.drawString(this.hand.get(index).attackToString(Direction.WEST),
         this.getWidth() / 10 * 2,
-        ((this.getHeight() / hand.size()) * index) + ((this.getHeight() / hand.size()) / 2) + 10);
+        ((this.getHeight() / hand.size()) * index)
+            + ((this.getHeight() / hand.size()) / 2) + 10);
     g.drawString(this.hand.get(index).attackToString(Direction.EAST),
         this.getWidth() / 10 * 8,
-        ((this.getHeight() / hand.size()) * index) + ((this.getHeight() / hand.size()) / 2) + 10);
+        ((this.getHeight() / hand.size()) * index)
+            + ((this.getHeight() / hand.size()) / 2) + 10);
     g.drawString(this.hand.get(index).attackToString(Direction.NORTH),
         this.getWidth() / 2,
-        ((this.getHeight() / hand.size()) * index) + ((this.getHeight() / hand.size()) / 5) + 10);
+        ((this.getHeight() / hand.size()) * index)
+            + ((this.getHeight() / hand.size()) / 5) + 10);
     g.drawString(this.hand.get(index).attackToString(Direction.SOUTH),
         this.getWidth() / 2,
-        ((this.getHeight() / hand.size()) * (index + 1)) - ((this.getHeight() / hand.size()) / 5) + 10);
+        ((this.getHeight() / hand.size()) * (index + 1))
+            - ((this.getHeight() / hand.size()) / 5) + 10);
   }
 
   /**
    * Provide the HandPanel with the current hand
-   * of a player with it's associated color, presumably to show it
+   * of a player with it's associated color, presumably to show it.
    *
    * @param hand The hand to set
    */
