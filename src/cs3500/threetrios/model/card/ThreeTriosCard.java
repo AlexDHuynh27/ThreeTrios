@@ -119,6 +119,33 @@ public class ThreeTriosCard implements Card {
     return name + " " + northA + " " + southA + " " + eastA + " " + westA;
   }
 
+  public String attackToString(Direction dir) {
+    switch (dir) {
+      case NORTH:
+        if (north == 10) {
+          return "A";
+        }
+        return String.valueOf(north);
+      case SOUTH:
+        if(south == 10) {
+          return "A";
+        }
+        return String.valueOf(south);
+      case EAST:
+        if(east == 10) {
+          return "A";
+        }
+        return String.valueOf(east);
+      case WEST:
+        if(west == 10) {
+          return "A";
+        }
+        return String.valueOf(west);
+      default:
+        throw new IllegalArgumentException("Invalid direction: " + dir);
+    }
+  }
+
   /**
    * Returns "R" or "B", Representing the CardColors Red and Blue respectively.
    * The String representation of the CardColor of this card.
