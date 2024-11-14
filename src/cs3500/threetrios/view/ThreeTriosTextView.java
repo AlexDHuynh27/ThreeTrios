@@ -12,8 +12,8 @@ import java.util.List;
  * it renders can be found in the render() method
  */
 public class ThreeTriosTextView {
-  ThreeTriosModel model;
-  Appendable out;
+  private ThreeTriosModel model;
+  private Appendable out;
 
   /**
    * Constructor for the ThreeTriosGame.

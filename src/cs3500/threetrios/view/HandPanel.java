@@ -1,26 +1,34 @@
 package cs3500.threetrios.view;
 
-import cs3500.threetrios.model.card.Card;
-import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import javax.swing.JPanel;
+import java.awt.Graphics;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Font;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Graphical representation of a player's hand.
+ * Displays each card of the player's hand in a single row. Each card is represented by a
+ * rectangle of the player's color, and each card has it's attack values displayed in the
+ * corresponding direction. Cards can also be selected, which is represented by the larger
+ * black border around the card.
+ */
 public class HandPanel extends JPanel {
-  List<ThreeTriosCard> hand;
-  Color color;
+  private List<ThreeTriosCard> hand;
+  private Color color;
   int selected;
 
+  /**
+   * Constructor for a HandPanel
+   * @param color the color the HandPanel is associated with.
+   */
   HandPanel(Color color) {
     this.hand = new ArrayList<>();
     this.color = color;
@@ -78,10 +86,22 @@ public class HandPanel extends JPanel {
         ((this.getHeight() / hand.size()) * (index + 1)) - ((this.getHeight() / hand.size()) / 5) + 10);
   }
 
+  /**
+   * Provide the HandPanel with the current hand
+   * of a player with it's associated color, presumably to show it
+   *
+   * @param hand The hand to set
+   */
   public void setHand(List<ThreeTriosCard> hand) {
     this.hand = hand;
   }
 
+  /**
+   * Provide the HandPanel with which index of the current player's
+   * hand is selected by the user.
+   *
+   * @param selected Represents the index of the selected Card idx0
+   */
   public void setSelected(int selected) {
     this.selected = selected;
   }

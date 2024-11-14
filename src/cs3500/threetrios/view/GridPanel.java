@@ -8,13 +8,22 @@ import cs3500.threetrios.model.cell.Hole;
 
 import javax.swing.JPanel;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A graphical representation of the grid in a ThreeTriosGame.
+ * Holes are represented by gray rectangles.
+ * Empty CardCells are represented by yellow rectangles.
+ * And CardCells that aren't empty are represented by a rectangle of the Color of the card owner,
+ * as well as the attack values being displayed on the corresponding direction.
+ */
 public class GridPanel extends JPanel {
-  List<List<Cell>> grid;
+  private List<List<Cell>> grid; // Grid
 
+  /**
+   * Constructor for a gridpanel.
+   */
   public GridPanel() {
     this.grid = new ArrayList<List<Cell>>();
   }
@@ -28,7 +37,6 @@ public class GridPanel extends JPanel {
     g2d.setFont(new Font("Times New Roman", Font.PLAIN,
         25));
 
-
     for (int i = 0; i < grid.size(); i++) {
       for (int j = 0; j < grid.size(); j++) {
         Cell cell = grid.get(i).get(j);
@@ -36,24 +44,17 @@ public class GridPanel extends JPanel {
         int ScaleY = this.getHeight() / grid.size();
         if (cell instanceof Hole) {
           g2d.setColor(Color.GRAY);
-          g2d.fillRect(ScaleX * j + 1,
-              ScaleY * i + 1,
-              ScaleX - 2,
+          g2d.fillRect(ScaleX * j + 1, ScaleY * i + 1, ScaleX - 2,
               ScaleY - 2);
-
         }
         else if (cell.isEmpty()) {
           g2d.setColor(Color.YELLOW);
-          g2d.fillRect(ScaleX * j + 1,
-              ScaleY * i + 1,
-              ScaleX - 2,
+          g2d.fillRect(ScaleX * j + 1, ScaleY * i + 1, ScaleX - 2,
               ScaleY - 2);
         }
         else {
           g2d.setColor(cardToColor(cell.getCard()));
-          g2d.fillRect(ScaleX * j + 1,
-              ScaleY * i + 1,
-              ScaleX - 2,
+          g2d.fillRect(ScaleX * j + 1, ScaleY * i + 1, ScaleX - 2,
               ScaleY - 2);
           drawAttacks(g2d, i, j);
         }
@@ -89,7 +90,13 @@ public class GridPanel extends JPanel {
     }
   }
 
-  void setGrid(List<List<Cell>> grid) {
+  /**
+   * Provide the GridPanel with the current grid
+   * of the ThreeTriosModel, presumably to show it
+   *
+   * @param grid the grid of a ThreeTriosModel to show
+   */
+  public void setGrid(List<List<Cell>> grid) {
     this.grid = grid;
   }
 }

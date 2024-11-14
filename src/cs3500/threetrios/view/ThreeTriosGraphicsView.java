@@ -9,12 +9,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * Represents the graphical view of a Three-Trios game. Has the grid to play on
+ * in the middle, the red player's hand on the left side, and the blue player's hand
+ * on the right side.
+ */
 public class ThreeTriosGraphicsView extends JFrame implements IView {
+  // A Read Only model that provides the View information to display.
   private ReadOnlyThreeTriosModel model;
-  private HandPanel redHandPanel;
-  private HandPanel blueHandPanel;
-  private GridPanel gridPanel;
+  private HandPanel redHandPanel; // HandPanel of the Red Player.
+  private HandPanel blueHandPanel; // HandPanel of the Blue Player.
+  private GridPanel gridPanel; // GridPanel of the game.
 
+  /**
+   * Constructor for ThreeTriosGraphicsView
+   * @param model The model that provides the ThreeTriosGraphicsView information
+   */
   public ThreeTriosGraphicsView(ReadOnlyThreeTriosModel model) {
     super();
     this.model = model;
@@ -30,7 +40,6 @@ public class ThreeTriosGraphicsView extends JFrame implements IView {
     this.gridPanel.setBackground(Color.BLACK);
     this.gridPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
     this.add(gridPanel, BorderLayout.CENTER);
-
 
     this.redHandPanel = new HandPanel(Color.RED);
     this.redHandPanel.setPreferredSize(new Dimension(100, 100));
@@ -63,8 +72,8 @@ public class ThreeTriosGraphicsView extends JFrame implements IView {
   }
 
   @Override
-  public void setGrid(List<Cell> grid) {
-    this.gridPanel.setGrid(this.model.getGrid());
+  public void setGrid(List<List<Cell>> grid) {
+    this.gridPanel.setGrid(grid);
   }
 
   @Override
