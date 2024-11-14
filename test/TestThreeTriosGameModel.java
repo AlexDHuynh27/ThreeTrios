@@ -52,6 +52,7 @@ public class TestThreeTriosGameModel {
   private List<ThreeTriosCard> deck26;
 
   private List<ThreeTriosCard> deck50;
+  private List<ThreeTriosCard> deckSame;
   private ThreeTriosCard croc;
   private ThreeTriosCard eagle;
   private ThreeTriosCard fox;
@@ -110,6 +111,8 @@ public class TestThreeTriosGameModel {
             "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(26).txt");
     deck50 = CardReader.getDeckFromConfig(
             "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
+    deckSame = CardReader.getDeckFromConfig(
+            "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCardSame(50).txt");
 
     grid1 = GridReader.getGridFromConfig(
             "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
@@ -1023,18 +1026,146 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Test howManyFlips() for 0, 1, and Combo Flips.
+   * Test strategy 2. AI player should place fox at top-left because it has the strongest
+   * combined attack.
    */
   @Test
-  public void testAIPlayer() {
-    AIPlayer bot1 = new AIPlayer(1);
+  public void testStrategy2Corner() {
+    AIPlayer bot1 = new AIPlayer();
     gameModel.startGame(grid1, deck10, redPlayer, bot1);
     gameModel.playToGrid(0, 0, 0);
     gameModel.battle();
-    System.out.println(gameModel.getHand(CardColor.BLUE));
-    int [] a = bot1.strategy1(gameModel);
-    gameModel.playToGrid(a[0], a[1], a[2]);
-    System.out.println(gameModel.getGrid());
-    System.out.println(gameModel.getHand(CardColor.BLUE));
+    int [] a = bot1.strategy2(gameModel);
+    gameModel.playToGrid(a[0],a[1],a[2]);
+    gameModel.battle();
+    assertEquals( 0, a[0]);
+    assertEquals( 0, a[1]);
+    assertEquals( 2, a[2]);
   }
+
+  /**
+   * Test strategy 2 with no corners available. AI player should place at 0,1 because
+   * it is the top-left most.
+   */
+  @Test
+  public void testStrategy2Corner0() {
+    AIPlayer bot1 = new AIPlayer();
+    gameModel.startGame(grid1, deck10, redPlayer, bot1);
+    gameModel.playToGrid(0, 0, 0);
+    gameModel.battle();
+    gameModel.playToGrid(0, 2, 0);
+    gameModel.battle();
+    gameModel.playToGrid(0, 0, 2);
+    gameModel.battle();
+    gameModel.playToGrid(0, 2, 2);
+    gameModel.battle();
+    gameModel.playToGrid(0, 2, 1);
+    gameModel.battle();
+    System.out.println(gameModel.getHand(CardColor.BLUE));
+    System.out.println(gameModel.getGrid());
+    int [] a = bot1.strategy2(gameModel);
+    gameModel.playToGrid(a[0],a[1],a[2]);
+    gameModel.battle();
+    System.out.println(gameModel.getHand(CardColor.BLUE));
+    System.out.println(gameModel.getGrid());
+    assertEquals( 0, a[0]);
+    assertEquals( 0, a[1]);
+    assertEquals( 1, a[2]);
+  }
+
+  /**
+   * Test strategy 1 for 1 Flip. AI player should place Falcon at row:0, col:1 because it will flip
+   * the Red card that was placed there.
+   */
+  @Test
+  public void testStrategy1With1Flip() {
+    AIPlayer bot1 = new AIPlayer();
+    gameModel.startGame(grid1, deck10, redPlayer, bot1);
+    gameModel.playToGrid(0, 0, 0);
+    gameModel.battle();
+    int[] a = bot1.strategy1(gameModel);
+    gameModel.playToGrid(a[0],a[1],a[2]);
+    gameModel.battle();
+    assertEquals(1, a[0]);
+    assertEquals(0, a[1]);
+    assertEquals(1, a[2]);
+  }
+
+  /**
+   * Test strategy 1. AI player should place at row:0, col:1 because it flips 3 cards in 1 turn
+   */
+  @Test
+  public void testStrategy1With3Flips() {
+    AIPlayer bot1 = new AIPlayer();
+    gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
+    gameModel.playToGrid(0, 2, 1);
+    gameModel.battle();
+    gameModel.playToGrid(0, 2, 0);
+    gameModel.battle();
+    gameModel.playToGrid(0, 1, 1);
+    gameModel.battle();
+    gameModel.playToGrid(0, 1, 0);
+    gameModel.battle();
+    gameModel.playToGrid(0, 0, 0);
+    gameModel.battle();
+    int[] a = bot1.strategy1(gameModel);
+    gameModel.playToGrid(a[0],a[1],a[2]);
+    gameModel.battle();
+    assertEquals(0, a[0]);
+    assertEquals(0, a[1]);
+    assertEquals(1, a[2]);
+  }
+
+  /**
+   * Test strategy 1 with 0 flips. Since all cards are same, it should place at 0,0.
+   */
+  @Test
+  public void testStrategy1With0Flips() {
+    AIPlayer bot1 = new AIPlayer();
+    gameModel.startGame(grid1, deckSame, redPlayer, bluePlayer);
+    gameModel.playToGrid(0, 1, 1);
+    gameModel.battle();
+    int[] a = bot1.strategy1(gameModel);
+    gameModel.playToGrid(a[0],a[1],a[2]);
+    gameModel.battle();
+    assertEquals(0, a[0]);
+    assertEquals(0, a[1]);
+    assertEquals(0, a[2]);
+  }
+
+  /**
+   * Test strategy 2 with 0 flips. Since all cards are same, it should place at 0,0.
+   */
+  @Test
+  public void testStrategy2With0Flips() {
+    AIPlayer bot1 = new AIPlayer();
+    gameModel.startGame(grid1, deckSame, redPlayer, bluePlayer);
+    gameModel.playToGrid(0, 1, 1);
+    gameModel.battle();
+    int[] a = bot1.strategy2(gameModel);
+    gameModel.playToGrid(a[0],a[1],a[2]);
+    gameModel.battle();
+    assertEquals(0, a[0]);
+    assertEquals(0, a[1]);
+    assertEquals(0, a[2]);
+  }
+
+  /**
+   * Test strategy 2 with 0 flips. Since all cards are same, it should place at 0,0.
+   */
+  @Test
+  public void testStrategy3With0Flips() {
+    AIPlayer bot1 = new AIPlayer();
+    gameModel.startGame(grid1, deckSame, redPlayer, bluePlayer);
+    gameModel.playToGrid(0, 1, 1);
+    gameModel.battle();
+    int[] a = bot1.strategy2(gameModel);
+    gameModel.playToGrid(a[0],a[1],a[2]);
+    gameModel.battle();
+    assertEquals(0, a[0]);
+    assertEquals(0, a[1]);
+    assertEquals(0, a[2]);
+  }
+
+
 }

@@ -14,10 +14,7 @@ public class AIPlayer implements Player {
   private final List<ThreeTriosCard> hand;
   private CardColor color;
 
-  public AIPlayer(int strategyNumber) {
-    if (strategyNumber < 0 || strategyNumber > 3) {
-      throw new IllegalArgumentException("Invalid strategy number. Must be 1, 2, or 3.");
-    }
+  public AIPlayer() {
     this.hand = new ArrayList<>();
   }
 
@@ -245,7 +242,7 @@ public class AIPlayer implements Player {
    * @param model the current read-only game model
    * @return an array of integers representing the chosen move: [card index in hand, row, column]
    */
-  private int[] strategy3(ReadOnlyThreeTriosModel model) {
+  public int[] strategy3(ReadOnlyThreeTriosModel model) {
     List<ThreeTriosCard> myHand = this.getHand();
     CardColor opponentColor = this.getColor() == CardColor.RED ? CardColor.BLUE : CardColor.RED;
     List<ThreeTriosCard> opponentHand = model.getHand(opponentColor);
@@ -308,11 +305,10 @@ public class AIPlayer implements Player {
       if (adjRow >= 0 && adjRow < grid.size() && adjCol >= 0 && adjCol < grid.get(adjRow).size()) {
         Cell adjCell = grid.get(adjRow).get(adjCol);
         if (adjCell instanceof CardCell && adjCell.isEmpty()) {
-          // Check if opponent can play here
           for (ThreeTriosCard oppCard : opponentHand) {
             if (canOpponentFlipOurCard(myCard, oppCard, dir)) {
               vulnerability++;
-              break; // No need to check other cards for this position
+              break;
             }
           }
         }
