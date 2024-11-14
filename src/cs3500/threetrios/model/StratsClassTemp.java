@@ -92,8 +92,7 @@ public class StratsClassTemp {
   private int[] selectBestMove(List<int[]> moves) {
     int[] bestMove = moves.get(0);
     for (int[] move : moves) {
-      if (move[1] < bestMove[1] ||
-              (move[1] == bestMove[1] && move[2] < bestMove[2]) ||
+      if (move[1] < bestMove[1] || (move[1] == bestMove[1] && move[2] < bestMove[2]) ||
               (move[1] == bestMove[1] && move[2] == bestMove[2] && move[0] < bestMove[0])) {
         bestMove = move;
       }
@@ -120,7 +119,6 @@ public class StratsClassTemp {
     }
 
     if (possibleMoves.isEmpty()) {
-      // No valid corner moves; pick the upper-leftmost open position and card index 0
       int[] defaultMove = findFirstLegalMove(model);
       return new int[]{0, defaultMove[0], defaultMove[1]};
     } else {
@@ -147,11 +145,18 @@ public class StratsClassTemp {
     int numRows = grid.size();
     int numCols = grid.get(0).size();
 
-    if (isCardCell(grid, 0, 0)) corners.add(new int[]{0, 0});
-    if (isCardCell(grid, 0, numCols - 1)) corners.add(new int[]{0, numCols - 1});
-    if (isCardCell(grid, numRows - 1, 0)) corners.add(new int[]{numRows - 1, 0});
-    if (isCardCell(grid, numRows - 1, numCols - 1)) corners.add(new int[]{numRows - 1, numCols - 1});
-
+    if (isCardCell(grid, 0, 0)) {
+      corners.add(new int[]{0, 0});
+    }
+    if (isCardCell(grid, 0, numCols - 1)) {
+      corners.add(new int[]{0, numCols - 1});
+    }
+    if (isCardCell(grid, numRows - 1, 0)) {
+      corners.add(new int[]{numRows - 1, 0});
+    }
+    if (isCardCell(grid, numRows - 1, numCols - 1)) {
+      corners.add(new int[]{numRows - 1, numCols - 1});
+    }
     return corners;
   }
 
