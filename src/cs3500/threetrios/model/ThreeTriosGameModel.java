@@ -55,8 +55,8 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     }
 
     // validate input
-    if (grid == null || deck == null || redPlayer == null || bluePlayer == null ||
-        deck.contains(null) || grid.contains(null)) {
+    if (grid == null || deck == null || redPlayer == null || bluePlayer == null
+        || deck.contains(null) || grid.contains(null)) {
       throw new IllegalArgumentException("Input cannot be null or have a null");
     }
 
@@ -67,8 +67,8 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     // Check if the deck has enough cards (at least N+1)
     int requiredDeckSize = cardCellCount + 1;
     if (deck.size() < requiredDeckSize) {
-      throw new IllegalArgumentException("The deck must contain at least " + requiredDeckSize +
-              " cards.");
+      throw new IllegalArgumentException("The deck must contain at least " + requiredDeckSize
+          + " cards.");
     }
 
     // Assign values
@@ -122,10 +122,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     if (!cell.isEmpty()) {
       return false;
     }
-    if (playedToGrid) {
-      return false;
-    }
-    return true;
+    return !playedToGrid;
   }
 
   @Override
@@ -269,16 +266,20 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   }
 
   private void validateSimulationParameters(ThreeTriosCard card, int row, int column) {
-    if (!gameStarted || gameOver)
+    if (!gameStarted || gameOver) {
       throw new IllegalStateException("Cannot simulate battle: game hasn't started or is already" +
-               " over.");
-    if (card == null)
+          " over.");
+    }
+    if (card == null) {
       throw new IllegalArgumentException("Card cannot be null.");
-    if (row < 0 || row >= grid.size() || column < 0 || column >= grid.get(row).size())
+    }
+    if (row < 0 || row >= grid.size() || column < 0 || column >= grid.get(row).size()) {
       throw new IllegalArgumentException("Row or column out of bounds");
+    }
     Cell cell = grid.get(row).get(column);
-    if (!(cell instanceof CardCell) || !cell.isEmpty())
+    if (!(cell instanceof CardCell) || !cell.isEmpty()) {
       throw new IllegalArgumentException("Invalid cell to play on.");
+    }
   }
 
   private void placeCardInGridCopy(ThreeTriosCard card, int row, int column,
@@ -306,7 +307,8 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
 
     while (!attackingPositions.isEmpty()) {
       int[] pos = attackingPositions.remove(0);
-      int attackRow = pos[0], attackCol = pos[1];
+      int attackRow = pos[0];
+      int attackCol = pos[1];
       for (int[] dir : directions) {
         int targetRow = attackRow + dir[0];
         int targetCol = attackCol + dir[1];
@@ -421,9 +423,12 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     playedToGrid = false;
   }
 
-  private void processBattle(int attackRow, int attackCol, int targetRow, int targetCol, Direction direction) {
-    if (targetRow >= 0 && targetRow < grid.size() && targetCol >= 0 && targetCol < grid.get(targetRow).size()) {
-      if (grid.get(attackRow).get(attackCol).battleCell(grid.get(targetRow).get(targetCol), direction)) {
+  private void processBattle(int attackRow, int attackCol, int targetRow, int targetCol,
+                             Direction direction) {
+    if (targetRow >= 0 && targetRow < grid.size() && targetCol >= 0
+        && targetCol < grid.get(targetRow).size()) {
+      if (grid.get(attackRow).get(attackCol)
+          .battleCell(grid.get(targetRow).get(targetCol), direction)) {
         grid.get(targetRow).get(targetCol).flipCell();
         attackingCardRows.add(targetRow);
         attackingCardCols.add(targetCol);

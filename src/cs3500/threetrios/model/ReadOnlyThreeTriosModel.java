@@ -103,7 +103,8 @@ public interface ReadOnlyThreeTriosModel {
   boolean isLegalPlay(int row, int column);
 
   /**
-   * Simulates playing a card at the given coordinates and returns the number of cards that would be flipped.
+   * Simulates playing a card at the given coordinates and returns the number of cards
+   * that would be flipped.
    *
    * @param card   the card to play.
    * @param row    the row index.

@@ -2,16 +2,14 @@ package cs3500.threetrios;
 
 import cs3500.threetrios.model.ReadOnlyThreeTriosGameModel;
 import cs3500.threetrios.model.ThreeTriosGameModel;
-import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.configreader.CardReader;
 import cs3500.threetrios.model.configreader.GridReader;
 import cs3500.threetrios.model.player.HumanPlayer;
-import cs3500.threetrios.view.IView;
 import cs3500.threetrios.view.ThreeTriosGraphicsView;
-import cs3500.threetrios.view.ThreeTriosTextView;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +40,12 @@ public class TestMain {
     newGame.battle();
     newGame.playToGrid(0, 2, 2);
     newGame.battle();
+    newGame.playToGrid(0, 3, 0);
+    newGame.battle();
     ThreeTriosGraphicsView view =
         new ThreeTriosGraphicsView(new ReadOnlyThreeTriosGameModel(newGame));
     List<ThreeTriosCard> hand = new ArrayList<>();
-    view.setSelected(CardColor.BLUE, 3);
+    view.setSelected(CardColor.RED, 3);
     view.makeVisible();
 
   }

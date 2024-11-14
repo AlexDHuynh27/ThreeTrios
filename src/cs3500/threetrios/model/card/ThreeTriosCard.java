@@ -98,27 +98,19 @@ public class ThreeTriosCard implements Card {
 
   @Override
   public String toString() {
-    String northA = String.valueOf(north);
-    String southA = String.valueOf(south);
-    String eastA = String.valueOf(east);
-    String westA = String.valueOf(west);
-
-    if (north == 10) {
-      northA = "A";
-    }
-    if (south == 10) {
-      southA = "A";
-    }
-    if (east == 10) {
-      eastA = "A";
-    }
-    if (west == 10) {
-      westA = "A";
-    }
+    String northA = attackToString(Direction.NORTH);
+    String southA = attackToString(Direction.SOUTH);
+    String eastA = attackToString(Direction.EAST);
+    String westA = attackToString(Direction.WEST);
 
     return name + " " + northA + " " + southA + " " + eastA + " " + westA;
   }
 
+  /**
+   * Produces the string value of the attack value in the given direction.
+   * @param dir Direction to retrieve the attack value from.
+   * @return String value of the attack value in the given direction.
+   */
   public String attackToString(Direction dir) {
     switch (dir) {
       case NORTH:
@@ -127,17 +119,17 @@ public class ThreeTriosCard implements Card {
         }
         return String.valueOf(north);
       case SOUTH:
-        if(south == 10) {
+        if (south == 10) {
           return "A";
         }
         return String.valueOf(south);
       case EAST:
-        if(east == 10) {
+        if (east == 10) {
           return "A";
         }
         return String.valueOf(east);
       case WEST:
-        if(west == 10) {
+        if (west == 10) {
           return "A";
         }
         return String.valueOf(west);
@@ -172,12 +164,12 @@ public class ThreeTriosCard implements Card {
       return false;
     }
     ThreeTriosCard other = (ThreeTriosCard) obj;
-    return north == other.north &&
-            south == other.south &&
-            east == other.east &&
-            west == other.west &&
-            Objects.equals(name, other.name) &&
-            color == other.color;
+    return north == other.north
+        && south == other.south
+        && east == other.east
+        && west == other.west
+        && Objects.equals(name, other.name)
+        && color == other.color;
   }
 
   @Override
