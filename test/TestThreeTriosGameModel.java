@@ -1031,22 +1031,24 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Test StrategyTwo. MachinePlayer should place the fox at the bottom-left corner because it has
-   * the strongest combined attack.
+   * Test StrategyOne. MachinePlayer should place eagle in the top-left corner because there
+   * is a tie
    */
   @Test
-  public void testStrategy2Corner() {
+  public void testStrategy1() {
     MachinePlayer bot1 = new MachinePlayer(new StrategyOne(), redPlayer, gameModel);
 
     gameModel.startGame(grid1, deck10, bot1, bluePlayer);
 
-    System.out.println(gameModel.getHand(CardColor.RED));
-    System.out.println(gameModel.getGrid());
+    assertEquals("[Eagle 6 A 7 3, Tiger 4 8 3 7, Bear A 6 2 8, Gorilla A 5 6 4, Wolf 5 7 4 9]",
+            gameModel.getHand(CardColor.RED).toString());
+    assertEquals("[[_, _, _], [_, _, _], [_, _, _]]", gameModel.getGrid().toString());
 
     bot1.playAIMove();
     gameModel.battle();
 
-    System.out.println(gameModel.getHand(CardColor.RED));
-    System.out.println(gameModel.getGrid());
+    assertEquals("[Tiger 4 8 3 7, Bear A 6 2 8, Gorilla A 5 6 4, Wolf 5 7 4 9]",
+            gameModel.getHand(CardColor.RED).toString());
+    assertEquals("[[R, _, _], [_, _, _], [_, _, _]]", gameModel.getGrid().toString());
   }
 }
