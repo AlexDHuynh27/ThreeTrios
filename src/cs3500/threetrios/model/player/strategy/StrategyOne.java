@@ -64,6 +64,7 @@ public class StrategyOne implements ThreeTriosStrategy {
     }
   }
 
+  // protected method as it is used for implementation of other strategies
   protected static int[] findFirstLegalMove(ReadOnlyThreeTriosModel model) {
     List<List<Cell>> grid = model.getGrid();
     for (int row = 0; row < grid.size(); row++) {
@@ -76,6 +77,7 @@ public class StrategyOne implements ThreeTriosStrategy {
     return new int[]{-1, -1};
   }
 
+  // protected method as it is used for implementation of other strategies
   protected static int[] selectBestMove(List<int[]> moves) {
     int[] bestMove = moves.get(0);
     for (int[] move : moves) {

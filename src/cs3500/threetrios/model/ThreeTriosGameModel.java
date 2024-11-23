@@ -31,7 +31,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   private List<Integer> attackingCardRows;
   private List<Integer> attackingCardCols;
 
-  private List<ThreeTriosFeatures> listeners;
+  private final List<ThreeTriosFeatures> listeners;
 
   /**
    * Constructor for randomizing the shuffling of deck and actual gameplay.
@@ -161,8 +161,8 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
 
   @Override
   public void somethingChanged() {
-    for (int i = 0; i < listeners.size(); i++) {
-      listeners.get(i).update();
+    for (ThreeTriosFeatures listener : listeners) {
+      listener.update();
     }
   }
 
@@ -222,7 +222,31 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
 
   @Override
   public List<List<Cell>> getGrid() {
-    return List.copyOf(this.grid);
+    List<List<Cell>> gridCopy = new ArrayList<>();
+    for (List<Cell> rowList : grid) {
+      List<Cell> rowCopy = new ArrayList<>();
+      for (Cell c : rowList) {
+        if (c instanceof CardCell) {
+          CardCell cellCopy = new CardCell();
+          Card cellCard = c.getCard();
+          if (cellCard != null) {
+            // Create a copy of the card
+            Card cardCopy = new ThreeTriosCard(cellCard.getName(),
+                    cellCard.getAttack(Direction.NORTH),
+                    cellCard.getAttack(Direction.SOUTH),
+                    cellCard.getAttack(Direction.EAST),
+                    cellCard.getAttack(Direction.WEST));
+            cardCopy.setColor(cellCard.getColor());
+            cellCopy.setCard(cardCopy);
+          }
+          rowCopy.add(cellCopy);
+        } else {
+          rowCopy.add(new Hole());
+        }
+      }
+      gridCopy.add(rowCopy);
+    }
+    return gridCopy;
   }
 
   @Override
@@ -281,7 +305,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   @Override
   public int howManyFlips(Card card, int row, int column) {
     validateSimulationParameters(card, row, column);
-    List<List<Cell>> gridCopy = copyGrid();
+    List<List<Cell>> gridCopy = getGrid();
     placeCardInGridCopy(card, row, column, gridCopy);
 
     return simulateBattle(gridCopy, row, column);
@@ -360,34 +384,6 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
       }
     }
     return 0;
-  }
-
-  private List<List<Cell>> copyGrid() {
-    List<List<Cell>> gridCopy = new ArrayList<>();
-    for (List<Cell> rowList : grid) {
-      List<Cell> rowCopy = new ArrayList<>();
-      for (Cell c : rowList) {
-        if (c instanceof CardCell) {
-          CardCell cellCopy = new CardCell();
-          Card cellCard = c.getCard();
-          if (cellCard != null) {
-            // Create a copy of the card
-            Card cardCopy = new ThreeTriosCard(cellCard.getName(),
-                    cellCard.getAttack(Direction.NORTH),
-                    cellCard.getAttack(Direction.SOUTH),
-                    cellCard.getAttack(Direction.EAST),
-                    cellCard.getAttack(Direction.WEST));
-            cardCopy.setColor(cellCard.getColor());
-            cellCopy.setCard(cardCopy);
-          }
-          rowCopy.add(cellCopy);
-        } else {
-          rowCopy.add(new Hole());
-        }
-      }
-      gridCopy.add(rowCopy);
-    }
-    return gridCopy;
   }
 
 

@@ -1032,7 +1032,7 @@ public class TestThreeTriosGameModel {
 
   /**
    * Test StrategyOne. MachinePlayer should place eagle in the top-left corner because there
-   * is a tie
+   * is a tie.
    */
   @Test
   public void testStrategy1() {

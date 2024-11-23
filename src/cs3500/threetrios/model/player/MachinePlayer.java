@@ -8,18 +8,32 @@ import cs3500.threetrios.model.player.strategy.HandGridCoord;
 import cs3500.threetrios.model.player.strategy.ThreeTriosStrategy;
 import java.util.List;
 
+/**
+ * Represents an AI or Machine (Non-Human) Player in the ThreeTriosGame.
+ */
 public class MachinePlayer implements Player {
   private final ThreeTriosStrategy strategy;
   private final Player humanPlayer;
   private final ThreeTriosModel model;
 
+  /**
+   * Constructor for MachinePlayer class that creates a MachinePlayer based on the given
+   * parameters.
+   *
+   * @param strategy the strategy being used by the MachinePlayer
+   * @param player the current player whose turn it is being represented by the MachinePlayer
+   * @param model the current game model state
+   */
   public MachinePlayer(ThreeTriosStrategy strategy, Player player, ThreeTriosModel model) {
-    super();
     this.strategy = strategy;
     this.humanPlayer = player;
     this.model = model;
   }
 
+  /**
+   * Executes the AI bot's move using the assigned strategy. Uses the strategy's chooseMove
+   * method to place a card on the grid with the HandGridCoord indexes.
+   */
   public void playAIMove() {
     HandGridCoord move = this.strategy.chooseMove(this.model, this.humanPlayer);
     this.model.playToGrid(move.getHandIdx(), move.getRow(), move.getCol());
