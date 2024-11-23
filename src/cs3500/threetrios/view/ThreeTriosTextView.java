@@ -1,6 +1,7 @@
 package cs3500.threetrios.view;
 
 import cs3500.threetrios.model.ThreeTriosModel;
+import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 /**
  * A class that renders the ThreeTriosGame when given the model. More information on what
- * it renders can be found in the render() method
+ * it renders can be found in the render() method.
  */
 public class ThreeTriosTextView {
   private ThreeTriosModel model;
@@ -40,9 +41,9 @@ public class ThreeTriosTextView {
         }
         out.append("\n");
       }
-      List<ThreeTriosCard> hand = model.getHand(model.getCurrentPlayerColor());
+      List<Card> hand = model.getHand(model.getCurrentPlayerColor());
       out.append("Hand:\n");
-      for (ThreeTriosCard threeTriosCard : hand) {
+      for (Card threeTriosCard : hand) {
         out.append(threeTriosCard.toString()).append("\n");
       }
     } catch (IOException e) {

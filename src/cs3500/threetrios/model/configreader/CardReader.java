@@ -1,5 +1,6 @@
 package cs3500.threetrios.model.configreader;
 
+import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 
 import java.io.FileNotFoundException;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public class CardReader {
 
-  private static boolean uniqueDeck(List<ThreeTriosCard> deck) {
+  private static boolean uniqueDeck(List<Card> deck) {
     List<String> names = new ArrayList<>();
     for (int i = 0; i < deck.size(); i++) {
       if (names.contains(deck.get(i).getName())) {
@@ -30,13 +31,14 @@ public class CardReader {
    * space, the five parts together represents a card. The first part represents the
    * name of a card. The four other parts represent the attack values of the North, South,
    * East, and Wests sides respectively.
+   *
    * @param filename The name and path(if necessary) of the configuration file to read.
    * @return A List of ThreeTriosCards based on the given deck configuration file.
    * @throws IllegalArgumentException If the configuration file doesn't match the specified format.
    * @throws IllegalArgumentException if the card in the deck don't have unique names.
    */
-  public static List<ThreeTriosCard> getDeckFromConfig(String filename) {
-    List<ThreeTriosCard> deck = new ArrayList<>();
+  public static List<Card> getDeckFromConfig(String filename) {
+    List<Card> deck = new ArrayList<>();
     try {
       FileReader fr = new FileReader(filename);
       StringBuilder fileContent = new StringBuilder();

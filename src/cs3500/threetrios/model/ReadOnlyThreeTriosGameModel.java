@@ -1,5 +1,6 @@
 package cs3500.threetrios.model;
 
+import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
@@ -12,9 +13,9 @@ import java.util.List;
  * but provides useful information about the current state of the game.
  */
 public class ReadOnlyThreeTriosGameModel implements ReadOnlyThreeTriosModel {
-  ThreeTriosGameModel gameModel;
+  ThreeTriosModel gameModel;
 
-  public ReadOnlyThreeTriosGameModel(ThreeTriosGameModel gameModel) {
+  public ReadOnlyThreeTriosGameModel(ThreeTriosModel gameModel) {
     this.gameModel = gameModel;
   }
 
@@ -30,7 +31,7 @@ public class ReadOnlyThreeTriosGameModel implements ReadOnlyThreeTriosModel {
   }
 
   @Override
-  public List<ThreeTriosCard> getHand(CardColor color) {
+  public List<Card> getHand(CardColor color) {
     return this.gameModel.getHand(color);
   }
 
@@ -70,7 +71,7 @@ public class ReadOnlyThreeTriosGameModel implements ReadOnlyThreeTriosModel {
   }
 
   @Override
-  public int howManyFlips(ThreeTriosCard card, int row, int column) {
+  public int howManyFlips(Card card, int row, int column) {
     return this.gameModel.howManyFlips(card, row, column);
   }
 }

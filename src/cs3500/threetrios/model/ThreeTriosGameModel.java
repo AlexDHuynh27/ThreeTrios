@@ -1,5 +1,7 @@
 package cs3500.threetrios.model;
 
+import cs3500.threetrios.model.card.Card;
+import cs3500.threetrios.view.ThreeTriosFeatures;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,7 +21,7 @@ import cs3500.threetrios.model.player.Player;
 public class ThreeTriosGameModel implements ThreeTriosModel {
   private final Random rand;
   private List<List<Cell>> grid;
-  private List<ThreeTriosCard> deck;
+  private List<Card> deck;
   private Player redPlayer;
   private Player bluePlayer;
   private CardColor colorTurn;
@@ -29,11 +31,14 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   private List<Integer> attackingCardRows;
   private List<Integer> attackingCardCols;
 
+  private List<ThreeTriosFeatures> listeners;
+
   /**
    * Constructor for randomizing the shuffling of deck and actual gameplay.
    */
   public ThreeTriosGameModel() {
     this.rand = new Random();
+    this.listeners = new ArrayList<>();
   }
 
   /**
@@ -47,7 +52,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
 
 
   @Override
-  public void startGame(List<List<Cell>> grid, List<ThreeTriosCard> deck, Player redPlayer,
+  public void startGame(List<List<Cell>> grid, List<Card> deck, Player redPlayer,
                         Player bluePlayer) {
     // game started?
     if (gameStarted) {
@@ -94,7 +99,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
       throw new IllegalStateException("Cannot play to the specified cell: illegal move.");
     }
 
-    ThreeTriosCard card;
+    Card card;
     if (colorTurn == CardColor.RED) {
       card = redPlayer.playFromHand(curPlayerHandIdx);
     } else {
@@ -105,6 +110,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     attackingCardRows.add(row);
     attackingCardCols.add(column);
     playedToGrid = true;
+    somethingChanged();
   }
 
   @Override
@@ -143,7 +149,21 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
       processBattle(attackRow, attackCol, attackRow, attackCol + 1, Direction.EAST);
     }
 
+    somethingChanged();
     switchTurn();
+  }
+
+  @Override
+  public void addListener(ThreeTriosFeatures listener) {
+    this.listeners.add(listener);
+  }
+
+  @Override
+  public void somethingChanged() {
+    for (ThreeTriosFeatures listener : listeners) {
+      listener.update();
+    }
+
   }
 
 
@@ -185,7 +205,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   }
 
   @Override
-  public List<ThreeTriosCard> getHand(CardColor color) {
+  public List<Card> getHand(CardColor color) {
     if (color == CardColor.RED) {
       return redPlayer.getHand();
     } else {
@@ -240,7 +260,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     }
     Cell cell = grid.get(row).get(column);
     if (cell instanceof CardCell) {
-      ThreeTriosCard card = cell.getCard();
+      Card card = cell.getCard();
       if (card != null) {
         return card.getColor();
       }
@@ -257,7 +277,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   }
 
   @Override
-  public int howManyFlips(ThreeTriosCard card, int row, int column) {
+  public int howManyFlips(Card card, int row, int column) {
     validateSimulationParameters(card, row, column);
     List<List<Cell>> gridCopy = copyGrid();
     placeCardInGridCopy(card, row, column, gridCopy);
@@ -265,7 +285,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     return simulateBattle(gridCopy, row, column);
   }
 
-  private void validateSimulationParameters(ThreeTriosCard card, int row, int column) {
+  private void validateSimulationParameters(Card card, int row, int column) {
     if (!gameStarted || gameOver) {
       throw new IllegalStateException("Cannot simulate battle: game hasn't started or is already" +
           " over.");
@@ -282,9 +302,9 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     }
   }
 
-  private void placeCardInGridCopy(ThreeTriosCard card, int row, int column,
+  private void placeCardInGridCopy(Card card, int row, int column,
                                     List<List<Cell>> gridCopy) {
-    ThreeTriosCard cardCopy = new ThreeTriosCard(
+    Card cardCopy = new ThreeTriosCard(
             card.getName(),
             card.getAttack(Direction.NORTH),
             card.getAttack(Direction.SOUTH),
@@ -347,10 +367,10 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
       for (Cell c : rowList) {
         if (c instanceof CardCell) {
           CardCell cellCopy = new CardCell();
-          ThreeTriosCard cellCard = c.getCard();
+          Card cellCard = c.getCard();
           if (cellCard != null) {
             // Create a copy of the card
-            ThreeTriosCard cardCopy = new ThreeTriosCard(cellCard.getName(),
+            Card cardCopy = new ThreeTriosCard(cellCard.getName(),
                     cellCard.getAttack(Direction.NORTH),
                     cellCard.getAttack(Direction.SOUTH),
                     cellCard.getAttack(Direction.EAST),
@@ -373,7 +393,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
    * Shuffles this deck based on this ThreeTriosGameModel's Random object.
    */
   private void shuffle() {
-    List<ThreeTriosCard> retDeck = new ArrayList<ThreeTriosCard>();
+    List<Card> retDeck = new ArrayList<Card>();
     int loopCount = this.deck.size();
     for (int i = 0; i < loopCount; i++) {
       retDeck.add(this.deck.remove(this.rand.nextInt(deck.size())));
@@ -421,6 +441,10 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   private void switchTurn() {
     colorTurn = (colorTurn == CardColor.RED) ? CardColor.BLUE : CardColor.RED;
     playedToGrid = false;
+
+    for (ThreeTriosFeatures listener : listeners) {
+      listener.checkTurn();
+    }
   }
 
   private void processBattle(int attackRow, int attackCol, int targetRow, int targetCol,

@@ -1,5 +1,6 @@
 package cs3500.threetrios.model.cell;
 
+import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 
@@ -14,7 +15,7 @@ public class Hole implements Cell {
   }
 
   @Override
-  public void setCard(ThreeTriosCard card) {
+  public void setCard(Card card) {
     throw new IllegalCallerException("Hole cannot be accessed!");
   }
 
@@ -24,7 +25,7 @@ public class Hole implements Cell {
   }
 
   @Override
-  public ThreeTriosCard getCard() {
+  public Card getCard() {
     return null;
   }
 

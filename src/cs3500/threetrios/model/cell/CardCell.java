@@ -1,5 +1,6 @@
 package cs3500.threetrios.model.cell;
 
+import cs3500.threetrios.model.card.Card;
 import java.util.Objects;
 
 import cs3500.threetrios.model.card.Direction;
@@ -10,7 +11,7 @@ import cs3500.threetrios.model.card.ThreeTriosCard;
  * CardCell) or nonnull card (Filled CardCell).
  */
 public class CardCell implements Cell {
-  private ThreeTriosCard card;
+  private Card card;
 
   @Override
   public void flipCell() {
@@ -49,12 +50,12 @@ public class CardCell implements Cell {
    *
    * @return The card of this cell.
    */
-  public ThreeTriosCard getCard() {
+  public Card getCard() {
     return this.card;
   }
 
   @Override
-  public void setCard(ThreeTriosCard card) {
+  public void setCard(Card card) {
     if (this.card != null) {
       throw new IllegalStateException("The card in the cell is already set.");
     }

@@ -1,5 +1,6 @@
 package cs3500.threetrios.model;
 
+import cs3500.threetrios.model.card.Card;
 import java.util.List;
 
 import cs3500.threetrios.model.card.CardColor;
@@ -35,7 +36,7 @@ public interface ReadOnlyThreeTriosModel {
    * @param color The card color to know which player's hand to retrieve
    * @return The hand of the player that matches the given color.
    */
-  List<ThreeTriosCard> getHand(CardColor color);
+  List<Card> getHand(CardColor color);
 
   /**
    * Returns the CardColor of the player who is taking their turn.
@@ -113,5 +114,5 @@ public interface ReadOnlyThreeTriosModel {
    * @throws IllegalStateException    if the game hasn't started or is over.
    * @throws IllegalArgumentException if the coordinates are out of bounds or the cell is invalid.
    */
-  int howManyFlips(ThreeTriosCard card, int row, int column);
+  int howManyFlips(Card card, int row, int column);
 }

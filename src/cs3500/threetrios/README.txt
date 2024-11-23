@@ -168,8 +168,10 @@ Changes for part 2:
 	    so no big change there.
 	⁃	Updated the test class for whatever new methods we created to ensure proper functionality.
 
-
-
+Changes for part 3:
+    -   Changes the way strategies are implemented. Instead of an AI player having all the
+        strategies, each strategy is now its own class, implementing the ThreeTriosStrategy
+        interface.
 
 
 

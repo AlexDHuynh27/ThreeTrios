@@ -1,5 +1,6 @@
 package cs3500.threetrios.model.player;
 
+import cs3500.threetrios.model.card.Card;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import cs3500.threetrios.model.cell.CardCell;
  * Can function like a normal player and play a game of ThreeTriosModel and has a hand.
  */
 public class AIPlayer implements Player {
-  private final List<ThreeTriosCard> hand;
+  private final List<Card> hand;
   private CardColor color;
 
   /**
@@ -26,7 +27,7 @@ public class AIPlayer implements Player {
   }
 
   @Override
-  public void addToHand(ThreeTriosCard card) {
+  public void addToHand(Card card) {
     if (this.color == null) {
       throw new IllegalStateException("Color of this player hasn't been set.");
     }
@@ -35,12 +36,12 @@ public class AIPlayer implements Player {
   }
 
   @Override
-  public List<ThreeTriosCard> getHand() {
+  public List<Card> getHand() {
     return List.copyOf(hand);
   }
 
   @Override
-  public ThreeTriosCard playFromHand(int idx) {
+  public Card playFromHand(int idx) {
     if (idx < 0 || idx >= hand.size()) {
       throw new IllegalArgumentException("Index out of bounds " + idx);
     }
@@ -83,11 +84,11 @@ public class AIPlayer implements Player {
   public int[] strategy1(ReadOnlyThreeTriosModel model) {
     int maxFlips = -1;
     List<int[]> bestMoves = new ArrayList<>();
-    List<ThreeTriosCard> hand = this.getHand();
+    List<Card> hand = this.getHand();
     List<List<Cell>> grid = model.getGrid();
 
     for (int cardIdx = 0; cardIdx < hand.size(); cardIdx++) {
-      ThreeTriosCard card = hand.get(cardIdx);
+      Card card = hand.get(cardIdx);
 
       for (int row = 0; row < grid.size(); row++) {
         List<Cell> gridRow = grid.get(row);
@@ -153,7 +154,7 @@ public class AIPlayer implements Player {
    */
   public int[] strategy2(ReadOnlyThreeTriosModel model) {
     List<int[]> possibleMoves = new ArrayList<>();
-    List<ThreeTriosCard> hand = this.getHand();
+    List<Card> hand = this.getHand();
     List<List<Cell>> grid = model.getGrid();
     List<int[]> corners = getCorners(grid);
 
@@ -162,7 +163,7 @@ public class AIPlayer implements Player {
       int col = corner[1];
       if (model.isLegalPlay(row, col)) {
         for (int cardIdx = 0; cardIdx < hand.size(); cardIdx++) {
-          ThreeTriosCard card = hand.get(cardIdx);
+          Card card = hand.get(cardIdx);
           int hardness = cardHardnessInCorner(card, row, col, grid);
           possibleMoves.add(new int[]{cardIdx, row, col, hardness});
         }
@@ -216,7 +217,7 @@ public class AIPlayer implements Player {
     return cell instanceof CardCell;
   }
 
-  private int cardHardnessInCorner(ThreeTriosCard card, int row, int col, List<List<Cell>> grid) {
+  private int cardHardnessInCorner(Card card, int row, int col, List<List<Cell>> grid) {
     int numRows = grid.size();
     int numCols = grid.get(0).size();
     List<Direction> exposedDirections = new ArrayList<>();
@@ -255,16 +256,16 @@ public class AIPlayer implements Player {
    * @return an array of integers representing the chosen move: [card index in hand, row, column]
    */
   public int[] strategy3(ReadOnlyThreeTriosModel model) {
-    List<ThreeTriosCard> myHand = this.getHand();
+    List<Card> myHand = this.getHand();
     CardColor opponentColor = this.getColor() == CardColor.RED ? CardColor.BLUE : CardColor.RED;
-    List<ThreeTriosCard> opponentHand = model.getHand(opponentColor);
+    List<Card> opponentHand = model.getHand(opponentColor);
     List<List<Cell>> grid = model.getGrid();
 
     int minVulnerability = Integer.MAX_VALUE;
     List<int[]> bestMoves = new ArrayList<>();
 
     for (int cardIdx = 0; cardIdx < myHand.size(); cardIdx++) {
-      ThreeTriosCard myCard = myHand.get(cardIdx);
+      Card myCard = myHand.get(cardIdx);
 
       for (int row = 0; row < grid.size(); row++) {
         for (int col = 0; col < grid.get(row).size(); col++) {
@@ -291,8 +292,8 @@ public class AIPlayer implements Player {
     }
   }
 
-  private int calculateVulnerability(ReadOnlyThreeTriosModel model, ThreeTriosCard myCard,
-                                     int row, int col, List<ThreeTriosCard> opponentHand) {
+  private int calculateVulnerability(ReadOnlyThreeTriosModel model, Card myCard,
+                                     int row, int col, List<Card> opponentHand) {
     int vulnerability = 0;
     List<List<Cell>> grid = model.getGrid();
 
@@ -319,7 +320,7 @@ public class AIPlayer implements Player {
       if (adjRow >= 0 && adjRow < grid.size() && adjCol >= 0 && adjCol < grid.get(adjRow).size()) {
         Cell adjCell = grid.get(adjRow).get(adjCol);
         if (adjCell instanceof CardCell && adjCell.isEmpty()) {
-          for (ThreeTriosCard oppCard : opponentHand) {
+          for (Card oppCard : opponentHand) {
             if (canOpponentFlipOurCard(myCard, oppCard, dir)) {
               vulnerability++;
               break;
@@ -331,8 +332,8 @@ public class AIPlayer implements Player {
     return vulnerability;
   }
 
-  private boolean canOpponentFlipOurCard(ThreeTriosCard ourCard,
-                                         ThreeTriosCard oppCard, Direction dir) {
+  private boolean canOpponentFlipOurCard(Card ourCard,
+                                         Card oppCard, Direction dir) {
     Direction oppAttackDir = null;
     Direction ourAttackDir = null;
     switch (dir) {
@@ -360,5 +361,6 @@ public class AIPlayer implements Player {
     int ourDefenseValue = ourCard.getAttack(ourAttackDir);
 
     return oppAttackValue > ourDefenseValue;
+
   }
 }

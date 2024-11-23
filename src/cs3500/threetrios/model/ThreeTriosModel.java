@@ -1,9 +1,10 @@
 package cs3500.threetrios.model;
 
+import cs3500.threetrios.view.ThreeTriosFeatures;
 import java.util.List;
 
-import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
+import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.player.Player;
 
 /**
@@ -25,7 +26,7 @@ public interface ThreeTriosModel extends ReadOnlyThreeTriosModel {
    * @throws IllegalArgumentException if the number of cards in the deck is not enough to play to
    *                                  the grid.
    */
-  void startGame(List<List<Cell>> grid, List<ThreeTriosCard> deck, Player redPlayer,
+  void startGame(List<List<Cell>> grid, List<Card> deck, Player redPlayer,
                  Player bluePlayer);
 
 
@@ -51,4 +52,8 @@ public interface ThreeTriosModel extends ReadOnlyThreeTriosModel {
    * @throws IllegalStateException if a card hasn't been played to the grid this turn yet.
    */
   void battle();
+
+  void addListener(ThreeTriosFeatures listener);
+
+  void somethingChanged();
 }

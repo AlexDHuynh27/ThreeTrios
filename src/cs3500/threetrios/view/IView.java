@@ -1,9 +1,12 @@
 package cs3500.threetrios.view;
 
+import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 /**
@@ -25,7 +28,7 @@ public interface IView {
    * @param color The Color of the player that's hand is being set
    * @param hand The hand to set
    */
-  void setHand(CardColor color, List<ThreeTriosCard> hand);
+  void setHand(CardColor color, List<Card> hand);
 
   /**
    * Provide the view with the current grid
@@ -44,4 +47,6 @@ public interface IView {
    * @param selected Represents the index of the selected Card idx0
    */
   void setSelected(CardColor color, int selected);
+
+  void addFeaturesListener(ThreeTriosFeatures featuresListener);
 }

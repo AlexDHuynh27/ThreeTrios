@@ -1,5 +1,6 @@
 package cs3500.threetrios.model.player;
 
+import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * Represents a Player that is human and actually playing the game based off of a user input.
  */
 public class HumanPlayer implements Player {
-  private final List<ThreeTriosCard> hand;
+  private final List<Card> hand;
   private CardColor color;
 
   /**
@@ -21,7 +22,7 @@ public class HumanPlayer implements Player {
   }
 
   @Override
-  public void addToHand(ThreeTriosCard card) {
+  public void addToHand(Card card) {
     if (this.color == null) {
       throw new IllegalStateException("Color of this player hasn't been set.");
     }
@@ -30,12 +31,12 @@ public class HumanPlayer implements Player {
   }
 
   @Override
-  public List<ThreeTriosCard> getHand() {
+  public List<Card> getHand() {
     return List.copyOf(hand);
   }
 
   @Override
-  public ThreeTriosCard playFromHand(int idx) {
+  public Card playFromHand(int idx) {
     if (idx < 0 || idx >= hand.size()) {
       throw new IllegalArgumentException("Index out of bounds " + idx);
     }

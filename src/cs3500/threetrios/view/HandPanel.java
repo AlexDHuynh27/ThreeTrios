@@ -1,8 +1,14 @@
 package cs3500.threetrios.view;
 
+import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
+import java.util.Objects;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Color;
@@ -12,6 +18,7 @@ import java.awt.Font;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.event.MouseInputAdapter;
 
 /**
  * Graphical representation of a player's hand.
@@ -21,9 +28,10 @@ import java.util.List;
  * black border around the card.
  */
 public class HandPanel extends JPanel {
-  private List<ThreeTriosCard> hand;
+  private List<Card> hand;
   private Color color;
   int selected;
+  private List<ThreeTriosFeatures> featuresListeners;
 
   /**
    * Constructor for a HandPanel.
@@ -33,6 +41,12 @@ public class HandPanel extends JPanel {
     this.hand = new ArrayList<>();
     this.color = color;
     this.selected = -1;
+    featuresListeners = new ArrayList<>();
+    this.addMouseListener(new MouseEventsListener());
+  }
+
+  public void addFeaturesListener(ThreeTriosFeatures features) {
+    this.featuresListeners.add(Objects.requireNonNull(features));
   }
 
 
@@ -96,7 +110,7 @@ public class HandPanel extends JPanel {
    *
    * @param hand The hand to set
    */
-  public void setHand(List<ThreeTriosCard> hand) {
+  public void setHand(List<Card> hand) {
     this.hand = hand;
   }
 
@@ -108,5 +122,29 @@ public class HandPanel extends JPanel {
    */
   public void setSelected(int selected) {
     this.selected = selected;
+  }
+
+
+  private class MouseEventsListener extends MouseInputAdapter {
+    @Override
+    public void mousePressed(MouseEvent e) {
+      Point physicalP = e.getPoint();
+
+      int scale = HandPanel.this.getHeight() / hand.size();
+      for (int i = 0; i < hand.size(); i++) {
+        if (physicalP.getY() > scale * i && physicalP.getY() < scale * i + scale ) {
+          for (ThreeTriosFeatures feature : featuresListeners) {
+            if (HandPanel.this.selected == i) {
+              feature.setSelected(HandPanel.this.color, -1);
+            }
+            else {
+              feature.setSelected(HandPanel.this.color, i);
+            }
+          }
+
+        }
+      }
+      HandPanel.this.repaint();
+    }
   }
 }

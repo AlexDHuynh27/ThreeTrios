@@ -1,5 +1,6 @@
 package cs3500.threetrios.model.cell;
 
+import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 
@@ -24,7 +25,7 @@ public interface Cell {
    *
    * @return The ThreeTriosCard of this cell or null.
    */
-  ThreeTriosCard getCard();
+  Card getCard();
 
   /**
    * Sets a card in a specified Cell.
@@ -32,7 +33,7 @@ public interface Cell {
    * @throws IllegalStateException  if card is null.
    * @throws IllegalCallerException if called by a Hole cell as Hole cell should never have a card.
    */
-  void setCard(ThreeTriosCard card);
+  void setCard(Card card);
 
   /**
    * Compares an attack value of this Cell's card to an attack value of other's card based on the

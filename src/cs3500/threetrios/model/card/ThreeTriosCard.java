@@ -48,21 +48,12 @@ public class ThreeTriosCard implements Card {
     }
   }
 
-  /**
-   * Returns the name of this card.
-   *
-   * @return The name of this card.
-   */
+  @Override
   public String getName() {
     return name;
   }
 
-  /**
-   * Returns the attack value based on the given direction.
-   *
-   * @param dir The direction of the attack value to get.
-   * @return An Attack Value.
-   */
+  @Override
   public int getAttack(Direction dir) {
     switch (dir) {
       case NORTH:
@@ -78,11 +69,8 @@ public class ThreeTriosCard implements Card {
     }
   }
 
-  /**
-   * Returns the color of this card. Null if the color has not been set.
-   *
-   * @return The color of this card.
-   */
+
+  @Override
   public CardColor getColor() {
     return color;
   }
@@ -106,11 +94,7 @@ public class ThreeTriosCard implements Card {
     return name + " " + northA + " " + southA + " " + eastA + " " + westA;
   }
 
-  /**
-   * Produces the string value of the attack value in the given direction.
-   * @param dir Direction to retrieve the attack value from.
-   * @return String value of the attack value in the given direction.
-   */
+  @Override
   public String attackToString(Direction dir) {
     switch (dir) {
       case NORTH:
@@ -138,13 +122,7 @@ public class ThreeTriosCard implements Card {
     }
   }
 
-  /**
-   * Returns "R" or "B", Representing the CardColors Red and Blue respectively.
-   * The String representation of the CardColor of this card.
-   *
-   * @return A Character that represents the CardColor of this card.
-   * @throws IllegalStateException If the color of this card has not been set yet.
-   */
+  @Override
   public String colorString() {
     if (color == null) {
       throw new IllegalStateException("Color has not been set");

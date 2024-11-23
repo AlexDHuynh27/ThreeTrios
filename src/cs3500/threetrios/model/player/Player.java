@@ -1,5 +1,6 @@
 package cs3500.threetrios.model.player;
 
+import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 
@@ -15,7 +16,7 @@ public interface Player {
    * color of this player.
    * @throws IllegalStateException if the color of this player hasn't been set.
    */
-  void addToHand(ThreeTriosCard card);
+  void addToHand(Card card);
 
   /**
    * Removes and returns the same card from this players hand at the given index.
@@ -23,13 +24,13 @@ public interface Player {
    * @return The card at the given idx.
    * @throws IllegalArgumentException If the inx is out of range of the player's hand.
    */
-  ThreeTriosCard playFromHand(int idx);
+  Card playFromHand(int idx);
 
   /**
    * Gets an immutable copy of this player's hand.
    * @return A List of ThreeTriosCards that is an immutable copy of this player's hand.
    */
-  List<ThreeTriosCard> getHand();
+  List<Card> getHand();
 
   /**
    * Returns the size of this player's current hand.

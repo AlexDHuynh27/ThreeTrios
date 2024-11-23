@@ -1,5 +1,6 @@
 package cs3500.threetrios.view;
 
+import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
@@ -11,9 +12,14 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Objects;
 import javax.swing.JPanel;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.event.MouseInputAdapter;
 
 /**
  * A graphical representation of the grid in a ThreeTriosGame.
@@ -24,12 +30,20 @@ import java.util.List;
  */
 public class GridPanel extends JPanel {
   private List<List<Cell>> grid; // Grid
+  private List<ThreeTriosFeatures> featuresListeners;
 
   /**
    * Constructor for a gridpanel.
    */
   public GridPanel() {
     this.grid = new ArrayList<List<Cell>>();
+    this.featuresListeners = new ArrayList<>();
+    this.addMouseListener(new MouseEventsListener());
+
+  }
+
+  public void addFeaturesListener(ThreeTriosFeatures features) {
+    this.featuresListeners.add(Objects.requireNonNull(features));
   }
 
   @Override
@@ -41,11 +55,12 @@ public class GridPanel extends JPanel {
     g2d.setFont(new Font("Times New Roman", Font.PLAIN,
         25));
 
+    int scaleX = this.getWidth() / grid.size();
+    int scaleY = this.getHeight() / grid.size();
     for (int i = 0; i < grid.size(); i++) {
       for (int j = 0; j < grid.size(); j++) {
         Cell cell = grid.get(i).get(j);
-        int scaleX = this.getWidth() / grid.size();
-        int scaleY = this.getHeight() / grid.size();
+
         if (cell instanceof Hole) {
           g2d.setColor(Color.GRAY);
           g2d.fillRect(scaleX * j + 1, scaleY * i + 1, scaleX - 2,
@@ -70,7 +85,7 @@ public class GridPanel extends JPanel {
     g.setColor(Color.BLACK);
     int scaleX = this.getWidth() / this.grid.size();
     int scaleY = this.getHeight() / this.grid.size();
-    ThreeTriosCard card = this.grid.get(index).get(index2).getCard();
+    Card card = this.grid.get(index).get(index2).getCard();
     g.drawString(card.attackToString(Direction.WEST),
         scaleX * index2 + 10,
         (scaleY * index) + (scaleY / 2) + 10);
@@ -85,7 +100,7 @@ public class GridPanel extends JPanel {
         (scaleY * (index + 1)) - (scaleY / 5) + 10);
   }
 
-  private Color cardToColor(ThreeTriosCard card) {
+  private Color cardToColor(Card card) {
     if (card.getColor() == CardColor.RED) {
       return Color.RED;
     }
@@ -102,5 +117,26 @@ public class GridPanel extends JPanel {
    */
   public void setGrid(List<List<Cell>> grid) {
     this.grid = grid;
+  }
+
+  private class MouseEventsListener extends MouseInputAdapter {
+    @Override
+    public void mousePressed(MouseEvent e) {
+      Point physicalP = e.getPoint();
+
+      int scaleX = GridPanel.this.getWidth() / grid.size();
+      int scaleY = GridPanel.this.getHeight() / grid.size();
+      for (int i = 0; i < grid.size(); i++) {
+        for (int j = 0; j < grid.size(); j++) {
+          if (scaleX * j + 1 < e.getX() && e.getX() < scaleX * j + scaleX - 1
+              && scaleY * i + 1 < e.getY() && e.getY() < scaleY * i + scaleY - 1) {
+            for (ThreeTriosFeatures feature : featuresListeners) {
+              feature.playSelectedToGrid(i, j);
+            }
+          }
+        }
+      }
+      System.out.printf("%d, %d%n", e.getX(), e.getY());
+    }
   }
 }
