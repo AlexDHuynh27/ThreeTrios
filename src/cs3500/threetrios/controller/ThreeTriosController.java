@@ -97,7 +97,9 @@ public class ThreeTriosController implements ThreeTriosFeatures {
             + model.getPlayerScore(this.model.getWinner()));
       }
     }
-    checkTurn();
+    else {
+      checkTurn();
+    }
   }
 
 

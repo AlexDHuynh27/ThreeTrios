@@ -177,7 +177,9 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     for (List<Cell> row : grid) {
       for (Cell cell : row) {
         if (cell instanceof CardCell && cell.isEmpty()) {
+          System.out.println(cell);
           return false;
+
         }
       }
     }
