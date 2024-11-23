@@ -103,13 +103,10 @@ public class ThreeTriosGraphicsView extends JFrame implements IView {
     this.gridPanel.addFeaturesListener(featuresListener);
   }
 
-  /**
-   * Displays a pop-up message with the given String.
-   * @param message The message to display
-   */
   public void showMessage(String message) {
     JOptionPane.showMessageDialog(null, message, "message",
-        JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.ERROR_MESSAGE);
   }
+
 
 }

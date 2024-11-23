@@ -172,12 +172,6 @@ Changes for part 3:
     -   Changes the way strategies are implemented. Instead of an AI player having all the
         strategies, each strategy is now its own class, implementing the ThreeTriosStrategy
         interface.
-    -   Changed the model to have listeners, in order for the controller to know when the model
-        is updated. And update the listeners whenever battle and playToGrid is called.
-    -   Changed methods that returned ThreeTriosCard to the return Card instead, for generalization
-        and future proofing.
-    -   Added the ability for HandPanel, GridPanel, IView, and ThreeTriosGraphicsView to addFeatures
-        for the controller features interface
 
 
 

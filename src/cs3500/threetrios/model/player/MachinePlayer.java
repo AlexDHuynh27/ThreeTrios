@@ -15,7 +15,7 @@ public class MachinePlayer implements Player {
   private final ThreeTriosStrategy strategy;
   private final Player humanPlayer;
   private final ThreeTriosModel model;
-
+  
   /**
    * Constructor for MachinePlayer class that creates a MachinePlayer based on the given
    * parameters.
@@ -36,9 +36,6 @@ public class MachinePlayer implements Player {
    */
   public void playAIMove() {
     HandGridCoord move = this.strategy.chooseMove(this.model, this.humanPlayer);
-    System.out.println(move.getHandIdx());
-    System.out.println(move.getRow());
-    System.out.println(move.getRow());
     this.model.playToGrid(move.getHandIdx(), move.getRow(), move.getCol());
   }
 

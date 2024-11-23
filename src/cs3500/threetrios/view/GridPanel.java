@@ -42,10 +42,6 @@ public class GridPanel extends JPanel {
 
   }
 
-  /**
-   * Adds a ThreeTriosFeatures to this object, to handle functionality based on user actions.
-   * @param features ThreeTriosFeatures to add.
-   */
   public void addFeaturesListener(ThreeTriosFeatures features) {
     this.featuresListeners.add(Objects.requireNonNull(features));
   }
@@ -59,10 +55,10 @@ public class GridPanel extends JPanel {
     g2d.setFont(new Font("Times New Roman", Font.PLAIN,
         25));
 
-    int scaleX = this.getWidth() / grid.get(0).size();
+    int scaleX = this.getWidth() / grid.size();
     int scaleY = this.getHeight() / grid.size();
     for (int i = 0; i < grid.size(); i++) {
-      for (int j = 0; j < grid.get(0).size(); j++) {
+      for (int j = 0; j < grid.size(); j++) {
         Cell cell = grid.get(i).get(j);
 
         if (cell instanceof Hole) {
@@ -87,7 +83,7 @@ public class GridPanel extends JPanel {
 
   private void drawAttacks(Graphics2D g, int index, int index2) {
     g.setColor(Color.BLACK);
-    int scaleX = this.getWidth() / this.grid.get(0).size();
+    int scaleX = this.getWidth() / this.grid.size();
     int scaleY = this.getHeight() / this.grid.size();
     Card card = this.grid.get(index).get(index2).getCard();
     g.drawString(card.attackToString(Direction.WEST),
@@ -126,10 +122,12 @@ public class GridPanel extends JPanel {
   private class MouseEventsListener extends MouseInputAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
-      int scaleX = GridPanel.this.getWidth() / grid.get(0).size();
+      Point physicalP = e.getPoint();
+
+      int scaleX = GridPanel.this.getWidth() / grid.size();
       int scaleY = GridPanel.this.getHeight() / grid.size();
       for (int i = 0; i < grid.size(); i++) {
-        for (int j = 0; j < grid.get(0).size(); j++) {
+        for (int j = 0; j < grid.size(); j++) {
           if (scaleX * j + 1 < e.getX() && e.getX() < scaleX * j + scaleX - 1
               && scaleY * i + 1 < e.getY() && e.getY() < scaleY * i + scaleY - 1) {
             for (ThreeTriosFeatures feature : featuresListeners) {

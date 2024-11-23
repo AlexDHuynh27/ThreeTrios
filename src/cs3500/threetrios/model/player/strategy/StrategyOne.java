@@ -17,10 +17,11 @@ public class StrategyOne implements ThreeTriosStrategy {
   /**
    * Determines the best move by selecting the play that flips the maximum number of opponent's
    * cards in a single turn. It evaluates all possible plays with each card in the hand on all
-   * legal positions of the grid, calculating the number of flips for each move. If multiple
-   * moves result in the same maximum flips, tie-breaker rules are applied: choose the move with
-   * the uppermost-leftmost coordinate, and if still tied, select the card with the smallest
-   * index in the hand. If no legal moves are available, it selects the first legal move found.
+   * legal positions of the grid, calculating the number of flips for each move.
+   * If multiple moves result in the same maximum flips, tie-breaker rules are applied:
+   * choose the move with the uppermost-leftmost coordinate, and if still tied, select the card
+   * with the smallest index in the hand. If no legal moves are available, it selects the first
+   * legal move found.
    *
    * @param model the current read-only game model
    * @param player the AI player

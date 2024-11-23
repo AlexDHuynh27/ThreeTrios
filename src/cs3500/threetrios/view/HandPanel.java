@@ -45,10 +45,6 @@ public class HandPanel extends JPanel {
     this.addMouseListener(new MouseEventsListener());
   }
 
-  /**
-   * Adds a ThreeTriosFeatures to this object, to handle functionality based on user actions.
-   * @param features ThreeTriosFeatures to add.
-   */
   public void addFeaturesListener(ThreeTriosFeatures features) {
     this.featuresListeners.add(Objects.requireNonNull(features));
   }
@@ -145,6 +141,7 @@ public class HandPanel extends JPanel {
               feature.setSelected(HandPanel.this.color, i);
             }
           }
+
         }
       }
       HandPanel.this.repaint();

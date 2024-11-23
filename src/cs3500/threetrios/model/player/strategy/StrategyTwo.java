@@ -20,10 +20,10 @@ public class StrategyTwo implements ThreeTriosStrategy {
    * Determines the best move by placing a card in a corner position, selecting the card that is
    * hardest for the opponent to flip. It evaluates all legal corner positions and calculates a
    * "hardness" score for each card based on the attack values exposed when placed in that corner.
-   * If multiple moves have the same maximum hardness, tie-breaker rules are applied: choose the
-   * move with the uppermost-leftmost coordinate, and if still tied, select the card with the
-   * smallest index in the hand. If no legal corner moves are available, it selects the first
-   * legal move found.
+   * If multiple moves have the same maximum hardness, tie-breaker rules are applied:
+   * choose the move with the uppermost-leftmost coordinate, and if still tied, select the card
+   * with the smallest index in the hand. If no legal corner moves are available, it selects the
+   * first legal move found.
    *
    * @param model the current game model
    * @param player the AI player
