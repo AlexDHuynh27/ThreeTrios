@@ -13,6 +13,7 @@ public class MachinePlayer implements Player {
   private final Player humanPlayer;
   private final ThreeTriosModel model;
 
+  
   public MachinePlayer(ThreeTriosStrategy strategy, Player player, ThreeTriosModel model) {
     super();
     this.strategy = strategy;
@@ -22,6 +23,9 @@ public class MachinePlayer implements Player {
 
   public void playAIMove() {
     HandGridCoord move = this.strategy.chooseMove(this.model, this.humanPlayer);
+    System.out.println(move.getHandIdx());
+    System.out.println(move.getRow());
+    System.out.println(move.getRow());
     this.model.playToGrid(move.getHandIdx(), move.getRow(), move.getCol());
   }
 

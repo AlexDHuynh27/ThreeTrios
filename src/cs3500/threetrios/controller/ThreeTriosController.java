@@ -25,6 +25,9 @@ public class ThreeTriosController implements ThreeTriosFeatures {
     this.view.addFeaturesListener(this);
   }
 
+  /**
+   * Starts a game of ThreeTriosRedGame with the given model, player, and view.
+   */
   public void goPlay() {
     this.view.makeVisible();
     currentTurn = model.getCurrentPlayerColor();
@@ -69,17 +72,16 @@ public class ThreeTriosController implements ThreeTriosFeatures {
   }
 
   private void checkTurn() {
-    if (!currentTurn.equals(this.model.getCurrentPlayerColor())
-        && this.model.getCurrentPlayerColor().equals(this.player.getColor())) {
-
+    if (this.model.getCurrentPlayerColor().equals(this.player.getColor())) {
       if (this.player instanceof HumanPlayer) {
         view.showMessage("Player " + this.player.getColor() + ": It's your turn now");
       }
       else if (this.player instanceof MachinePlayer) {
         ((MachinePlayer) this.player).playAIMove();
+        model.battle();
       }
     }
-    currentTurn = this.model.getCurrentPlayerColor();
+
   }
 
   @Override

@@ -110,8 +110,6 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     attackingCardRows.add(row);
     attackingCardCols.add(column);
     playedToGrid = true;
-
-    somethingChanged();
   }
 
   @Override

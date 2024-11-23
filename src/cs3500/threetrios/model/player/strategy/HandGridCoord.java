@@ -1,9 +1,13 @@
 package cs3500.threetrios.model.player.strategy;
 
+/**
+ * Represents the necessary indexes to play a move in a game of ThreeTrios.
+ * The card in the hand idx, the row of the grid idx, and the col of the grid idx.
+ */
 public class HandGridCoord {
-  int handIdx;
-  int row;
-  int col;
+  int handIdx; // idx-0
+  int row; // idx-0
+  int col; // idx-0
 
   public HandGridCoord(int handIdx, int row, int col) {
     this.handIdx = handIdx;
