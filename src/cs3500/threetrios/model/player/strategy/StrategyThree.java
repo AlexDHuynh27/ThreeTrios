@@ -22,11 +22,10 @@ public class StrategyThree implements ThreeTriosStrategy {
    * Determines the best move by selecting the play that minimizes the risk of the placed card
    * being flipped by the opponent in future turns. It calculates a "vulnerability" score for
    * each possible move, representing how susceptible the card is to being flipped based on the
-   * opponent's potential moves.
-   * If multiple moves have the same minimal vulnerability, tie-breaker rules are applied:
-   * choose the move with the uppermost-leftmost coordinate, and if still tied, select the card
-   * with the smallest index in the hand. If no legal moves are available, it selects the first
-   * legal move found.
+   * opponent's potential moves. If multiple moves have the same minimal vulnerability,
+   * tie-breaker rules are applied: choose the move with the uppermost-leftmost coordinate, and
+   * if still tied, select the card with the smallest index in the hand. If no legal moves are
+   * available, it selects the first legal move found.
    *
    * @param model the current read-only game model
    * @param player the AI Player
