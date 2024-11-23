@@ -5,8 +5,6 @@ import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.player.HumanPlayer;
 import cs3500.threetrios.model.player.MachinePlayer;
 import cs3500.threetrios.model.player.Player;
-import cs3500.threetrios.model.player.strategy.HandGridCoord;
-import cs3500.threetrios.view.IView;
 import cs3500.threetrios.view.ThreeTriosFeatures;
 import cs3500.threetrios.view.ThreeTriosGraphicsView;
 import java.awt.Color;
@@ -30,6 +28,7 @@ public class ThreeTriosController implements ThreeTriosFeatures {
   public void goPlay() {
     this.view.makeVisible();
     currentTurn = model.getCurrentPlayerColor();
+    checkTurn();
   }
 
 

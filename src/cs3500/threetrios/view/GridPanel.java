@@ -136,7 +136,6 @@ public class GridPanel extends JPanel {
           }
         }
       }
-      System.out.printf("%d, %d%n", e.getX(), e.getY());
     }
   }
 }
