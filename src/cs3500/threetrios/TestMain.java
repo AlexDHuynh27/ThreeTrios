@@ -46,7 +46,6 @@ public class TestMain {
     ThreeTriosController controller2 = new ThreeTriosController(newGame, bluePlayer, view2);
     controller.goPlay();
     controller2.goPlay();
-
   }
 
   public static Player typeOfPlayer(String playerName) {

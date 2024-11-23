@@ -110,6 +110,7 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     attackingCardRows.add(row);
     attackingCardCols.add(column);
     playedToGrid = true;
+
     somethingChanged();
   }
 
@@ -149,8 +150,8 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
       processBattle(attackRow, attackCol, attackRow, attackCol + 1, Direction.EAST);
     }
 
-    somethingChanged();
     switchTurn();
+    somethingChanged();
   }
 
   @Override
@@ -160,10 +161,9 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
 
   @Override
   public void somethingChanged() {
-    for (ThreeTriosFeatures listener : listeners) {
-      listener.update();
+    for (int i = 0; i < listeners.size(); i++) {
+      listeners.get(i).update();
     }
-
   }
 
 
@@ -441,10 +441,6 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   private void switchTurn() {
     colorTurn = (colorTurn == CardColor.RED) ? CardColor.BLUE : CardColor.RED;
     playedToGrid = false;
-
-    for (ThreeTriosFeatures listener : listeners) {
-      listener.checkTurn();
-    }
   }
 
   private void processBattle(int attackRow, int attackCol, int targetRow, int targetCol,
