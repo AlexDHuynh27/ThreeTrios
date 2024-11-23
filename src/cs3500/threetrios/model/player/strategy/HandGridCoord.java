@@ -1,12 +1,13 @@
 package cs3500.threetrios.model.player.strategy;
 
 /**
- * HandGridCoord class representing a handIdx and grid coordinates rowIdx and colIdx.
+ * Represents the necessary indexes to play a move in a game of ThreeTrios.
+ * The card in the hand idx, the row of the grid idx, and the col of the grid idx.
  */
 public class HandGridCoord {
-  int handIdx;
-  int row;
-  int col;
+  int handIdx; // idx-0
+  int row; // idx-0
+  int col; // idx-0
 
   /**
    * HandGridCoord constructor for HandGridCoord class, throws IAE if arguments are negative.

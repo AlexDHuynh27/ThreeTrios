@@ -5,8 +5,6 @@ import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.player.HumanPlayer;
 import cs3500.threetrios.model.player.MachinePlayer;
 import cs3500.threetrios.model.player.Player;
-import cs3500.threetrios.model.player.strategy.HandGridCoord;
-import cs3500.threetrios.view.IView;
 import cs3500.threetrios.view.ThreeTriosFeatures;
 import cs3500.threetrios.view.ThreeTriosGraphicsView;
 import java.awt.Color;
@@ -27,9 +25,13 @@ public class ThreeTriosController implements ThreeTriosFeatures {
     this.view.addFeaturesListener(this);
   }
 
+  /**
+   * Starts a game of ThreeTriosRedGame with the given model, player, and view.
+   */
   public void goPlay() {
     this.view.makeVisible();
     currentTurn = model.getCurrentPlayerColor();
+    checkTurn();
   }
 
 
@@ -70,17 +72,16 @@ public class ThreeTriosController implements ThreeTriosFeatures {
   }
 
   private void checkTurn() {
-    if (!currentTurn.equals(this.model.getCurrentPlayerColor())
-        && this.model.getCurrentPlayerColor().equals(this.player.getColor())) {
-
+    if (this.model.getCurrentPlayerColor().equals(this.player.getColor())) {
       if (this.player instanceof HumanPlayer) {
         view.showMessage("Player " + this.player.getColor() + ": It's your turn now");
       }
       else if (this.player instanceof MachinePlayer) {
         ((MachinePlayer) this.player).playAIMove();
+        model.battle();
       }
     }
-    currentTurn = this.model.getCurrentPlayerColor();
+
   }
 
   @Override

@@ -110,8 +110,6 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     attackingCardRows.add(row);
     attackingCardCols.add(column);
     playedToGrid = true;
-
-    somethingChanged();
   }
 
   @Override
@@ -177,7 +175,6 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     for (List<Cell> row : grid) {
       for (Cell cell : row) {
         if (cell instanceof CardCell && cell.isEmpty()) {
-          System.out.println(cell);
           return false;
 
         }
