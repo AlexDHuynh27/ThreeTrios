@@ -1026,7 +1026,7 @@ public class TestThreeTriosGameModel {
   }
 
   /**
-   * Test strategy 2. AI player should place fox at top-left because it has the strongest
+   * Test strategy 2. AI player should place fox at bottom-left because it has the strongest
    * combined attack.
    */
   @Test
@@ -1035,12 +1035,16 @@ public class TestThreeTriosGameModel {
     gameModel.startGame(grid1, deck10, redPlayer, bot1);
     gameModel.playToGrid(0, 0, 0);
     gameModel.battle();
+    System.out.println(gameModel.getHand(CardColor.BLUE));
+    System.out.println(gameModel.getGrid());
     int [] a = bot1.strategy2(gameModel);
     gameModel.playToGrid(a[0],a[1],a[2]);
     gameModel.battle();
+    System.out.println(gameModel.getHand(CardColor.BLUE));
+    System.out.println(gameModel.getGrid());
     assertEquals( 0, a[0]);
-    assertEquals( 0, a[1]);
-    assertEquals( 2, a[2]);
+    assertEquals( 2, a[1]);
+    assertEquals( 0, a[2]);
   }
 
   /**
@@ -1108,9 +1112,15 @@ public class TestThreeTriosGameModel {
     gameModel.battle();
     gameModel.playToGrid(0, 0, 0);
     gameModel.battle();
+    System.out.println(gameModel.getGrid());
+    System.out.println(gameModel.getHand(CardColor.BLUE));
     int[] a = bot1.strategy1(gameModel);
     gameModel.playToGrid(a[0],a[1],a[2]);
     gameModel.battle();
+
+    System.out.println(gameModel.getGrid());
+    System.out.println(gameModel.getHand(CardColor.BLUE));
+
     assertEquals(0, a[0]);
     assertEquals(0, a[1]);
     assertEquals(1, a[2]);

@@ -223,16 +223,16 @@ public class AIPlayer implements Player {
     List<Direction> exposedDirections = new ArrayList<>();
 
     if (row == 0) {
-      exposedDirections.add(Direction.NORTH);
-    }
-    if (row == numRows - 1) {
       exposedDirections.add(Direction.SOUTH);
     }
+    if (row == numRows - 1) {
+      exposedDirections.add(Direction.NORTH);
+    }
     if (col == 0) {
-      exposedDirections.add(Direction.WEST);
+      exposedDirections.add(Direction.EAST);
     }
     if (col == numCols - 1) {
-      exposedDirections.add(Direction.EAST);
+      exposedDirections.add(Direction.WEST);
     }
 
     int hardness = 0;
