@@ -1,6 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.card.CardColor;
@@ -10,7 +11,6 @@ import cs3500.threetrios.model.cell.Hole;
 import cs3500.threetrios.model.configreader.CardReader;
 import cs3500.threetrios.model.configreader.GridReader;
 import cs3500.threetrios.model.player.HumanPlayer;
-import cs3500.threetrios.model.player.AIPlayer;
 import cs3500.threetrios.model.player.Player;
 import cs3500.threetrios.model.ThreeTriosGameModel;
 
@@ -46,13 +46,13 @@ public class TestThreeTriosGameModel {
   private List<List<Cell>> grid1;
   private List<List<Cell>> grid2;
   private List<List<Cell>> grid3;
-  private List<ThreeTriosCard> deck5;
-  private List<ThreeTriosCard> deck10;
+  private List<Card> deck5;
+  private List<Card> deck10;
 
-  private List<ThreeTriosCard> deck26;
+  private List<Card> deck26;
 
-  private List<ThreeTriosCard> deck50;
-  private List<ThreeTriosCard> deckSame;
+  private List<Card> deck50;
+  private List<Card> deckSame;
   private ThreeTriosCard croc;
   private ThreeTriosCard eagle;
   private ThreeTriosCard fox;
@@ -501,7 +501,7 @@ public class TestThreeTriosGameModel {
     redPlayer.setColor(CardColor.RED);
     redPlayer.addToHand(card);
     redPlayer.addToHand(maxAttackCard);
-    List<ThreeTriosCard> hand = redPlayer.getHand();
+    List<Card> hand = redPlayer.getHand();
 
     assertEquals(2, hand.size());
     assertEquals("Warrior", hand.get(0).getName());
