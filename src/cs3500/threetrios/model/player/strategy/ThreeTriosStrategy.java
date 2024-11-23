@@ -5,5 +5,4 @@ import cs3500.threetrios.model.card.CardColor;
 
 public interface ThreeTriosStrategy {
   HandGridCoord chooseMove(ThreeTriosModel model, CardColor forWhom);
-
 }

@@ -18,7 +18,6 @@ public class MachinePlayer implements Player {
     this.strategy = strategy;
     this.humanPlayer = player;
     this.model = model;
-
   }
 
   public void playAIMove() {

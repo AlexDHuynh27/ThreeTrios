@@ -7,7 +7,8 @@ public interface ThreeTriosFeatures {
 
   void playSelectedToGrid(int row, int col);
 
+  /**
+   * Causes the controller to update the view with new information from the model.
+   */
   void update();
-
-  void checkTurn();
 }
