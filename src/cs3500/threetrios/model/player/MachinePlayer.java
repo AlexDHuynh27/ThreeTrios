@@ -21,7 +21,7 @@ public class MachinePlayer implements Player {
   }
 
   public void playAIMove() {
-    HandGridCoord move = this.strategy.chooseMove(this.model, this.getColor());
+    HandGridCoord move = this.strategy.chooseMove(this.model, this.humanPlayer);
     this.model.playToGrid(move.getHandIdx(), move.getRow(), move.getCol());
   }
 
