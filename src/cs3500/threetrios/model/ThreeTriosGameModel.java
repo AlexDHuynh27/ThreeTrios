@@ -48,8 +48,8 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
    */
   public ThreeTriosGameModel(Random random) {
     this.rand = random;
+    this.listeners = new ArrayList<>();
   }
-
 
   @Override
   public void startGame(List<List<Cell>> grid, List<Card> deck, Player redPlayer,

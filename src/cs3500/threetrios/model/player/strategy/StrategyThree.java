@@ -13,6 +13,10 @@ import cs3500.threetrios.model.cell.CardCell;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.player.Player;
 
+/**
+ * A Strategy class for implementing strategyThree please see below for more information on how the
+ * strategy works.
+ */
 public class StrategyThree implements ThreeTriosStrategy {
   /**
    * Determines the best move by selecting the play that minimizes the risk of the placed card
@@ -25,7 +29,8 @@ public class StrategyThree implements ThreeTriosStrategy {
    * legal move found.
    *
    * @param model the current read-only game model
-   * @return an array of integers representing the chosen move: [card index in hand, row, column]
+   * @param player the AI Player
+   * @return a HandGridCoord
    */
   @Override
     public HandGridCoord chooseMove(ThreeTriosModel model, Player player) {

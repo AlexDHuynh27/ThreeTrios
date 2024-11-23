@@ -9,6 +9,10 @@ import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.player.Player;
 
+/**
+ * A Strategy class for implementing strategyOne please see below for more information on how the
+ * strategy works.
+ */
 public class StrategyOne implements ThreeTriosStrategy {
   /**
    * Determines the best move by selecting the play that flips the maximum number of opponent's
@@ -20,7 +24,8 @@ public class StrategyOne implements ThreeTriosStrategy {
    * legal move found.
    *
    * @param model the current read-only game model
-   * @return an array of integers representing the chosen move: [card index in hand, row, column]
+   * @param player the AI player
+   * @return a HandGridCoord
    */
   @Override
   public HandGridCoord chooseMove(ThreeTriosModel model, Player player) {

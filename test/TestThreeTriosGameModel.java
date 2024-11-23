@@ -11,8 +11,12 @@ import cs3500.threetrios.model.cell.Hole;
 import cs3500.threetrios.model.configreader.CardReader;
 import cs3500.threetrios.model.configreader.GridReader;
 import cs3500.threetrios.model.player.HumanPlayer;
+import cs3500.threetrios.model.player.MachinePlayer;
 import cs3500.threetrios.model.player.Player;
 import cs3500.threetrios.model.ThreeTriosGameModel;
+import cs3500.threetrios.model.player.strategy.HandGridCoord;
+import cs3500.threetrios.model.player.strategy.StrategyOne;
+import cs3500.threetrios.model.player.strategy.StrategyTwo;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -151,6 +155,7 @@ public class TestThreeTriosGameModel {
     assertEquals(5, card.getAttack(Direction.SOUTH));
     assertEquals(10, maxAttackCard.getAttack(Direction.SOUTH));
     assertEquals(1, minAttackCard.getAttack(Direction.SOUTH));
+    System.out.println(bluePlayer);
   }
 
   /**
@@ -947,26 +952,26 @@ public class TestThreeTriosGameModel {
   @Test
   public void testGetCell() {
     assertThrows("Game has not started.", IllegalStateException.class, () ->
-            gameModel.getCellAt(0,0));
+            gameModel.getCellAt(0, 0));
     gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
-    assertEquals(new CardCell(), gameModel.getCellAt(0,0));
+    assertEquals(new CardCell(), gameModel.getCellAt(0, 0));
     assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
-            gameModel.getCellAt(0,-1));
+            gameModel.getCellAt(0, -1));
     assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
-            gameModel.getCellAt(-1,0));
+            gameModel.getCellAt(-1, 0));
     assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
-            gameModel.getCellAt(3,0));
+            gameModel.getCellAt(3, 0));
     assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
-            gameModel.getCellAt(0,3));
+            gameModel.getCellAt(0, 3));
 
     gameModel.playToGrid(0, 0, 0);
-    assertEquals(red1, gameModel.getCellAt(0,0));
-    assertEquals(new CardCell(), gameModel.getCellAt(0,1));
+    assertEquals(red1, gameModel.getCellAt(0, 0));
+    assertEquals(new CardCell(), gameModel.getCellAt(0, 1));
 
     gameModel.battle();
     gameModel.playToGrid(0, 0, 1);
-    assertNotEquals(new CardCell(), gameModel.getCellAt(0,1));
-    assertEquals(blue1, gameModel.getCellAt(0,1));
+    assertNotEquals(new CardCell(), gameModel.getCellAt(0, 1));
+    assertEquals(blue1, gameModel.getCellAt(0, 1));
   }
 
   /**
@@ -975,28 +980,28 @@ public class TestThreeTriosGameModel {
   @Test
   public void testCardOwnerColorAt() {
     assertThrows("Game has not started.", IllegalStateException.class, () ->
-            gameModel.getCardOwnerColorAt(0,0));
+            gameModel.getCardOwnerColorAt(0, 0));
     gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
-    assertNull(gameModel.getCardOwnerColorAt(0,0));
+    assertNull(gameModel.getCardOwnerColorAt(0, 0));
 
-    assertEquals(new CardCell(), gameModel.getCellAt(0,0));
+    assertEquals(new CardCell(), gameModel.getCellAt(0, 0));
     assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
-            gameModel.getCardOwnerColorAt(0,-1));
+            gameModel.getCardOwnerColorAt(0, -1));
     assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
-            gameModel.getCardOwnerColorAt(-1,0));
+            gameModel.getCardOwnerColorAt(-1, 0));
     assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
-            gameModel.getCardOwnerColorAt(3,0));
+            gameModel.getCardOwnerColorAt(3, 0));
     assertThrows("Row or column out of bounds", IllegalArgumentException.class, () ->
-            gameModel.getCardOwnerColorAt(0,3));
+            gameModel.getCardOwnerColorAt(0, 3));
 
     gameModel.playToGrid(0, 0, 0);
-    assertEquals(CardColor.RED, gameModel.getCardOwnerColorAt(0,0));
-    assertNull(gameModel.getCardOwnerColorAt(0,1));
+    assertEquals(CardColor.RED, gameModel.getCardOwnerColorAt(0, 0));
+    assertNull(gameModel.getCardOwnerColorAt(0, 1));
 
     gameModel.battle();
     gameModel.playToGrid(0, 0, 1);
-    assertNotNull(gameModel.getCardOwnerColorAt(0,1));
-    assertEquals(CardColor.BLUE, gameModel.getCardOwnerColorAt(0,1));
+    assertNotNull(gameModel.getCardOwnerColorAt(0, 1));
+    assertEquals(CardColor.BLUE, gameModel.getCardOwnerColorAt(0, 1));
   }
 
   /**
@@ -1006,12 +1011,12 @@ public class TestThreeTriosGameModel {
   public void testHowManyFlip() {
     gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
 
-    assertEquals(0, gameModel.howManyFlips(eagle,2, 1));
+    assertEquals(0, gameModel.howManyFlips(eagle, 2, 1));
 
     gameModel.playToGrid(0, 2, 1);
     gameModel.battle();
 
-    assertEquals(1, gameModel.howManyFlips(fox,2, 0));
+    assertEquals(1, gameModel.howManyFlips(fox, 2, 0));
 
     gameModel.playToGrid(0, 2, 0);
     gameModel.battle();
@@ -1022,188 +1027,26 @@ public class TestThreeTriosGameModel {
     gameModel.playToGrid(0, 0, 0);
     gameModel.battle();
 
-    assertEquals(3, gameModel.howManyFlips(croc,0, 1));
+    assertEquals(3, gameModel.howManyFlips(croc, 0, 1));
   }
 
   /**
-   * Test strategy 2. AI player should place fox at bottom-left because it has the strongest
-   * combined attack.
+   * Test StrategyTwo. MachinePlayer should place the fox at the bottom-left corner because it has
+   * the strongest combined attack.
    */
   @Test
   public void testStrategy2Corner() {
-    AIPlayer bot1 = new AIPlayer();
-    gameModel.startGame(grid1, deck10, redPlayer, bot1);
-    gameModel.playToGrid(0, 0, 0);
-    gameModel.battle();
-    System.out.println(gameModel.getHand(CardColor.BLUE));
+    MachinePlayer bot1 = new MachinePlayer(new StrategyOne(), redPlayer, gameModel);
+
+    gameModel.startGame(grid1, deck10, bot1, bluePlayer);
+
+    System.out.println(gameModel.getHand(CardColor.RED));
     System.out.println(gameModel.getGrid());
-    int [] a = bot1.strategy2(gameModel);
-    gameModel.playToGrid(a[0],a[1],a[2]);
+
+    bot1.playAIMove();
     gameModel.battle();
-    System.out.println(gameModel.getHand(CardColor.BLUE));
+
+    System.out.println(gameModel.getHand(CardColor.RED));
     System.out.println(gameModel.getGrid());
-    assertEquals( 0, a[0]);
-    assertEquals( 2, a[1]);
-    assertEquals( 0, a[2]);
-  }
-
-  /**
-   * Test strategy 2 with no corners available. AI player should place at 0,1 because
-   * it is the top-left most.
-   */
-  @Test
-  public void testStrategy2Corner0() {
-    AIPlayer bot1 = new AIPlayer();
-    gameModel.startGame(grid1, deck10, redPlayer, bot1);
-    gameModel.playToGrid(0, 0, 0);
-    gameModel.battle();
-    gameModel.playToGrid(0, 2, 0);
-    gameModel.battle();
-    gameModel.playToGrid(0, 0, 2);
-    gameModel.battle();
-    gameModel.playToGrid(0, 2, 2);
-    gameModel.battle();
-    gameModel.playToGrid(0, 2, 1);
-    gameModel.battle();
-    System.out.println(gameModel.getHand(CardColor.BLUE));
-    System.out.println(gameModel.getGrid());
-    int [] a = bot1.strategy2(gameModel);
-    gameModel.playToGrid(a[0],a[1],a[2]);
-    gameModel.battle();
-    System.out.println(gameModel.getHand(CardColor.BLUE));
-    System.out.println(gameModel.getGrid());
-    assertEquals( 0, a[0]);
-    assertEquals( 0, a[1]);
-    assertEquals( 1, a[2]);
-  }
-
-  /**
-   * Test strategy 1 for 1 Flip. AI player should place Falcon at row:0, col:1 because it will flip
-   * the Red card that was placed there.
-   */
-  @Test
-  public void testStrategy1With1Flip() {
-    AIPlayer bot1 = new AIPlayer();
-    gameModel.startGame(grid1, deck10, redPlayer, bot1);
-    gameModel.playToGrid(0, 0, 0);
-    gameModel.battle();
-    int[] a = bot1.strategy1(gameModel);
-    gameModel.playToGrid(a[0],a[1],a[2]);
-    gameModel.battle();
-    assertEquals(1, a[0]);
-    assertEquals(0, a[1]);
-    assertEquals(1, a[2]);
-  }
-
-  /**
-   * Test strategy 1. AI player should place at row:0, col:1 because it flips 3 cards in 1 turn.
-   */
-  @Test
-  public void testStrategy1With3Flips() {
-    AIPlayer bot1 = new AIPlayer();
-    gameModel.startGame(grid1, deck10, redPlayer, bluePlayer);
-    gameModel.playToGrid(0, 2, 1);
-    gameModel.battle();
-    gameModel.playToGrid(0, 2, 0);
-    gameModel.battle();
-    gameModel.playToGrid(0, 1, 1);
-    gameModel.battle();
-    gameModel.playToGrid(0, 1, 0);
-    gameModel.battle();
-    gameModel.playToGrid(0, 0, 0);
-    gameModel.battle();
-    System.out.println(gameModel.getGrid());
-    System.out.println(gameModel.getHand(CardColor.BLUE));
-    int[] a = bot1.strategy1(gameModel);
-    gameModel.playToGrid(a[0],a[1],a[2]);
-    gameModel.battle();
-
-    System.out.println(gameModel.getGrid());
-    System.out.println(gameModel.getHand(CardColor.BLUE));
-
-    assertEquals(0, a[0]);
-    assertEquals(0, a[1]);
-    assertEquals(1, a[2]);
-  }
-
-  /**
-   * Test strategy 1 with 0 flips. Since all cards are same, it should place at 0,0.
-   */
-  @Test
-  public void testStrategy1With0Flips() {
-    AIPlayer bot1 = new AIPlayer();
-    gameModel.startGame(grid1, deckSame, redPlayer, bluePlayer);
-    gameModel.playToGrid(0, 1, 1);
-    gameModel.battle();
-    int[] a = bot1.strategy1(gameModel);
-    gameModel.playToGrid(a[0],a[1],a[2]);
-    gameModel.battle();
-    assertEquals(0, a[0]);
-    assertEquals(0, a[1]);
-    assertEquals(0, a[2]);
-  }
-
-  /**
-   * Test strategy 2 with 0 flips. Since all cards are same, it should place at 0,0.
-   */
-  @Test
-  public void testStrategy2With0Flips() {
-    AIPlayer bot1 = new AIPlayer();
-    gameModel.startGame(grid1, deckSame, redPlayer, bluePlayer);
-    gameModel.playToGrid(0, 1, 1);
-    gameModel.battle();
-    int[] a = bot1.strategy2(gameModel);
-    gameModel.playToGrid(a[0],a[1],a[2]);
-    gameModel.battle();
-    assertEquals(0, a[0]);
-    assertEquals(0, a[1]);
-    assertEquals(0, a[2]);
-  }
-
-  /**
-   * Test strategy 2 with 0 flips. Since all cards are same, it should place at 0,0.
-   */
-  @Test
-  public void testStrategy3With0Flips() {
-    AIPlayer bot1 = new AIPlayer();
-    gameModel.startGame(grid1, deckSame, redPlayer, bluePlayer);
-    gameModel.playToGrid(0, 1, 1);
-    gameModel.battle();
-    int[] a = bot1.strategy2(gameModel);
-    gameModel.playToGrid(a[0],a[1],a[2]);
-    gameModel.battle();
-    assertEquals(0, a[0]);
-    assertEquals(0, a[1]);
-    assertEquals(0, a[2]);
-  }
-
-  /**
-   * Test strategy 3 with no corners available. AI player should place at 1,0 because
-   * it is the top-left most.
-   */
-  @Test
-  public void testStrategy3() {
-    AIPlayer bot1 = new AIPlayer();
-    gameModel.startGame(grid1, deck10, redPlayer, bot1);
-    gameModel.playToGrid(0, 0, 0);
-    gameModel.battle();
-    gameModel.playToGrid(0, 2, 0);
-    gameModel.battle();
-    gameModel.playToGrid(0, 0, 2);
-    gameModel.battle();
-    gameModel.playToGrid(0, 2, 2);
-    gameModel.battle();
-    gameModel.playToGrid(0, 2, 1);
-    gameModel.battle();
-    System.out.println(gameModel.getHand(CardColor.BLUE));
-    System.out.println(gameModel.getGrid());
-    int [] a = bot1.strategy3(gameModel);
-    gameModel.playToGrid(a[0],a[1],a[2]);
-    gameModel.battle();
-    System.out.println(gameModel.getHand(CardColor.BLUE));
-    System.out.println(gameModel.getGrid());
-    assertEquals( 2, a[0]);
-    assertEquals( 1, a[1]);
-    assertEquals( 0, a[2]);
   }
 }

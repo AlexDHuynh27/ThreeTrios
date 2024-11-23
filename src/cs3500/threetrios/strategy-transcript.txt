@@ -1,0 +1,79 @@
+Strategy Transcript:
+
+Grid (3x3, empty):
+[_, _, _]
+[_, _, _]
+[_, _, _]
+
+
+Player: Red
+Hand:
+[Eagle 6 A 7 3, Tiger 4 8 3 7, Bear A 6 2 8, Gorilla A 5 6 4, Wolf 5 7 4 9]
+
+
+Strategy: StrategyOne - Maximize Flips
+
+Legal Moves:
+- Card Eagle at (0,0): Flips = 0
+- Card Eagle at (0,1): Flips = 0
+- Card Eagle at (0,2): Flips = 0
+- Card Eagle at (1,0): Flips = 0
+- Card Eagle at (1,1): Flips = 0
+- Card Eagle at (1,2): Flips = 0
+- Card Eagle at (2,0): Flips = 0
+- Card Eagle at (2,1): Flips = 0
+- Card Eagle at (2,2): Flips = 0
+
+- Card Tiger at (0,0): Flips = 0
+- Card Tiger at (0,1): Flips = 0
+- Card Tiger at (0,2): Flips = 0
+- Card Tiger at (1,0): Flips = 0
+- Card Tiger at (1,1): Flips = 0
+- Card Tiger at (1,2): Flips = 0
+- Card Tiger at (2,0): Flips = 0
+- Card Tiger at (2,1): Flips = 0
+- Card Tiger at (2,2): Flips = 0
+
+- Card Bear at (0,0): Flips = 0
+- Card Bear at (0,1): Flips = 0
+- Card Bear at (0,2): Flips = 0
+- Card Bear at (1,0): Flips = 0
+- Card Bear at (1,1): Flips = 0
+- Card Bear at (1,2): Flips = 0
+- Card Bear at (2,0): Flips = 0
+- Card Bear at (2,1): Flips = 0
+- Card Bear at (2,2): Flips = 0
+
+- Card Gorilla at (0,0): Flips = 0
+- Card Gorilla at (0,1): Flips = 0
+- Card Gorilla at (0,2): Flips = 0
+- Card Gorilla at (1,0): Flips = 0
+- Card Gorilla at (1,1): Flips = 0
+- Card Gorilla at (1,2): Flips = 0
+- Card Gorilla at (2,0): Flips = 0
+- Card Gorilla at (2,1): Flips = 0
+- Card Gorilla at (2,2): Flips = 0
+
+- Card Wolf at (0,0): Flips = 0
+- Card Wolf at (0,1): Flips = 0
+- Card Wolf at (0,2): Flips = 0
+- Card Wolf at (1,0): Flips = 0
+- Card Wolf at (1,1): Flips = 0
+- Card Wolf at (1,2): Flips = 0
+- Card Wolf at (2,0): Flips = 0
+- Card Wolf at (2,1): Flips = 0
+- Card Wolf at (2,2): Flips = 0
+
+Best Move (Tie-breaker: Top-Left Position, HandIndex 0):
+- Card Eagle at (0,0)
+
+Play Move:
+- Played Card Eagle at (0,0)
+
+Updated Grid:
+[R(Eagle), _, _]
+[_, _, _]
+[_, _, _]
+
+Updated Hand:
+[Tiger 4 8 3 7, Bear A 6 2 8, Gorilla A 5 6 4, Wolf 5 7 4 9]
