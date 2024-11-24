@@ -10,11 +10,11 @@ import cs3500.threetrios.view.ThreeTriosGraphicsView;
 import java.awt.Color;
 
 public class ThreeTriosController implements ThreeTriosFeatures {
-  ThreeTriosModel model;
-  Player player;
-  ThreeTriosGraphicsView view;
-  int selectedCard;
-  CardColor currentTurn;
+  private ThreeTriosModel model;
+  private Player player;
+  private ThreeTriosGraphicsView view;
+  private int selectedCard;
+  private boolean gameOverAnnounced;
 
   public ThreeTriosController(ThreeTriosModel model, Player player, ThreeTriosGraphicsView view) {
     this.model = model;
@@ -23,81 +23,106 @@ public class ThreeTriosController implements ThreeTriosFeatures {
     this.selectedCard = -1;
     this.model.addListener(this);
     this.view.addFeaturesListener(this);
+    gameOverAnnounced = false;
   }
 
+  /**
+   * Displays the view of the controller and announces who's turn it is.
+   */
   public void goPlay() {
     this.view.makeVisible();
-    currentTurn = model.getCurrentPlayerColor();
-    checkTurn();
+    checkTurnAndWinner();
   }
 
 
   @Override
   public void setSelected(Color color, int selected) {
     CardColor selectedColor = colorToCardColor(color);
-    if (this.model.getCurrentPlayerColor().equals(selectedColor)
-        && this.player.getColor().equals(selectedColor)) {
-      if (this.selectedCard == selected) {
-        this.selectedCard = -1;
+    if (!gameOverAnnounced) {
+      if (this.model.getCurrentPlayerColor().equals(selectedColor)
+          && this.player.getColor().equals(selectedColor)) {
+        if (this.selectedCard == selected) {
+          this.selectedCard = -1;
+        }
+        else {
+          view.setSelected(selectedColor, selected);
+          this.selectedCard = selected;
+        }
+        view.repaint();
       }
-      else {
-        view.setSelected(selectedColor, selected);
-        this.selectedCard = selected;
-      }
-      view.repaint();
     }
+    else {
+      winnerMessage();
+    }
+
   }
 
   @Override
   public void playSelectedToGrid(int row, int col) {
-    if (!this.model.getCurrentPlayerColor().equals(this.player.getColor())) {
-      view.showMessage("Player " + this.player.getColor() + ": It's not your turn.");
-    }
-    else if (this.selectedCard == -1) {
-      view.showMessage("Player " + this.player.getColor() + ": Please select a card first.");
+    if (!gameOverAnnounced) {
+      if (!this.model.getCurrentPlayerColor().equals(this.player.getColor())) {
+        view.showMessage("Player " + this.player.getColor() + ": It's not your turn.");
+      }
+      else if (this.selectedCard == -1) {
+        view.showMessage("Player " + this.player.getColor() + ": Please select a card first.");
+      }
+      else {
+        try {
+          model.playToGrid(this.selectedCard, row, col);
+          view.setHand(this.model.getCurrentPlayerColor(),
+              this.model.getHand(this.model.getCurrentPlayerColor()));
+          view.setSelected(this.model.getCurrentPlayerColor(), -1);
+          this.selectedCard = -1;
+          model.battle();
+        } catch (IllegalStateException e) {
+          view.showMessage("Player " + this.player.getColor() + "You can't play a card there");
+        }
+      }
     }
     else {
-      try {
-        model.playToGrid(this.selectedCard, row, col);
-        view.setSelected(this.model.getCurrentPlayerColor(), -1);
-        model.battle();
-        this.selectedCard = -1;
-      } catch (IllegalStateException e) {
-        view.showMessage("Player " + this.player.getColor() + "You can't play a card there");
-      }
+      winnerMessage();
     }
   }
 
-  private void checkTurn() {
-    if (!currentTurn.equals(this.model.getCurrentPlayerColor())
-        && this.model.getCurrentPlayerColor().equals(this.player.getColor())) {
-
+  @Override
+  public void checkTurnAndWinner() {
+    gameOver();
+    if (this.model.getCurrentPlayerColor().equals(this.player.getColor()) &&
+        !gameOverAnnounced) {
       if (this.player instanceof HumanPlayer) {
         view.showMessage("Player " + this.player.getColor() + ": It's your turn now");
       }
       else if (this.player instanceof MachinePlayer) {
         ((MachinePlayer) this.player).playAIMove();
+        this.model.battle();
       }
     }
-    currentTurn = this.model.getCurrentPlayerColor();
   }
 
   @Override
   public void update() {
-    view.setHand(this.model.getCurrentPlayerColor(),
-        this.model.getHand(this.model.getCurrentPlayerColor()));
+    view.setHand(CardColor.BLUE,
+        this.model.getHand(CardColor.BLUE));
+    view.setHand(CardColor.RED,
+        this.model.getHand(CardColor.RED));
+    view.setGrid(this.model.getGrid());
     view.repaint();
-    if (this.model.gameOver()) {
-      if (this.model.getWinner() == null) {
-        view.showMessage("Game resulted in a tie!" + model.getPlayerScore(this.player));
-      }
-      else {
-        view.showMessage("Player " + this.model.getWinner().getColor() + " won with a score of: "
-            + model.getPlayerScore(this.model.getWinner()));
-      }
+  }
+
+  private void gameOver() {
+    if (this.model.gameOver() && !gameOverAnnounced) {
+      winnerMessage();
+      gameOverAnnounced = true;
+    }
+  }
+
+  private void winnerMessage() {
+    if (this.model.getWinner() == null) {
+      view.showMessage("Game resulted in a tie!" + model.getPlayerScore(this.player));
     }
     else {
-      checkTurn();
+      view.showMessage("Player " + this.model.getWinner().getColor() + " won with a score of: "
+          + model.getPlayerScore(this.model.getWinner()));
     }
   }
 

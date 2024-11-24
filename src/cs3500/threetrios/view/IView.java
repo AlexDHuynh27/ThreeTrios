@@ -48,5 +48,10 @@ public interface IView {
    */
   void setSelected(CardColor color, int selected);
 
+  /**
+   * Provides the components of this IView with a ThreeTriosFeatures to handle functionality
+   * based on ACtionEvents.
+   * @param featuresListener ThreeTriosFeatures to add
+   */
   void addFeaturesListener(ThreeTriosFeatures featuresListener);
 }

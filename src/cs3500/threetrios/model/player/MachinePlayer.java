@@ -15,7 +15,7 @@ public class MachinePlayer implements Player {
   private final ThreeTriosStrategy strategy;
   private final Player humanPlayer;
   private final ThreeTriosModel model;
-  
+
   /**
    * Constructor for MachinePlayer class that creates a MachinePlayer based on the given
    * parameters.

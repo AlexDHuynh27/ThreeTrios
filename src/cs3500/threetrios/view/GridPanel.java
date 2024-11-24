@@ -42,6 +42,10 @@ public class GridPanel extends JPanel {
 
   }
 
+  /**
+   * Adds a ThreeTriosFeatures to this object to add functionality when certain events occur.
+   * @param features ThreeTriosFeatures to add functionality.
+   */
   public void addFeaturesListener(ThreeTriosFeatures features) {
     this.featuresListeners.add(Objects.requireNonNull(features));
   }
@@ -55,10 +59,10 @@ public class GridPanel extends JPanel {
     g2d.setFont(new Font("Times New Roman", Font.PLAIN,
         25));
 
-    int scaleX = this.getWidth() / grid.size();
+    int scaleX = this.getWidth() / grid.get(0).size();
     int scaleY = this.getHeight() / grid.size();
     for (int i = 0; i < grid.size(); i++) {
-      for (int j = 0; j < grid.size(); j++) {
+      for (int j = 0; j < grid.get(0).size(); j++) {
         Cell cell = grid.get(i).get(j);
 
         if (cell instanceof Hole) {
@@ -83,7 +87,7 @@ public class GridPanel extends JPanel {
 
   private void drawAttacks(Graphics2D g, int index, int index2) {
     g.setColor(Color.BLACK);
-    int scaleX = this.getWidth() / this.grid.size();
+    int scaleX = this.getWidth() / this.grid.get(0).size();
     int scaleY = this.getHeight() / this.grid.size();
     Card card = this.grid.get(index).get(index2).getCard();
     g.drawString(card.attackToString(Direction.WEST),
@@ -94,7 +98,7 @@ public class GridPanel extends JPanel {
         (scaleY * index) + (scaleY / 2) + 10);
     g.drawString(card.attackToString(Direction.NORTH),
         (scaleX * index2) + (scaleX / 2),
-        ((this.getHeight() / grid.size()) * index) + (scaleY / 5) + 10);
+        (scaleY * index) + (scaleY / 5) + 10);
     g.drawString(card.attackToString(Direction.SOUTH),
         (scaleX * index2) + (scaleX / 2),
         (scaleY * (index + 1)) - (scaleY / 5) + 10);
@@ -124,10 +128,10 @@ public class GridPanel extends JPanel {
     public void mousePressed(MouseEvent e) {
       Point physicalP = e.getPoint();
 
-      int scaleX = GridPanel.this.getWidth() / grid.size();
+      int scaleX = GridPanel.this.getWidth() / grid.get(0).size();
       int scaleY = GridPanel.this.getHeight() / grid.size();
       for (int i = 0; i < grid.size(); i++) {
-        for (int j = 0; j < grid.size(); j++) {
+        for (int j = 0; j < grid.get(0).size(); j++) {
           if (scaleX * j + 1 < e.getX() && e.getX() < scaleX * j + scaleX - 1
               && scaleY * i + 1 < e.getY() && e.getY() < scaleY * i + scaleY - 1) {
             for (ThreeTriosFeatures feature : featuresListeners) {

@@ -172,6 +172,10 @@ Changes for part 3:
     -   Changes the way strategies are implemented. Instead of an AI player having all the
         strategies, each strategy is now its own class, implementing the ThreeTriosStrategy
         interface.
+    -   Changed methods that returned ThreeTriosCard to return Card instead, for future proofing
+        and generalizing. Did the same for fields that used ThreeTriosCard.
+    -   Added a MouseEventHandler to HandPanel and GridPanel to handle mouse clicks on their
+        components.
 
 
 

@@ -110,8 +110,6 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
     attackingCardRows.add(row);
     attackingCardCols.add(column);
     playedToGrid = true;
-
-    somethingChanged();
   }
 
   @Override
@@ -163,6 +161,9 @@ public class ThreeTriosGameModel implements ThreeTriosModel {
   public void somethingChanged() {
     for (ThreeTriosFeatures listener : listeners) {
       listener.update();
+    }
+    for (ThreeTriosFeatures listener : listeners) {
+      listener.checkTurnAndWinner();
     }
   }
 

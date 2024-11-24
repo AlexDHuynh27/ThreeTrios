@@ -1,17 +1,17 @@
 package cs3500.threetrios;
 
 import cs3500.threetrios.controller.ThreeTriosController;
-import cs3500.threetrios.model.ReadOnlyThreeTriosGameModel;
 import cs3500.threetrios.model.ThreeTriosGameModel;
 import cs3500.threetrios.model.card.Card;
-import cs3500.threetrios.model.card.CardColor;
-import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.configreader.CardReader;
 import cs3500.threetrios.model.configreader.GridReader;
 import cs3500.threetrios.model.player.HumanPlayer;
 import cs3500.threetrios.model.player.MachinePlayer;
 import cs3500.threetrios.model.player.Player;
+import cs3500.threetrios.model.player.strategy.StrategyOne;
+import cs3500.threetrios.model.player.strategy.StrategyThree;
+import cs3500.threetrios.model.player.strategy.StrategyTwo;
 import cs3500.threetrios.view.ThreeTriosGraphicsView;
 
 
@@ -28,17 +28,31 @@ public class TestMain {
    * @param args Don't give args.
    */
   public static void main(String[] args) {
-    ThreeTriosGameModel newGame = new ThreeTriosGameModel();
-    if (args.length != 2) {
-      System.out.println("Need two arguments");
+    List<Card> deck;
+    List<List<Cell>> grid;
+    try {
+      deck = CardReader.getDeckFromConfig(
+          "src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
+      grid = GridReader.getGridFromConfig(
+          "src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
     }
-    List<Card> deck = CardReader.getDeckFromConfig(
-        "src/cs3500/threetrios/exampleFiles/Hello.txt");
-    List<List<Cell>> grid = GridReader.getGridFromConfig(
-        "src/cs3500/threetrios/exampleFiles/gridconfig1.txt");
+    catch (Exception e) {
+      deck = CardReader.getDeckFromConfig(
+          "cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
+      grid = GridReader.getGridFromConfig(
+          "cs3500/threetrios/exampleFiles/GridEx(1).txt");
+    }
 
-    Player redPlayer = new HumanPlayer();
-    Player bluePlayer = new HumanPlayer();
+
+
+    ThreeTriosGameModel newGame = new ThreeTriosGameModel();
+
+    if (args.length != 2) {
+      throw new IllegalArgumentException("Invalid number of arguments.");
+    }
+    Player redPlayer = typeOfPlayer(args[0], newGame);
+    Player bluePlayer = typeOfPlayer(args[1], newGame);
+
     newGame.startGame(grid, deck, redPlayer, bluePlayer);
     ThreeTriosGraphicsView view = new ThreeTriosGraphicsView(newGame);
     ThreeTriosGraphicsView view2 = new ThreeTriosGraphicsView(newGame);
@@ -48,20 +62,21 @@ public class TestMain {
     controller2.goPlay();
   }
 
-  public static Player typeOfPlayer(String playerName) {
+  private static Player typeOfPlayer(String playerName, ThreeTriosGameModel model) {
     if (playerName.equals("human")) {
       return new HumanPlayer();
     }
     else if (playerName.equals("strategy1")) {
-      System.out.print("strategy1");
+      return new MachinePlayer(new StrategyOne(), new HumanPlayer(), model);
     }
     else if (playerName.equals("strategy2")) {
-      System.out.print("strategy2");
+      return new MachinePlayer(new StrategyTwo(), new HumanPlayer(), model);
     }
     else if (playerName.equals("strategy3")) {
-      System.out.print("strategy3");
+      return new MachinePlayer(new StrategyThree(), new HumanPlayer(), model);
     }
-    return null;
+    else {
+      throw new IllegalArgumentException("Invalid argument.");
+    }
   }
-
 }

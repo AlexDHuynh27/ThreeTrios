@@ -30,7 +30,7 @@ import javax.swing.event.MouseInputAdapter;
 public class HandPanel extends JPanel {
   private List<Card> hand;
   private Color color;
-  int selected;
+  private int selected;
   private List<ThreeTriosFeatures> featuresListeners;
 
   /**
@@ -45,6 +45,10 @@ public class HandPanel extends JPanel {
     this.addMouseListener(new MouseEventsListener());
   }
 
+  /**
+   * Adds a ThreeTriosFeatures to this object to add functionality when certain events occur.
+   * @param features ThreeTriosFeatures to add functionality.
+   */
   public void addFeaturesListener(ThreeTriosFeatures features) {
     this.featuresListeners.add(Objects.requireNonNull(features));
   }
