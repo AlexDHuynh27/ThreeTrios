@@ -3,7 +3,6 @@ package cs3500.threetrios.view;
 import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.Direction;
-import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.cell.Hole;
 
@@ -13,7 +12,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
 import javax.swing.JPanel;
@@ -29,8 +27,8 @@ import javax.swing.event.MouseInputAdapter;
  * as well as the attack values being displayed on the corresponding direction.
  */
 public class GridPanel extends JPanel {
-  private List<List<Cell>> grid; // Grid
-  private List<ThreeTriosFeatures> featuresListeners;
+  private List<List<Cell>> grid; // Grid idx-0
+  private final List<ThreeTriosFeatures> featuresListeners; // Handles functionality on mouse click
 
   /**
    * Constructor for a gridpanel.

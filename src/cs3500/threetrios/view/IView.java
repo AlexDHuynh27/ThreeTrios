@@ -2,11 +2,8 @@ package cs3500.threetrios.view;
 
 import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
-import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.util.List;
 
 /**

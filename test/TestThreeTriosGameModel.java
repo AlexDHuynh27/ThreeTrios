@@ -14,9 +14,8 @@ import cs3500.threetrios.model.player.HumanPlayer;
 import cs3500.threetrios.model.player.MachinePlayer;
 import cs3500.threetrios.model.player.Player;
 import cs3500.threetrios.model.ThreeTriosGameModel;
-import cs3500.threetrios.model.player.strategy.HandGridCoord;
 import cs3500.threetrios.model.player.strategy.StrategyOne;
-import cs3500.threetrios.model.player.strategy.StrategyTwo;
+
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -26,7 +25,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.util.List;
 import java.util.Random;
 
@@ -46,7 +44,6 @@ public class TestThreeTriosGameModel {
   private Player redPlayer;
   private Player bluePlayer;
   private ThreeTriosGameModel gameModel;
-  private File nonExistentFile;
   private List<List<Cell>> grid1;
   private List<List<Cell>> grid2;
   private List<List<Cell>> grid3;
@@ -56,7 +53,6 @@ public class TestThreeTriosGameModel {
   private List<Card> deck26;
 
   private List<Card> deck50;
-  private List<Card> deckSame;
   private ThreeTriosCard croc;
   private ThreeTriosCard eagle;
   private ThreeTriosCard fox;
@@ -115,8 +111,8 @@ public class TestThreeTriosGameModel {
             "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(26).txt");
     deck50 = CardReader.getDeckFromConfig(
             "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
-    deckSame = CardReader.getDeckFromConfig(
-            "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCardSame(50).txt");
+    List<Card> deckSame = CardReader.getDeckFromConfig(
+        "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCardSame(50).txt");
 
     grid1 = GridReader.getGridFromConfig(
             "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(1).txt");

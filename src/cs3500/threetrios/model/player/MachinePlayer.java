@@ -3,7 +3,6 @@ package cs3500.threetrios.model.player;
 import cs3500.threetrios.model.ThreeTriosModel;
 import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
-import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.player.strategy.HandGridCoord;
 import cs3500.threetrios.model.player.strategy.ThreeTriosStrategy;
 import java.util.List;
