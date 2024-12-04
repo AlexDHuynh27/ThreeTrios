@@ -14,8 +14,6 @@ import cs3500.threetrios.model.player.strategy.StrategyThree;
 import cs3500.threetrios.model.player.strategy.StrategyTwo;
 import cs3500.threetrios.view.ThreeTriosGraphicsView;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,17 +30,16 @@ public class TestMain {
     List<List<Cell>> grid;
     try {
       deck = CardReader.getDeckFromConfig(
-          "src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
+              "src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
       grid = GridReader.getGridFromConfig(
-          "src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
+              "src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
     }
     catch (Exception e) {
       deck = CardReader.getDeckFromConfig(
-          "cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
+              "/Users/rohilsingh/Desktop/cs3500/GHWs/HW5/Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
       grid = GridReader.getGridFromConfig(
-          "cs3500/threetrios/exampleFiles/GridEx(1).txt");
+              "/Users/rohilsingh/Desktop/cs3500/GHWs/HW5/Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
     }
-
 
 
     ThreeTriosGameModel newGame = new ThreeTriosGameModel();
