@@ -2,7 +2,6 @@ package cs3500.threetrios.model.player;
 
 import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
-import cs3500.threetrios.model.card.ThreeTriosCard;
 
 import java.util.ArrayList;
 import java.util.List;

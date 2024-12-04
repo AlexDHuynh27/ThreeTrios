@@ -2,7 +2,6 @@ package cs3500.threetrios.model.cell;
 
 import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.Direction;
-import cs3500.threetrios.model.card.ThreeTriosCard;
 
 /**
  * Represents a cell in the ThreeTrios game board. A cell can either be a CardCell, which holds a

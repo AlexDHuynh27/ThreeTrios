@@ -2,12 +2,9 @@ package cs3500.threetrios.view;
 
 import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.Direction;
-import cs3500.threetrios.model.card.ThreeTriosCard;
 
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 import java.util.Objects;
 import javax.swing.JPanel;
 import java.awt.Graphics;
@@ -29,9 +26,9 @@ import javax.swing.event.MouseInputAdapter;
  */
 public class HandPanel extends JPanel {
   private List<Card> hand;
-  private Color color;
+  private final Color color;
   private int selected;
-  private List<ThreeTriosFeatures> featuresListeners;
+  private final List<ThreeTriosFeatures> featuresListeners;
 
   /**
    * Constructor for a HandPanel.

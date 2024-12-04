@@ -2,7 +2,6 @@ package cs3500.threetrios.model.cell;
 
 import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.Direction;
-import cs3500.threetrios.model.card.ThreeTriosCard;
 
 /**
  * Represents a Cell that is a Hole which is always filled so no Cards can be placed inside of it.

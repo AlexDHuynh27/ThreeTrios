@@ -2,6 +2,10 @@ package cs3500.threetrios.view;
 
 import java.awt.Color;
 
+/**
+ * Represents a Features interface that handles functionality for a ThreeTrios Game,
+ * based on specific events, such as mouse or keyboard events. Handles functioanlity for Listeners.
+ */
 public interface ThreeTriosFeatures {
   /**
    * Sets the selected card of the given colors hand, based on the given index. Will not select

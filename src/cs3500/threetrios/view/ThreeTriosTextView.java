@@ -2,7 +2,6 @@ package cs3500.threetrios.view;
 
 import cs3500.threetrios.model.ThreeTriosModel;
 import cs3500.threetrios.model.card.Card;
-import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 
 import java.io.IOException;
@@ -13,8 +12,8 @@ import java.util.List;
  * it renders can be found in the render() method.
  */
 public class ThreeTriosTextView {
-  private ThreeTriosModel model;
-  private Appendable out;
+  private final ThreeTriosModel model;
+  private final Appendable out;
 
   /**
    * Constructor for the ThreeTriosGame.

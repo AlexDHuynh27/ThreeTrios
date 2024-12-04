@@ -9,13 +9,24 @@ import cs3500.threetrios.view.ThreeTriosFeatures;
 import cs3500.threetrios.view.ThreeTriosGraphicsView;
 import java.awt.Color;
 
+/**
+ * Represents a controller for the ThreeTrios Game. Handles fucntionality and the sequence of the
+ * game. Bridges the model and the view, and updates the view with updated model information.
+ * Handles user input to play the game as well.
+ */
 public class ThreeTriosController implements ThreeTriosFeatures {
-  private ThreeTriosModel model;
-  private Player player;
-  private ThreeTriosGraphicsView view;
+  private final ThreeTriosModel model;
+  private final Player player;
+  private final ThreeTriosGraphicsView view;
   private int selectedCard;
   private boolean gameOverAnnounced;
 
+  /**
+   * Construcotr for a ThreeTriosController.
+   * @param model model to play the game.
+   * @param player player this controller is tied to.
+   * @param view view this controller is tied to.
+   */
   public ThreeTriosController(ThreeTriosModel model, Player player, ThreeTriosGraphicsView view) {
     this.model = model;
     this.player = player;
@@ -118,7 +129,8 @@ public class ThreeTriosController implements ThreeTriosFeatures {
 
   private void winnerMessage() {
     if (this.model.getWinner() == null) {
-      view.showMessage("Game resulted in a tie!" + model.getPlayerScore(this.player));
+      view.showMessage("Game resulted in a tie! "
+          + "With a score of: " + model.getPlayerScore(this.player));
     }
     else {
       view.showMessage("Player " + this.model.getWinner().getColor() + " won with a score of: "

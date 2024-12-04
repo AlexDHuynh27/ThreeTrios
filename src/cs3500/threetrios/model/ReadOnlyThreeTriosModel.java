@@ -4,7 +4,6 @@ import cs3500.threetrios.model.card.Card;
 import java.util.List;
 
 import cs3500.threetrios.model.card.CardColor;
-import cs3500.threetrios.model.card.ThreeTriosCard;
 import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.player.Player;
 

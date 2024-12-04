@@ -36,9 +36,9 @@ public class TestMain {
     }
     catch (Exception e) {
       deck = CardReader.getDeckFromConfig(
-              "/Users/rohilsingh/Desktop/cs3500/GHWs/HW5/Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
+          "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
       grid = GridReader.getGridFromConfig(
-              "/Users/rohilsingh/Desktop/cs3500/GHWs/HW5/Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
+          "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
     }
 
 
