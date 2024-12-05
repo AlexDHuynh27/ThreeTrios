@@ -44,7 +44,7 @@ public class ModelProviderAdapter implements Model {
 
   @Override
   public void playToBoard(int row, int col, int cardIdx) {
-    model.playToGrid(row, col, cardIdx);
+    model.playToGrid(cardIdx, row, col);
     model.battle();
     for (ModelStatus listener : listeners) {
       listener.onTurnChanged(AdapterUtilities.colorToPlayer(model.getCurrentPlayerColor()));
