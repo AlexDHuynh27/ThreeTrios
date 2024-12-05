@@ -2,7 +2,6 @@ package cs3500.threetrios.adapters.controller;
 
 import cs3500.threetrios.adapters.model.AdapterUtilities;
 import cs3500.threetrios.adapters.model.ModelProviderAdapter;
-import cs3500.threetrios.controller.ThreeTriosController;
 import cs3500.threetrios.model.ThreeTriosModel;
 import cs3500.threetrios.provider.controllerAndFeatures.ModelStatus;
 import cs3500.threetrios.provider.controllerAndFeatures.PlayerActions;

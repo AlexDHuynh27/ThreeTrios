@@ -64,7 +64,8 @@ public class TestMain {
 
   }
 
-  private static cs3500.threetrios.model.player.Player typeOfPlayer(String playerName, ThreeTriosGameModel model) {
+  private static cs3500.threetrios.model.player.Player typeOfPlayer(String playerName,
+                                                                    ThreeTriosGameModel model) {
     if (playerName.equals("human")) {
       return new HumanPlayer();
     }
