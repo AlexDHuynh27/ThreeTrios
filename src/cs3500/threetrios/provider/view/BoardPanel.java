@@ -1,16 +1,23 @@
 package cs3500.threetrios.provider.view;
 
-import java.awt.*;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.*;
 
-import cs3500.threetrios.provider.controllerAndFeatures.PlayerActions;
+
+import cs3500.threetrios.provider.controllerandfeatures.PlayerActions;
 import cs3500.threetrios.provider.model.Card;
 import cs3500.threetrios.provider.model.Cell;
 import cs3500.threetrios.provider.model.Player;
 import cs3500.threetrios.provider.model.ReadOnlyModel;
+import javax.swing.JPanel;
 
 /**
  * Represents a panel containing all the cells on the board and paints them respectively.

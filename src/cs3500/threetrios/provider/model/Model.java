@@ -2,7 +2,7 @@ package cs3500.threetrios.provider.model;
 
 import java.io.IOException;
 
-import cs3500.threetrios.provider.controllerAndFeatures.ModelStatus;
+import cs3500.threetrios.provider.controllerandfeatures.ModelStatus;
 import java.util.List;
 
 /**

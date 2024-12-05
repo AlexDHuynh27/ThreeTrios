@@ -1,11 +1,18 @@
 package cs3500.threetrios.provider.view;
 
-import java.awt.*;
 
-import javax.swing.*;
+
+
 
 import cs3500.threetrios.provider.model.Card;
 import cs3500.threetrios.provider.model.Player;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import javax.swing.JPanel;
 
 /**
  * Represents a panel for a given card and paints.

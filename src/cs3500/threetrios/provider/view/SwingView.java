@@ -1,6 +1,6 @@
 package cs3500.threetrios.provider.view;
 
-import cs3500.threetrios.provider.controllerAndFeatures.PlayerActions;
+import cs3500.threetrios.provider.controllerandfeatures.PlayerActions;
 import cs3500.threetrios.provider.model.Player;
 
 /**

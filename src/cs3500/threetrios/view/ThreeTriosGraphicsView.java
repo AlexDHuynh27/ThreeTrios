@@ -1,12 +1,9 @@
 package cs3500.threetrios.view;
 
-import cs3500.threetrios.model.ReadOnlyThreeTriosGameModel;
-import cs3500.threetrios.model.ReadOnlyThreeTriosModel;
 import cs3500.threetrios.model.ThreeTriosModel;
 import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.cell.Cell;
-
 
 import java.awt.BorderLayout;
 import java.awt.Color;

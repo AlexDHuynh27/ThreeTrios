@@ -6,7 +6,7 @@ import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.configreader.CardReader;
 import cs3500.threetrios.model.configreader.GridReader;
 import cs3500.threetrios.model.player.HumanPlayer;
-import cs3500.threetrios.provider.controllerAndFeatures.ModelStatus;
+import cs3500.threetrios.provider.controllerandfeatures.ModelStatus;
 
 import cs3500.threetrios.provider.model.Cell;
 import cs3500.threetrios.provider.model.Hand;

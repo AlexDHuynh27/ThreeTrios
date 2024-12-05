@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
-import cs3500.threetrios.provider.controllerAndFeatures.PlayerActions;
+import cs3500.threetrios.provider.controllerandfeatures.PlayerActions;
 import cs3500.threetrios.provider.model.Card;
 import cs3500.threetrios.provider.model.Hand;
 import cs3500.threetrios.provider.model.Player;

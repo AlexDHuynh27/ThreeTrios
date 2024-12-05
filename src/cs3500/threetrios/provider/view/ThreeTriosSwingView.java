@@ -1,12 +1,13 @@
 package cs3500.threetrios.provider.view;
 
-import java.awt.*;
-
-import javax.swing.*;
-
-import cs3500.threetrios.provider.controllerAndFeatures.PlayerActions;
+import cs3500.threetrios.provider.controllerandfeatures.PlayerActions;
 import cs3500.threetrios.provider.model.Player;
 import cs3500.threetrios.provider.model.ReadOnlyModel;
+import java.awt.BorderLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 /**
  * Represents the GUI-based view for Three Trios.
