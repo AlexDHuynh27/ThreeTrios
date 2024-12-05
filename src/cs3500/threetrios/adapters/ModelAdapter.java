@@ -67,8 +67,6 @@ public class ModelAdapter implements Model {
 
   @Override
   public int getWinningScore() {
-    // Implement based on your model's methods
-    // For example, get the score of the winner
     if (myModel.gameOver()) {
       cs3500.threetrios.model.player.Player winner = myModel.getWinner();
       return myModel.getPlayerScore(winner);
