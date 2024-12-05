@@ -1,3 +1,0 @@
-The experience of adapting our model to their model was a little tedious as they had a lot of
-interfaces for the different components, which made what we had for hands, grids, and decks need
-an adapter as well. The v

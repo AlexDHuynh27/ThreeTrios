@@ -7,18 +7,29 @@ should be in an interface with ThreeTriosMove implementing this interface. This 
 much cleaner and easier to work with.
 
 
+View Critique:
+The view was capable of doing all things required. the updateCurrentPlayer() in the view felt like
+it should have been handled by the controller, but other than that the view handled exactly
+as much as it was supposed to. No less or more.
 Implementation Critique:
 
 
-
-
 Documentation Critique:
-
-
+The documentation was up to par. It covered everything that we needed to know about their code,
+in order to make it work.
 
 
 design/code limitations & changes:
-The provider used a Move class which represents a move that can be made in the ThreeTriosGame. Since
-this is a specific class
+The provider used a Move class which represents a move that can be made in the Model interface.
+Since this is a specific class.
+
+Changes Requested:
+We just needed to ask for the Move Implementation as their model interface returns a Move in one
+of its methods.
+
+The experience of adapting our model to their model was a little tedious as they had a lot of
+interfaces for the different components, which made what we had for hands, grids, and decks need
+an adapter as well. There were also just methods that weren't used in the view or the controller
+we had made, making them obsolete.
 
 

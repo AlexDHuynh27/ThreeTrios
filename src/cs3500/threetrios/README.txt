@@ -205,3 +205,12 @@ Strategy 3 Impl (Extra Credit):
   option. If there are multiple moves with the same minimal vulnerability, it applies tie-breaker
   rules using selectBestMove to determine the optimal move. If no legal moves are found, it
   defaults to selecting the first available legal move.
+
+
+Features Not Adapted:
+    The only feature not adapted was the AIPlayer for the second view.
+    The way they did an autonomous player and the way we did ours was incompatible as they had
+    separate interfaces for every subcomponent of the game which didn't include the
+    same functionality as we did which made certain things required for  the AIPlayer not
+    accessible. In addition, they used an enum for their player, while we have a separate player
+    class, which made it incompatible.

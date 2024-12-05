@@ -1,0 +1,13 @@
+We wish that we had changed the way my view updated, instead of doing repaint we should have had
+an update method like our providers did, to update everything easily in one place. I think also,
+instead of CardColor we should have taken in a Color that is part of a java library, to make it
+easier for displaying graphics. One last thing we should have changed was having the
+ReadOnlyThreeTriosModel be taken in for the view and no actual implementation of
+ReadOnlyThreeTriosModel, as ThreeTriosGameModel is already a ReadOnlyThreeTriosModel.
+
+The providers were very fast to respond and answered any questions we had. We emailed back
+and forth a bit, and they were very coherent and kind.
+The experience of adapting our model to their model though, was a little tedious as they had a lot
+of interfaces for the different components, which made what we had for hands, grids, and decks need
+an adapter as well. There were also some methods that weren't used in the view or the controller
+we had made, making them obsolete.
