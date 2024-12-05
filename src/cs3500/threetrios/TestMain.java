@@ -43,15 +43,14 @@ public class TestMain {
       grid = GridReader.getGridFromConfig(
           "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
     }
-//
-//
+
     ThreeTriosGameModel newGame = new ThreeTriosGameModel();
-//
-//    if (args.length != 2) {
-//      throw new IllegalArgumentException("Invalid number of arguments.");
-//    }
+
+    if (args.length != 2) {
+      throw new IllegalArgumentException("Invalid number of arguments.");
+    }
     cs3500.threetrios.model.player.Player redPlayer = typeOfPlayer(args[0], newGame);
-    cs3500.threetrios.model.player.Player bluePlayer = typeOfPlayer(args[1], newGame);
+    cs3500.threetrios.model.player.Player bluePlayer = new HumanPlayer();
 
     newGame.startGame(grid, deck, redPlayer, bluePlayer);
     ThreeTriosGraphicsView view = new ThreeTriosGraphicsView(newGame);
@@ -61,8 +60,7 @@ public class TestMain {
     ModelProviderAdapter modelProvider = new ModelProviderAdapter(newGame);
     ThreeTriosSwingView view1 = new ThreeTriosSwingView(modelProvider,
         Player.BLUE);
-    ControllerAdapter ca = new ControllerAdapter(view1, modelProvider, Player.BLUE);
-    view.setVisible(true);
+    ControllerAdapter ca = new ControllerAdapter(view1, newGame, Player.BLUE);
 
   }
 

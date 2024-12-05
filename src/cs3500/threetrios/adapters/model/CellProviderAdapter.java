@@ -23,7 +23,13 @@ public class CellProviderAdapter implements Cell {
 
   @Override
   public Card getCard() {
-    return null;
+    if (cell.isEmpty()) {
+      return null;
+    }
+    else {
+      return new CardProviderAdapter(cell.getCard());
+    }
+
   }
 
   @Override
