@@ -35,6 +35,7 @@ public class ModelProviderAdapter implements Model {
     this.listeners = new ArrayList<>();
     this.gameStarted = false;
   }
+
   @Override
   public void startGame(String cardPath, String gridPath) throws IOException {
     try {
