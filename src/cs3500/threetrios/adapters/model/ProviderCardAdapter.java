@@ -4,9 +4,18 @@ import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.Direction;
 
+/**
+ * Adapts the provider's Card type with our group's Card interface.
+ */
 public class ProviderCardAdapter implements Card {
-  cs3500.threetrios.provider.model.Card card;
+  private final cs3500.threetrios.provider.model.Card card;
 
+  /**
+   * Constructor for ProviderCardAdapter in order to adapt the provider's Card with our
+   * Card interface.
+   *
+   * @param card an instance of the provider's Card interface.
+   */
   public ProviderCardAdapter(cs3500.threetrios.provider.model.Card card) {
     this.card = card;
   }

@@ -17,11 +17,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapts our group's code with the provider's Model interface.
+ */
 public class ModelProviderAdapter implements Model {
-  ThreeTriosModel model;
-  boolean gameStarted;
-  List<ModelStatus> listeners;
+  private final ThreeTriosModel model;
+  private boolean gameStarted;
+  private final List<ModelStatus> listeners;
 
+  /**
+   * Constructor for ModelProviderAdapter in order to adapt our code to their Model interface.
+   *
+   * @param model an instance of our group's Model interface (ThreeTriosModel)
+   */
   public ModelProviderAdapter(ThreeTriosModel model) {
     this.model = model;
     this.listeners = new ArrayList<>();
