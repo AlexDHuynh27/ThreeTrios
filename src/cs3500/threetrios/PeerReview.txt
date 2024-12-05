@@ -1,0 +1,24 @@
+Design Critique:
+Overall, the provider's code was easy to understand as the model, view, and controller were all well
+seperated and did not depend heavily on one another. Additionally, the providers were very detailed
+with their model and view ensuring  that each component of the game was seperated into its own
+interface or enum. One thing that could have been better was using an interface for Move class as it
+should be in an interface with ThreeTriosMove implementing this interface. This would make the code
+much cleaner and easier to work with.
+
+
+Implementation Critique:
+
+
+
+
+Documentation Critique:
+
+
+
+
+design/code limitations & changes:
+The provider used a Move class which represents a move that can be made in the ThreeTriosGame. Since
+this is a specific class
+
+
