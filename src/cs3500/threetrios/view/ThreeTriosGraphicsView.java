@@ -34,8 +34,6 @@ public class ThreeTriosGraphicsView extends JFrame implements IView {
   public ThreeTriosGraphicsView(ThreeTriosModel model) {
     super();
 
-    ReadOnlyThreeTriosModel readModel = new ReadOnlyThreeTriosGameModel(model);
-
     this.setTitle("Three Trios Game");
     this.setSize(500, 500);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,7 +41,7 @@ public class ThreeTriosGraphicsView extends JFrame implements IView {
     this.setLayout(new BorderLayout());
 
     this.gridPanel = new GridPanel();
-    this.gridPanel.setGrid(readModel.getGrid());
+    this.gridPanel.setGrid(model.getGrid());
     this.gridPanel.setPreferredSize(new Dimension(300, 500));
     this.gridPanel.setBackground(Color.BLACK);
     this.gridPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
@@ -52,13 +50,13 @@ public class ThreeTriosGraphicsView extends JFrame implements IView {
     this.redHandPanel = new HandPanel(Color.RED);
     this.redHandPanel.setPreferredSize(new Dimension(100, 100));
     this.redHandPanel.setBackground(Color.BLACK);
-    this.redHandPanel.setHand(readModel.getHand(CardColor.RED));
+    this.redHandPanel.setHand(model.getHand(CardColor.RED));
     this.add(redHandPanel, BorderLayout.WEST);
 
     this.blueHandPanel = new HandPanel(Color.BLUE);
     this.blueHandPanel.setPreferredSize(new Dimension(100, 100));
     this.blueHandPanel.setBackground(Color.BLACK);
-    this.blueHandPanel.setHand(readModel.getHand(CardColor.BLUE));
+    this.blueHandPanel.setHand(model.getHand(CardColor.BLUE));
     this.add(blueHandPanel, BorderLayout.EAST);
   }
 
