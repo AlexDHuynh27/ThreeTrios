@@ -3,9 +3,17 @@ package cs3500.threetrios.adapters.model;
 import cs3500.threetrios.provider.model.Card;
 import cs3500.threetrios.provider.model.Cell;
 
+/**
+ * Adapts our group's code with the provider's Cell interface.
+ */
 public class CellProviderAdapter implements Cell {
-  private cs3500.threetrios.model.cell.Cell cell;
+  private final cs3500.threetrios.model.cell.Cell cell;
 
+  /**
+   * Constructor for CellProviderAdapter in order to adapt our code to their Cell interface.
+   *
+   * @param cell an instance of our group's Cell interface
+   */
   public CellProviderAdapter(cs3500.threetrios.model.cell.Cell cell) {
     this.cell = cell;
   }

@@ -5,9 +5,17 @@ import cs3500.threetrios.provider.model.Hand;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapts our group's code with the provider's Hand interface.
+ */
 public class HandProviderAdapter implements Hand {
-  List<cs3500.threetrios.model.card.Card> cards;
+  private final List<cs3500.threetrios.model.card.Card> cards;
 
+  /**
+   * Constructor for HandProviderAdapter in order to adapt our code to their Hand interface.
+   *
+   * @param cards an instance of a List of our group's Card interface
+   */
   public HandProviderAdapter(List<cs3500.threetrios.model.card.Card> cards) {
     this.cards = cards;
   }

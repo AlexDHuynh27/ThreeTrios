@@ -11,15 +11,24 @@ import cs3500.threetrios.provider.view.SwingView;
 import cs3500.threetrios.view.ThreeTriosFeatures;
 import java.awt.Color;
 
+/**
+ * Adapts our group's code with the provider's Controller interfaces (ModelStatus, PlayerActions).
+ */
 public class ControllerAdapter implements ModelStatus, PlayerActions, ThreeTriosFeatures {
-  SwingView view;
+  private final SwingView view;
+  private final ThreeTriosModel model;
+  private final Model providerModel;
+  private int cardIdx;
+  private final Player thisPlayer;
+  private Player currentPlayer;
 
-  ThreeTriosModel model;
-  Model providerModel;
-  int cardIdx;
-  Player thisPlayer;
-  Player currentPlayer;
-
+  /**
+   * Constructor for ControllerAdapter in order to adapt our code to their Controller interfaces.
+   *
+   * @param view a SwingView instance from the provider's view code
+   * @param model a ThreeTriosModel instance from our group's code
+   * @param player a Player instance from our group's code
+   */
   public ControllerAdapter(SwingView view, ThreeTriosModel model, Player player) {
     this.view = view;
     this.providerModel = new ModelProviderAdapter(model);

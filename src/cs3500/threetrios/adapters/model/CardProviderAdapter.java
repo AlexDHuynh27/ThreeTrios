@@ -4,9 +4,17 @@ import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.provider.model.Card;
 import cs3500.threetrios.provider.model.Player;
 
+/**
+ * Adapts our group's code with the provider's Card interface.
+ */
 public class CardProviderAdapter implements Card {
-  cs3500.threetrios.model.card.Card card;
+  private final cs3500.threetrios.model.card.Card card;
 
+  /**
+   * Constructor for CardProviderAdapter in order to adapt our code to their Card interface.
+   *
+   * @param card an instance of our group's Card interface
+   */
   public CardProviderAdapter(cs3500.threetrios.model.card.Card card) {
     this.card = card;
   }
