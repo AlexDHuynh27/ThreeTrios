@@ -11,7 +11,7 @@ public class PlusBattleRule implements BattleRule {
   }
 
   @Override
-  public boolean processBattle(Cell attackingCard, Cell north, Cell south, Cell east, Cell west) {
+  public boolean processBattle(Cell attackingCard, Cell defendingCard) {
     return false;
   }
 

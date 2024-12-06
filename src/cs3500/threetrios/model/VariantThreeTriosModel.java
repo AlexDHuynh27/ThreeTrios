@@ -1,5 +1,6 @@
 package cs3500.threetrios.model;
 
+import cs3500.threetrios.model.battlerules.BattleRule;
 import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.Direction;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Random;
 
 public class VariantThreeTriosModel implements ThreeTriosModel {
+  private BattleRule rule;
   private final Random rand;
   private List<List<Cell>> grid;
   private List<Card> deck;
@@ -31,7 +33,8 @@ public class VariantThreeTriosModel implements ThreeTriosModel {
   /**
    * Constructor for randomizing the shuffling of deck and actual gameplay.
    */
-  public VariantThreeTriosModel() {
+  public VariantThreeTriosModel(BattleRule rule) {
+    this.rule = rule;
     this.rand = new Random();
     this.listeners = new ArrayList<>();
   }
@@ -41,7 +44,8 @@ public class VariantThreeTriosModel implements ThreeTriosModel {
    *
    * @param random random
    */
-  public VariantThreeTriosModel(Random random) {
+  public VariantThreeTriosModel(BattleRule rule, Random random) {
+    this.rule = rule;
     this.rand = random;
     this.listeners = new ArrayList<>();
   }
@@ -127,7 +131,10 @@ public class VariantThreeTriosModel implements ThreeTriosModel {
 
   @Override
   public void battle() {
-
+    this.grid = this.rule.battle(getGrid(), attackingCardRows.remove(0),
+        attackingCardCols.remove(0));
+    this.switchTurn();
+    this.somethingChanged();
   }
 
   @Override
