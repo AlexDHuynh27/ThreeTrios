@@ -15,7 +15,7 @@ public class FallenAngelBattleRule implements BattleRule {
   }
 
   @Override
-  public boolean processBattle(List<List<Cell>> grid, Cell attackingCard) {
+  public boolean processBattle(Cell attackingCard, Cell north, Cell south, Cell east, Cell west) {
     return false;
   }
 }
