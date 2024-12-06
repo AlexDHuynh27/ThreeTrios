@@ -6,8 +6,8 @@ import java.util.List;
 public class StandardBattleRule implements BattleRule {
 
   @Override
-  public List<List<Cell>> battle(List<List<Cell>> grid, int row, int col) {
-    return List.of();
+  public List<List<Cell>> battle(List<List<Cell>> grid, List<Integer> attackingRows, List<Integer> attackingCols) {
+    return null;
   }
 
   @Override

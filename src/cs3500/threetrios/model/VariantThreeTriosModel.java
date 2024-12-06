@@ -1,5 +1,11 @@
 package cs3500.threetrios.model;
 
+import cs3500.threetrios.model.battlerules.BattleRuleHandler;
+import cs3500.threetrios.model.battlerules.FallenAceBattleRule;
+import cs3500.threetrios.model.battlerules.PlusBattleRule;
+import cs3500.threetrios.model.battlerules.ReverseBattleRule;
+import cs3500.threetrios.model.battlerules.SameBattleRule;
+import cs3500.threetrios.model.battlerules.StandardBattleRule;
 import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
 import cs3500.threetrios.model.card.Direction;
@@ -15,6 +21,7 @@ import java.util.Random;
 
 public class VariantThreeTriosModel implements ThreeTriosModel {
   private final Random rand;
+  private final BattleRuleHandler battleRuleHandler;
   private List<List<Cell>> grid;
   private List<Card> deck;
   private Player redPlayer;
@@ -27,6 +34,7 @@ public class VariantThreeTriosModel implements ThreeTriosModel {
   private List<Integer> attackingCardCols;
 
   private final List<ThreeTriosFeatures> listeners;
+  private boolean useVariantRules;
 
   /**
    * Constructor for randomizing the shuffling of deck and actual gameplay.
@@ -125,10 +133,64 @@ public class VariantThreeTriosModel implements ThreeTriosModel {
     return !playedToGrid;
   }
 
+  /**
+   * Constructor for randomizing the shuffling of deck and actual gameplay.
+   */
+  public VariantThreeTriosModel(String[] args) {
+    this.rand = new Random();
+    this.listeners = new ArrayList<>();
+    this.battleRuleHandler = new BattleRuleHandler();
+    this.useVariantRules = args.length > 0;
+
+    if (useVariantRules) {
+      initializeBattleRules(args);
+    }
+  }
+
+  private void initializeBattleRules(String[] args) {
+    boolean plusRuleApplied = false;
+    boolean sameRuleApplied = false;
+
+    // Add battle rules based on the arguments
+    for (String arg : args) {
+      switch (arg.toLowerCase()) {
+        case "reverse":
+          this.battleRuleHandler.addRule(new ReverseBattleRule());
+          break;
+        case "fallenace":
+          this.battleRuleHandler.addRule(new FallenAceBattleRule(new StandardBattleRule()));
+          break;
+        case "same":
+          if (plusRuleApplied) {
+            throw new IllegalArgumentException("Cannot apply 'same' and 'plus' rules simultaneously.");
+          }
+          sameRuleApplied = true;
+          this.battleRuleHandler.addRule(new SameBattleRule());
+          break;
+        case "plus":
+          if (sameRuleApplied) {
+            throw new IllegalArgumentException("Cannot apply 'same' and 'plus' rules simultaneously.");
+          }
+          plusRuleApplied = true;
+          this.battleRuleHandler.addRule(new PlusBattleRule());
+          break;
+        default:
+          throw new IllegalArgumentException("Invalid rule specified: " + arg);
+      }
+    }
+  }
+
   @Override
   public void battle() {
-
+    if (!useVariantRules) {
+      new StandardBattleRule(); // Use the original
+    } else {
+      // Apply variant rules using battleRuleHandler
+      this.grid = this.battleRuleHandler.battle(this.grid, attackingCardRows, attackingCardCols);
+    }
+    somethingChanged(); // Notify listeners of changes
   }
+
 
   @Override
   public void addListener(ThreeTriosFeatures listener) {
