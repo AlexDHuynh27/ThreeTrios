@@ -15,7 +15,7 @@ import cs3500.threetrios.model.player.MachinePlayer;
 import cs3500.threetrios.model.player.Player;
 import cs3500.threetrios.model.ThreeTriosGameModel;
 import cs3500.threetrios.model.player.strategy.StrategyOne;
-
+import cs3500.threetrios.model.VariantGameModel;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -24,6 +24,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 import java.util.Random;
@@ -32,6 +33,7 @@ import java.util.Random;
  * Test class for ThreeTriosGameModel.
  */
 public class TestThreeTriosGameModel {
+
   private ThreeTriosCard card;
   private ThreeTriosCard maxAttackCard;
   private ThreeTriosCard minAttackCard;
@@ -49,10 +51,11 @@ public class TestThreeTriosGameModel {
   private List<List<Cell>> grid3;
   private List<Card> deck5;
   private List<Card> deck10;
-
+  private List<Card> deck10Ace;
   private List<Card> deck26;
 
   private List<Card> deck50;
+  private List<Card> deckofSame;
   private ThreeTriosCard croc;
   private ThreeTriosCard eagle;
   private ThreeTriosCard fox;
@@ -71,7 +74,6 @@ public class TestThreeTriosGameModel {
     filledCardCell = new CardCell();
     red1 = new CardCell();
     blue1 = new CardCell();
-
 
     eagle.setColor(CardColor.RED);
     red1.setCard(eagle);
@@ -98,7 +100,7 @@ public class TestThreeTriosGameModel {
     grid2 = GridReader.getGridFromConfig("src/cs3500/threetrios/exampleFiles/GridEx(2).txt");
     grid3 = GridReader.getGridFromConfig("src/cs3500/threetrios/exampleFiles/GridEx(3).txt");
     // -----------------------------------------------------------------//
-*/
+    */
 
     // Uncomment if you are using Mac. Comment if you are using windows //
     // -----------------------------------------------------------------//
@@ -107,12 +109,15 @@ public class TestThreeTriosGameModel {
     deck10 = CardReader.getDeckFromConfig(
             "Assignment5/src/cs3500/threetrios/exampleFiles" +
                     "/DeckOfCard(10).txt");
+    deck10Ace = CardReader.getDeckFromConfig(
+            "Assignment5/src/cs3500/threetrios/exampleFiles" +
+                    "/DeckOfCardAce(10).txt");
     deck26 = CardReader.getDeckFromConfig(
             "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(26).txt");
     deck50 = CardReader.getDeckFromConfig(
             "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCard(50).txt");
-    List<Card> deckSame = CardReader.getDeckFromConfig(
-        "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCardSame(50).txt");
+    deckofSame = CardReader.getDeckFromConfig(
+            "Assignment5/src/cs3500/threetrios/exampleFiles/DeckOfCardSame(50).txt");
 
     grid1 = GridReader.getGridFromConfig(
             "Assignment5/src/cs3500/threetrios/exampleFiles/GridEx(1).txt");
@@ -1046,5 +1051,209 @@ public class TestThreeTriosGameModel {
     assertEquals("[Tiger 4 8 3 7, Bear A 6 2 8, Gorilla A 5 6 4, Wolf 5 7 4 9]",
             gameModel.getHand(CardColor.RED).toString());
     assertEquals("[[R, _, _], [_, _, _], [_, _, _]]", gameModel.getGrid().toString());
+  }
+
+  /**
+   * Test the SameRule functionality in VariantGameModel.
+   * Scenario:
+   * - Red plays a card at (1,1)
+   * - Blue plays two cards at (0,1) and (2,1) with matching opposing attack values
+   * - Verify that both Blue's cards are flipped to RED
+   */
+  @Test
+  public void testSameRuleTriggered() {
+    // Initialize VariantGameModel with SameRule
+    String[] argsSame = {"--same"};
+    VariantGameModel variantModel = new VariantGameModel(gameModel, argsSame);
+
+    // Start the game with grid1 and deckofSame
+    variantModel.startGame(grid1, deckofSame, redPlayer, bluePlayer);
+
+    // Play RedPlayer's card at (1,1)
+    variantModel.playToGrid(0, 1, 1); // Index 0 in redPlayer's hand
+
+    // Play BluePlayer's card at (0,1)
+    variantModel.playToGrid(1, 0, 1); // Index 1 in bluePlayer's hand
+
+    // Play BluePlayer's second card at (2,1)
+    variantModel.playToGrid(2, 2, 1); // Index 2 in bluePlayer's hand
+
+    // Perform battle
+    variantModel.battle();
+
+    // Retrieve cells to verify flips
+    Cell cell11 = variantModel.getCellAt(1, 1); // (1,1) RedPlayer's card
+    Cell cell01 = variantModel.getCellAt(0, 1); // (0,1) BluePlayer's card
+    Cell cell21 = variantModel.getCellAt(2, 1); // (2,1) BluePlayer's card
+
+    // Assert that RedPlayer's card remains RED
+    assertEquals(CardColor.RED, cell11.getCard().getColor());
+
+    // Assert that both BluePlayer's cards have been flipped to RED
+    assertEquals(CardColor.RED, cell01.getCard().getColor());
+    assertEquals(CardColor.RED, cell21.getCard().getColor());
+  }
+
+  /**
+   * Test the PlusRule functionality in VariantGameModel.
+   * Scenario:
+   * - Red plays a card at (1,1)
+   * - Blue plays two cards at (0,1) and (2,1) with the same sum of opposing attack values
+   * - Verify that both Blue's cards are flipped to RED
+   */
+  @Test
+  public void testPlusRuleTriggered() {
+    // Initialize VariantGameModel with PlusRule
+    String[] argsPlus = {"--plus"};
+    VariantGameModel variantModel = new VariantGameModel(gameModel, argsPlus);
+
+    // Start the game with grid1 and deck10Ace
+    variantModel.startGame(grid1, deck10Ace, redPlayer, bluePlayer);
+
+    // Play RedPlayer's card at (1,1)
+    variantModel.playToGrid(0, 1, 1); // Index 0 in redPlayer's hand
+
+    // Play BluePlayer's card at (0,1)
+    variantModel.playToGrid(1, 0, 1); // Index 1 in bluePlayer's hand
+
+    // Play BluePlayer's second card at (2,1)
+    variantModel.playToGrid(2, 2, 1); // Index 2 in bluePlayer's hand
+
+    // Perform battle
+    variantModel.battle();
+
+    // Retrieve cells to verify flips
+    Cell cell11 = variantModel.getCellAt(1, 1); // (1,1) RedPlayer's card
+    Cell cell01 = variantModel.getCellAt(0, 1); // (0,1) BluePlayer's card
+    Cell cell21 = variantModel.getCellAt(2, 1); // (2,1) BluePlayer's card
+
+    // Assert that RedPlayer's card remains RED
+    assertEquals(CardColor.RED, cell11.getCard().getColor());
+
+    // Assert that both BluePlayer's cards have been flipped to RED
+    assertEquals(CardColor.RED, cell01.getCard().getColor());
+    assertEquals(CardColor.RED, cell21.getCard().getColor());
+  }
+
+  /**
+   * Test applying both SameRule and PlusRule together, expecting an exception.
+   */
+  @Test
+  public void testCombinedRules() {
+    // Attempt to initialize VariantGameModel with both --same and --plus
+    String[] argsCombined = {"--same", "--plus"};
+    try {
+      VariantGameModel variantModel = new VariantGameModel(gameModel, argsCombined);
+      fail("Expected IllegalArgumentException for applying both Same and Plus rules simultaneously.");
+    } catch (IllegalArgumentException e) {
+      assertEquals("Cannot apply both Same and Plus rules simultaneously.", e.getMessage());
+    }
+  }
+
+  /**
+   * Test mutual exclusivity enforced by RuleFactory.
+   */
+  @Test
+  public void testMutualExclusivity() {
+    // Attempt to initialize VariantGameModel with both --same and --plus
+    String[] argsConflict = {"--same", "--plus"};
+    try {
+      VariantGameModel variantModel = new VariantGameModel(gameModel, argsConflict);
+      fail("Expected IllegalArgumentException for conflicting rules.");
+    } catch (IllegalArgumentException e) {
+      assertEquals("Cannot apply both Same and Plus rules simultaneously.", e.getMessage());
+    }
+  }
+
+  /**
+   * Test multiple flips triggered by SameRule.
+   * Scenario:
+   * - Red plays two cards at (0,0) and (2,0)
+   * - Blue plays two cards at (0,1) and (2,1) with matching opposing attack values
+   * - Verify that both Blue's cards are flipped to RED
+   */
+  @Test
+  public void testMultipleFlipsSameRule() {
+    // Initialize VariantGameModel with SameRule
+    String[] argsSame = {"--same"};
+    VariantGameModel variantModel = new VariantGameModel(gameModel, argsSame);
+
+    // Start the game with grid1 and deckofSame
+    variantModel.startGame(grid1, deckofSame, redPlayer, bluePlayer);
+
+    // Play RedPlayer's card at (0,0)
+    variantModel.playToGrid(0, 0, 0); // Index 0 in redPlayer's hand
+
+    // Play BluePlayer's card at (0,1)
+    variantModel.playToGrid(1, 0, 1); // Index 1 in bluePlayer's hand
+
+    // Play RedPlayer's second card at (2,0)
+    variantModel.playToGrid(2, 2, 0); // Index 2 in redPlayer's hand
+
+    // Play BluePlayer's second card at (2,1)
+    variantModel.playToGrid(3, 2, 1); // Index 3 in bluePlayer's hand
+
+    // Perform battle
+    variantModel.battle();
+
+    // Retrieve cells to verify flips
+    Cell cell00 = variantModel.getCellAt(0, 0); // (0,0) RedPlayer's card
+    Cell cell01 = variantModel.getCellAt(0, 1); // (0,1) BluePlayer's card
+    Cell cell20 = variantModel.getCellAt(2, 0); // (2,0) RedPlayer's card
+    Cell cell21 = variantModel.getCellAt(2, 1); // (2,1) BluePlayer's card
+
+    // Assert that RedPlayer's cards remain RED
+    assertEquals(CardColor.RED, cell00.getCard().getColor());
+    assertEquals(CardColor.RED, cell20.getCard().getColor());
+
+    // Assert that both BluePlayer's cards have been flipped to RED
+    assertEquals(CardColor.RED, cell01.getCard().getColor());
+    assertEquals(CardColor.RED, cell21.getCard().getColor());
+  }
+
+  /**
+   * Test multiple flips triggered by PlusRule.
+   * Scenario:
+   * - Red plays two cards at (0,0) and (2,0)
+   * - Blue plays two cards at (0,1) and (2,1) with the same sum of opposing attack values
+   * - Verify that both Blue's cards are flipped to RED
+   */
+  @Test
+  public void testMultipleFlipsPlusRule() {
+    // Initialize VariantGameModel with PlusRule
+    String[] argsPlus = {"--plus"};
+    VariantGameModel variantModel = new VariantGameModel(gameModel, argsPlus);
+
+    // Start the game with grid1 and deck10Ace
+    variantModel.startGame(grid1, deck10Ace, redPlayer, bluePlayer);
+
+    // Play RedPlayer's card at (0,0)
+    variantModel.playToGrid(0, 0, 0); // Index 0 in redPlayer's hand
+
+    // Play BluePlayer's card at (0,1)
+    variantModel.playToGrid(1, 0, 1); // Index 1 in bluePlayer's hand
+
+    // Play RedPlayer's second card at (2,0)
+    variantModel.playToGrid(2, 2, 0); // Index 2 in redPlayer's hand
+
+    // Play BluePlayer's second card at (2,1)
+    variantModel.playToGrid(3, 2, 1); // Index 3 in bluePlayer's hand
+
+    // Perform battle
+    variantModel.battle();
+
+    // Retrieve cells to verify flips
+    Cell cell00 = variantModel.getCellAt(0, 0); // (0,0) RedPlayer's card
+    Cell cell01 = variantModel.getCellAt(0, 1); // (0,1) BluePlayer's card
+    Cell cell20 = variantModel.getCellAt(2, 0); // (2,0) RedPlayer's card
+    Cell cell21 = variantModel.getCellAt(2, 1); // (2,1) BluePlayer's card
+
+    // Assert that RedPlayer's cards remain RED
+    assertEquals(CardColor.RED, cell00.getCard().getColor());
+    assertEquals(CardColor.RED, cell20.getCard().getColor());
+
+    // Assert that both BluePlayer's cards have been flipped to RED
+    assertEquals(CardColor.RED, cell01.getCard().getColor());
+    assertEquals(CardColor.RED, cell21.getCard().getColor());
   }
 }

@@ -1,0 +1,10 @@
+Lion 1 10 1 10
+Tiger 1 10 1 10
+Bear 1 10 1 10
+Wolf 1 10 1 10
+Fox 1 10 1 10
+Eagle 1 10 1 10
+Panther 1 10 1 10
+Crocodile 1 10 1 10
+Gorilla 1 10 1 10
+Falcon 1 10 1 10

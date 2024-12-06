@@ -1,10 +1,21 @@
 package cs3500.threetrios.model.battlerules;
 
-import cs3500.threetrios.model.VariantThreeTriosModel;
 import cs3500.threetrios.model.card.Card;
+import cs3500.threetrios.model.card.Direction;
 import cs3500.threetrios.model.cell.Cell;
-import java.util.List;
 
+/**
+ * Interface representing a battle rule in ThreeTrios.
+ */
 public interface BattleRule {
-    List<List<Cell>> applyRule(Card placedCard, int row, int col, VariantThreeTriosModel model);
+
+    /**
+     * Determines if Card B should be flipped based on Card A and the specified direction.
+     *
+     * @param cardA     The attacking card (Card A).
+     * @param cellB     The target cell containing Card B.
+     * @param direction The direction from Card A to Card B.
+     * @return true if Card B should be flipped, false otherwise.
+     */
+    boolean shouldFlip(Card cardA, Cell cellB, Direction direction);
 }
