@@ -9,4 +9,9 @@ public class ReverseBattleRule implements BattleRule {
   public List<List<Cell>> battle(List<List<Cell>> grid, Cell attackingCard) {
     return List.of();
   }
+
+  @Override
+  public boolean processBattle(List<List<Cell>> grid, Cell attackingCard) {
+    return false;
+  }
 }

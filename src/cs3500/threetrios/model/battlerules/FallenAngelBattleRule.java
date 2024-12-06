@@ -4,9 +4,18 @@ import cs3500.threetrios.model.cell.Cell;
 import java.util.List;
 
 public class FallenAngelBattleRule implements BattleRule {
+  BattleRule rule;
 
+  FallenAngelBattleRule(BattleRule rule) {
+    this.rule = rule;
+  }
   @Override
   public List<List<Cell>> battle(List<List<Cell>> grid, Cell attackingCard) {
-    return List.of();
+
+  }
+
+  @Override
+  public boolean processBattle(List<List<Cell>> grid, Cell attackingCard) {
+    return false;
   }
 }
