@@ -6,7 +6,7 @@ import java.util.List;
 public class ReverseBattleRule implements BattleRule {
 
   @Override
-  public List<List<Cell>> battle(List<List<Cell>> grid, Cell attackingCard) {
+  public List<List<Cell>> battle(List<List<Cell>> grid, int row, int col) {
     return List.of();
   }
 

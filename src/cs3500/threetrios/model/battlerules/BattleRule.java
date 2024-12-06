@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface BattleRule {
 
-  List<List<Cell>> battle(List<List<Cell>> grid, Cell attackingCard);
+  List<List<Cell>> battle(List<List<Cell>> grid, int row, int col);
 
   boolean processBattle(Cell attackingCard, Cell north, Cell south, Cell east, Cell west);
 

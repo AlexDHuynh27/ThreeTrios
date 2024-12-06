@@ -10,8 +10,8 @@ public class FallenAngelBattleRule implements BattleRule {
     this.rule = rule;
   }
   @Override
-  public List<List<Cell>> battle(List<List<Cell>> grid, Cell attackingCard) {
-
+  public List<List<Cell>> battle(List<List<Cell>> grid, int row, int col) {
+    return rule.battle(grid, row, col);
   }
 
   @Override
