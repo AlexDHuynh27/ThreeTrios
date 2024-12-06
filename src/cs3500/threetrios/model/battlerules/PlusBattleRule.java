@@ -21,7 +21,7 @@ public class PlusBattleRule extends BattleRuleDecorator {
     for (Direction dir : Direction.values()) {
       Cell adjacentCell = model.getAdjacentCell(row, col, dir);
       if (adjacentCell instanceof CardCell) {
-        Card adjacentCard = ((CardCell) adjacentCell).getCard();
+        Card adjacentCard = adjacentCell.getCard();
         if (adjacentCard != null) {
           int sum = placedCard.getAttack(dir) + adjacentCard.getAttack(dir.getOpposite());
           sumMap.put(dir, sum);
@@ -34,8 +34,8 @@ public class PlusBattleRule extends BattleRuleDecorator {
       for (Direction dir2 : Direction.values()) {
         if (dir1 != dir2 && sumMap.containsKey(dir1) && sumMap.containsKey(dir2)) {
           if (sumMap.get(dir1).equals(sumMap.get(dir2))) {
-            ((CardCell) updatedGrid.get(row).get(col)).setCard(model.getAdjacentCell(row, col, dir1).getCard());
-            ((CardCell) updatedGrid.get(row).get(col)).setCard(model.getAdjacentCell(row, col, dir2).getCard());
+            updatedGrid.get(row).get(col).setCard(model.getAdjacentCell(row, col, dir1).getCard());
+            updatedGrid.get(row).get(col).setCard(model.getAdjacentCell(row, col, dir2).getCard());
           }
         }
       }

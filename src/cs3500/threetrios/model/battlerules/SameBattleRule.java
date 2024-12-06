@@ -21,7 +21,7 @@ public class SameBattleRule extends BattleRuleDecorator {
     for (Direction dir : Direction.values()) {
       Cell adjacentCell = model.getAdjacentCell(row, col, dir);
       if (adjacentCell instanceof CardCell) {
-        Card adjacentCard = ((CardCell) adjacentCell).getCard();
+        Card adjacentCard = adjacentCell.getCard();
         if (adjacentCard != null) {
           valueMap.put(dir, adjacentCard.getAttack(dir.getOpposite()));
         }
@@ -33,8 +33,8 @@ public class SameBattleRule extends BattleRuleDecorator {
       for (Direction dir2 : Direction.values()) {
         if (dir1 != dir2 && valueMap.containsKey(dir1) && valueMap.containsKey(dir2)) {
           if (valueMap.get(dir1).equals(valueMap.get(dir2))) {
-            ((CardCell) updatedGrid.get(row).get(col)).setCard(model.getAdjacentCell(row, col, dir1).getCard());
-            ((CardCell) updatedGrid.get(row).get(col)).setCard(model.getAdjacentCell(row, col, dir2).getCard());
+            updatedGrid.get(row).get(col).setCard(model.getAdjacentCell(row, col, dir1).getCard());
+            updatedGrid.get(row).get(col).setCard(model.getAdjacentCell(row, col, dir2).getCard());
           }
         }
       }

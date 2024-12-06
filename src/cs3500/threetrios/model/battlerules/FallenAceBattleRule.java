@@ -18,9 +18,9 @@ public class FallenAceBattleRule extends BattleRuleDecorator {
     for (Direction dir : Direction.values()) {
       Cell adjacentCell = model.getAdjacentCell(row, col, dir);
       if (adjacentCell instanceof CardCell) {
-        Card adjacentCard = ((CardCell) adjacentCell).getCard();
+        Card adjacentCard = adjacentCell.getCard();
         if (adjacentCard != null && adjacentCard.getAttack(dir.getOpposite()) == 'A' && placedCard.getAttack(dir) == 1) {
-          ((CardCell) updatedGrid.get(row).get(col)).setCard(adjacentCard);
+          updatedGrid.get(row).get(col).setCard(adjacentCard);
         }
       }
     }
