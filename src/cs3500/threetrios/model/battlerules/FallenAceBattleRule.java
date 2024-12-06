@@ -1,24 +1,29 @@
 package cs3500.threetrios.model.battlerules;
 
+import cs3500.threetrios.model.VariantThreeTriosModel;
+import cs3500.threetrios.model.card.Card;
+import cs3500.threetrios.model.card.Direction;
+import cs3500.threetrios.model.cell.CardCell;
 import cs3500.threetrios.model.cell.Cell;
 import java.util.List;
 
-public class FallenAceBattleRule implements BattleRule {
-  private final BattleRule baseRule;
-
-  public FallenAceBattleRule(BattleRule baseRule) {
-    this.baseRule = baseRule;
+public class FallenAceBattleRule extends BattleRuleDecorator {
+  public FallenAceBattleRule(BattleRule decoratedRule) {
+    super(decoratedRule);
   }
 
   @Override
-  public List<List<Cell>> battle(List<List<Cell>> grid, List<Integer> attackingRows,
-                                 List<Integer> attackingCols) {
-    return baseRule.battle(grid, attackingRows, attackingCols);
-  }
-
-  @Override
-  public boolean processBattle(Cell attackingCard, Cell north, Cell south, Cell east, Cell west) {
-    // Implement Fallen Angel logic: A 1 beats an Ace
-    return false; // Implement actual logic
+  public List<List<Cell>> applyRule(Card placedCard, int row, int col, VariantThreeTriosModel model) {
+    List<List<Cell>> updatedGrid = super.applyRule(placedCard, row, col, model);
+    for (Direction dir : Direction.values()) {
+      Cell adjacentCell = model.getAdjacentCell(row, col, dir);
+      if (adjacentCell instanceof CardCell) {
+        Card adjacentCard = ((CardCell) adjacentCell).getCard();
+        if (adjacentCard != null && adjacentCard.getAttack(dir.getOpposite()) == 'A' && placedCard.getAttack(dir) == 1) {
+          ((CardCell) updatedGrid.get(row).get(col)).setCard(adjacentCard);
+        }
+      }
+    }
+    return updatedGrid;
   }
 }

@@ -1,10 +1,6 @@
 package cs3500.threetrios.model;
 
-import cs3500.threetrios.model.battlerules.BattleRuleHandler;
-import cs3500.threetrios.model.battlerules.FallenAceBattleRule;
-import cs3500.threetrios.model.battlerules.PlusBattleRule;
-import cs3500.threetrios.model.battlerules.ReverseBattleRule;
-import cs3500.threetrios.model.battlerules.SameBattleRule;
+import cs3500.threetrios.model.battlerules.BattleRule;
 import cs3500.threetrios.model.battlerules.StandardBattleRule;
 import cs3500.threetrios.model.card.Card;
 import cs3500.threetrios.model.card.CardColor;
@@ -15,13 +11,14 @@ import cs3500.threetrios.model.cell.Cell;
 import cs3500.threetrios.model.cell.Hole;
 import cs3500.threetrios.model.player.Player;
 import cs3500.threetrios.view.ThreeTriosFeatures;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class VariantThreeTriosModel implements ThreeTriosModel {
+  private final BattleRule rule;
   private final Random rand;
-  private final BattleRuleHandler battleRuleHandler;
   private List<List<Cell>> grid;
   private List<Card> deck;
   private Player redPlayer;
@@ -34,12 +31,12 @@ public class VariantThreeTriosModel implements ThreeTriosModel {
   private List<Integer> attackingCardCols;
 
   private final List<ThreeTriosFeatures> listeners;
-  private boolean useVariantRules;
 
   /**
    * Constructor for randomizing the shuffling of deck and actual gameplay.
    */
-  public VariantThreeTriosModel() {
+  public VariantThreeTriosModel(BattleRule rule) {
+    this.rule = rule;
     this.rand = new Random();
     this.listeners = new ArrayList<>();
   }
@@ -49,22 +46,21 @@ public class VariantThreeTriosModel implements ThreeTriosModel {
    *
    * @param random random
    */
-  public VariantThreeTriosModel(Random random) {
+  public VariantThreeTriosModel(BattleRule rule, Random random) {
+    this.rule = rule;
     this.rand = random;
     this.listeners = new ArrayList<>();
   }
 
   @Override
-  public void startGame(List<List<Cell>> grid, List<Card> deck, Player redPlayer,
-                        Player bluePlayer) {
-    // game started?
+  public void startGame(List<List<Cell>> grid, List<Card> deck, Player redPlayer, Player bluePlayer) {
     if (gameStarted) {
       throw new IllegalStateException("Game has already started.");
     }
 
-    // validate input
+    // Validate input
     if (grid == null || deck == null || redPlayer == null || bluePlayer == null
-        || deck.contains(null) || grid.contains(null)) {
+            || deck.contains(null) || grid.contains(null)) {
       throw new IllegalArgumentException("Input cannot be null or have a null");
     }
 
@@ -72,11 +68,10 @@ public class VariantThreeTriosModel implements ThreeTriosModel {
     int cardCellCount = countCardCells(grid);
     int handSize = (cardCellCount + 1) / 2;
 
-    // Check if the deck has enough cards (at least N+1)
+    // Check if the deck has enough cards
     int requiredDeckSize = cardCellCount + 1;
     if (deck.size() < requiredDeckSize) {
-      throw new IllegalArgumentException("The deck must contain at least " + requiredDeckSize
-          + " cards.");
+      throw new IllegalArgumentException("The deck must contain at least " + requiredDeckSize + " cards.");
     }
 
     // Assign values
@@ -92,7 +87,7 @@ public class VariantThreeTriosModel implements ThreeTriosModel {
     this.attackingCardRows = new ArrayList<>();
     this.attackingCardCols = new ArrayList<>();
 
-    // deal cards
+    // Deal cards
     dealCards(cardCellCount);
   }
 
@@ -124,73 +119,19 @@ public class VariantThreeTriosModel implements ThreeTriosModel {
       throw new IllegalArgumentException("Row or column out of bounds");
     }
     Cell cell = grid.get(row).get(column);
-    if (!(cell instanceof CardCell)) {
-      return false;
-    }
-    if (!cell.isEmpty()) {
-      return false;
-    }
-    return !playedToGrid;
-  }
-
-  /**
-   * Constructor for randomizing the shuffling of deck and actual gameplay.
-   */
-  public VariantThreeTriosModel(String[] args) {
-    this.rand = new Random();
-    this.listeners = new ArrayList<>();
-    this.battleRuleHandler = new BattleRuleHandler();
-    this.useVariantRules = args.length > 0;
-
-    if (useVariantRules) {
-      initializeBattleRules(args);
-    }
-  }
-
-  private void initializeBattleRules(String[] args) {
-    boolean plusRuleApplied = false;
-    boolean sameRuleApplied = false;
-
-    // Add battle rules based on the arguments
-    for (String arg : args) {
-      switch (arg.toLowerCase()) {
-        case "reverse":
-          this.battleRuleHandler.addRule(new ReverseBattleRule());
-          break;
-        case "fallenace":
-          this.battleRuleHandler.addRule(new FallenAceBattleRule(new StandardBattleRule()));
-          break;
-        case "same":
-          if (plusRuleApplied) {
-            throw new IllegalArgumentException("Cannot apply 'same' and 'plus' rules simultaneously.");
-          }
-          sameRuleApplied = true;
-          this.battleRuleHandler.addRule(new SameBattleRule());
-          break;
-        case "plus":
-          if (sameRuleApplied) {
-            throw new IllegalArgumentException("Cannot apply 'same' and 'plus' rules simultaneously.");
-          }
-          plusRuleApplied = true;
-          this.battleRuleHandler.addRule(new PlusBattleRule());
-          break;
-        default:
-          throw new IllegalArgumentException("Invalid rule specified: " + arg);
-      }
-    }
+    return cell instanceof CardCell && cell.isEmpty() && !playedToGrid;
   }
 
   @Override
   public void battle() {
-    if (!useVariantRules) {
-      new StandardBattleRule(); // Use the original
-    } else {
-      // Apply variant rules using battleRuleHandler
-      this.grid = this.battleRuleHandler.battle(this.grid, attackingCardRows, attackingCardCols);
-    }
-    somethingChanged(); // Notify listeners of changes
-  }
+    this.grid =
+            rule.applyRule(grid.get(attackingCardRows.get(0))
+                            .get(attackingCardCols.get(0)).getCard(),
+            attackingCardRows.get(0), attackingCardCols.get(0), this);
 
+    switchTurn();
+    somethingChanged();
+  }
 
   @Override
   public void addListener(ThreeTriosFeatures listener) {
@@ -494,4 +435,29 @@ public class VariantThreeTriosModel implements ThreeTriosModel {
     }
   }
 
+  public Cell getAdjacentCell(int row, int col, Direction direction) {
+    switch (direction) {
+      case NORTH:
+        if (row > 0) {
+          return grid.get(row - 1).get(col);
+        }
+        break;
+      case SOUTH:
+        if (row < grid.size() - 1) {
+          return grid.get(row + 1).get(col);
+        }
+        break;
+      case EAST:
+        if (col < grid.get(row).size() - 1) {
+          return grid.get(row).get(col + 1);
+        }
+        break;
+      case WEST:
+        if (col > 0) {
+          return grid.get(row).get(col - 1);
+        }
+        break;
+    }
+    return null;
+  }
 }
